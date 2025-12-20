@@ -8,7 +8,10 @@ RUN npx ng build --configuration production
 
 # Production stage
 FROM nginx:alpine
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+ARG BACKEND_URL=devops-platform-backend
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
+# Angular routing support
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN sed -i "s/backend-service/$BACKEND_URL/g" /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
