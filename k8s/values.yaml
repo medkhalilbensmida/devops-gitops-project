@@ -2,7 +2,7 @@
 backend:
   replicaCount: 2
   image:
-    repository: medkhalilbensmida/devops-backend
+    repository: khalilsmida/devops-backend
     pullPolicy: IfNotPresent
     tag: "latest"
   service:
@@ -12,7 +12,7 @@ backend:
 frontend:
   replicaCount: 2
   image:
-    repository: medkhalilbensmida/devops-frontend
+    repository: khalilsmida/devops-frontend
     pullPolicy: IfNotPresent
     tag: "latest"
   service:
