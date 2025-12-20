@@ -1,0 +1,36 @@
+# Default values for devops-platform.
+backend:
+  replicaCount: 2
+  image:
+    repository: your-dockerhub/devops-backend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8080
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: your-dockerhub/devops-frontend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: devops-app.local
+      paths:
+        - path: /api
+          pathType: Prefix
+          serviceName: backend
+        - path: /
+          pathType: Prefix
+          serviceName: frontend

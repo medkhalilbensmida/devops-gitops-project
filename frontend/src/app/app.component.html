@@ -1,0 +1,56 @@
+<div class="container animate-fade-in">
+    <header>
+        <div class="logo-container">
+            <div class="logo-orb"></div>
+            <h1>DevOps<span>Platform</span></h1>
+        </div>
+        <div class="status-badge" [ngClass]="{'online': backendStatus.status === 'UP'}">
+            <span class="dot"></span>
+            Backend: {{ backendStatus.status }}
+        </div>
+    </header>
+
+    <main>
+        <section class="hero glass-card">
+            <h2>Welcome to the GitOps Environment</h2>
+            <p>Continuous Deployment via ArgoCD & Kubernetes</p>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="label">Environments</span>
+                    <span class="value">Production</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Replicas</span>
+                    <span class="value">4 Pods</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Last Sync</span>
+                    <span class="value">Just now</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="pipeline-section">
+            <h3>CI/CD Lifecycle Tracking</h3>
+            <div class="pipeline-flow">
+                <div *ngFor="let step of pipelineSteps" class="step-card glass-card" [attr.data-status]="step.status">
+                    <div class="step-icon">{{ step.icon }}</div>
+                    <div class="step-info">
+                        <h4>{{ step.name }}</h4>
+                        <span class="status-text">{{ step.status }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="backend-info glass-card">
+            <h3>Backend Response Data</h3>
+            <pre>{{ backendStatus | json }}</pre>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 DevOps GitOps Showcase - Designed for Excellence</p>
+    </footer>
+</div>

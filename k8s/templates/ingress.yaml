@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "devops-platform.fullname" . }}
+  labels:
+    app: devops-platform
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "devops-platform.fullname" $ }}-{{ .serviceName }}
+                port:
+                  number: {{ if eq .serviceName "backend" }}{{ $.Values.backend.service.port }}{{ else }}{{ $.Values.frontend.service.port }}{{ end }}
+          {{- end }}
+    {{- end }}
+{{- end }}
