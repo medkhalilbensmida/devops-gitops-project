@@ -1,68 +1,138 @@
-<div class="shop-container">
-    <nav class="navbar">
-        <div class="logo">Cloud<span>Store</span></div>
-        <div class="nav-actions">
-            <button class="cart-btn" (click)="toggleCart()">
-                <span class="cart-icon">🛒</span>
-                <span class="cart-count" *ngIf="cart.length > 0">{{ cart.length }}</span>
-            </button>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <h1>Premium DevOps Solutions</h1>
-        <p>Fuel your infrastructure with our curated tools.</p>
-    </header>
-
-    <div class="product-grid">
-        <div class="product-card" *ngFor="let product of products">
-            <div class="product-image" [style.background-image]="'url(' + product.imageUrl + ')'"></div>
-            <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
-                <div class="price-row">
-                    <span class="price">${{ product.price | number:'1.2-2' }}</span>
-                    <button class="add-btn" (click)="addToCart(product)">Add to Cart</button>
+<div class="app-shell" [class.blur]="isCartOpen">
+    <!-- Premium Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-content">
+            <div class="brand">TECH<span>HUB</span></div>
+            <div class="nav-links">
+                <a href="#" class="active">Shop</a>
+                <a href="#">Categories</a>
+                <a href="#">Support</a>
+            </div>
+            <div class="nav-meta">
+                <div class="search-bar">
+                    <span>🔍</span><input placeholder="Search tech..." type="text">
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order Success Toast -->
-    <div class="toast" *ngIf="orderPlaced">
-        ✅ Order placed successfully! Check your email.
-    </div>
-
-    <!-- Sidebar Cart -->
-    <div class="cart-sidebar" [class.open]="isCartOpen">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <button (click)="toggleCart()">✕</button>
-        </div>
-
-        <div class="cart-items" *ngIf="cart.length > 0; else empty">
-            <div class="cart-item" *ngFor="let item of cart; let i = index">
-                <span>{{ item.name }}</span>
-                <b>${{ item.price }}</b>
-                <button (click)="removeFromCart(i)">🗑</button>
-            </div>
-            <div class="cart-total">
-                Total: <span>${{ total | number:'1.2-2' }}</span>
-            </div>
-
-            <div class="checkout-form">
-                <input [(ngModel)]="customer.name" placeholder="Full Name" type="text">
-                <input [(ngModel)]="customer.email" placeholder="Email Address" type="email">
-                <button (click)="checkout()" [disabled]="!customer.name || !customer.email" class="checkout-btn">
-                    Place Order
+                <button class="cart-trigger" (click)="toggleCart()">
+                    <span class="icon">🛒</span>
+                    <span class="badge" *ngIf="cart.length">{{ cart.length }}</span>
                 </button>
             </div>
         </div>
+    </nav>
 
-        <ng-template #empty>
-            <div class="empty-cart">
-                <p>🛒 Your cart is empty.</p>
+    <!-- Hero Section -->
+    <header class="hero-premium">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge-mini">Summer 2024 Collection</span>
+            <h1>Next-Gen Tech Essentials</h1>
+            <p>Experience the future of productivity with our curated selection of high-performance gear.</p>
+            <div class="hero-btns">
+                <button class="btn-main">Shop Collection</button>
+                <button class="btn-alt">View Deals</button>
             </div>
-        </ng-template>
+        </div>
+    </header>
+
+    <!-- Main Storefront -->
+    <main class="storefront">
+        <div class="section-title">
+            <h2>Featured Products</h2>
+            <div class="underline"></div>
+        </div>
+
+        <div class="grid-layout">
+            <div class="premium-card" *ngFor="let product of products">
+                <div class="card-image">
+                    <img [src]="product.imageUrl" [alt]="product.name">
+                    <div class="category-tag">{{ product.category }}</div>
+                    <button class="quick-add" (click)="addToCart(product)">Quick Add +</button>
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <div class="card-footer">
+                        <span class="price-tag">${{ product.price | number:'1.2-2' }}</span>
+                        <div class="stock-info">● In Stock</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Feedback Overlay -->
+    <div class="success-overlay" *ngIf="orderPlaced">
+        <div class="success-box">
+            <div class="check">✔</div>
+            <h2>Order Confirmed!</h2>
+            <p>Thank you for your purchase. Your order is being processed.</p>
+        </div>
+    </div>
+
+    <!-- Slide-out Cart Panel -->
+    <div class="side-panel" [class.active]="isCartOpen">
+        <div class="panel-header">
+            <h3>Your Selection</h3>
+            <button class="close-btn" (click)="toggleCart()">✕</button>
+        </div>
+
+        <div class="panel-body">
+            <div class="empty-state" *ngIf="cart.length === 0">
+                <div class="empty-icon">🛒</div>
+                <p>Your cart is empty. Start shopping for amazing gear!</p>
+            </div>
+
+            <div class="cart-scroll" *ngIf="cart.length > 0">
+                <div class="cart-item-row" *ngFor="let item of cart; let i = index">
+                    <img [src]="item.imageUrl" [alt]="item.name">
+                    <div class="item-details">
+                        <h4>{{ item.name }}</h4>
+                        <span>${{ item.price }}</span>
+                    </div>
+                    <button class="del-btn" (click)="removeFromCart(i)">🗑</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer" *ngIf="cart.length > 0">
+            <div class="total-summary">
+                <span>Subtotal</span>
+                <span>${{ total | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="checkout-fields">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input [(ngModel)]="customer.name" placeholder="John Doe" type="text">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input [(ngModel)]="customer.email" placeholder="john@example.com" type="email">
+                </div>
+                <button class="pay-btn" (click)="checkout()" [disabled]="!customer.name || !customer.email">
+                    Complete Purchase & Pay
+                </button>
+            </div>
+        </div>
     </div>
 </div>
+
+<footer class="tech-footer">
+    <div class="footer-grid">
+        <div class="footer-info">
+            <div class="brand">TECH<span>HUB</span></div>
+            <p>Building the future of e-commerce with DevOps and GitOps precision.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li>Privacy Policy</li>
+                <li>Terms of Service</li>
+                <li>Contact Us</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2024 TechHub Storefront. Built for excellence.
+    </div>
+</footer>

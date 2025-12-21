@@ -18,35 +18,40 @@ public class DevopsApiApplication {
     }
 }
 
-// --- ENTITIES ---
-
 @Entity
 class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String category;
     private String description;
     private double price;
     private String imageUrl;
+    private int stock;
 
     public Product() {
     }
 
-    public Product(String name, String description, double price, String imageUrl) {
+    public Product(String name, String category, String description, double price, String imageUrl, int stock) {
         this.name = name;
+        this.category = category;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.stock = stock;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getDescription() {
@@ -59,6 +64,10 @@ class Product {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public int getStock() {
+        return stock;
     }
 }
 
@@ -75,7 +84,6 @@ class UserOrder {
     @ElementCollection
     private List<String> productNames = new ArrayList<>();
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -111,9 +119,11 @@ class UserOrder {
     public void setProductNames(List<String> productNames) {
         this.productNames = productNames;
     }
-}
 
-// --- REPOSITORIES ---
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+}
 
 @Repository
 interface ProductRepository extends JpaRepository<Product, Long> {
@@ -122,8 +132,6 @@ interface ProductRepository extends JpaRepository<Product, Long> {
 @Repository
 interface OrderRepository extends JpaRepository<UserOrder, Long> {
 }
-
-// --- CTRL ---
 
 @RestController
 @RequestMapping("/api")
@@ -136,20 +144,28 @@ class EcommerceController {
         this.productRepo = productRepo;
         this.orderRepo = orderRepo;
 
-        // Seed some data
         if (productRepo.count() == 0) {
-            productRepo.save(new Product("Cloud Server Pro", "High-performance virtual instance", 99.99,
-                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?w=400"));
-            productRepo.save(new Product("Kubernetes Masterclass", "Complete guide to K8s orchestration", 49.50,
-                    "https://images.unsplash.com/photo-1667372333374-0d44583d7bc9?w=400"));
-            productRepo.save(new Product("DevOps Monitoring Pack", "Prometheus & Grafana pre-built dashboards", 25.00,
-                    "https://images.unsplash.com/photo-1551288049-bbbda5366391?w=400"));
+            productRepo.save(
+                    new Product("Ultra-Thin Laptop Pro", "Laptops", "16-inch display, M3 Chip equivalent, 32GB RAM",
+                            1499.99, "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800", 15));
+            productRepo.save(new Product("Curved Dev Monitor", "Monitors", "49-inch Ultrawide, 144Hz, HDR support",
+                    899.00, "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800", 8));
+            productRepo.save(
+                    new Product("Mechanical RGB Keyboard", "Accessories", "Cherry MX switches, Hot-swappable keys",
+                            159.50, "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800", 42));
+            productRepo
+                    .save(new Product("Noise Cancelling Headphones", "Audio", "Active Noise Cancellation, 40h Battery",
+                            299.00, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800", 24));
+            productRepo.save(new Product("Pro Series Drone X", "Gadgets", "4K HDR video, 30 min flight time", 749.00,
+                    "https://images.unsplash.com/photo-1473968512445-3b7c53f27b61?w=800", 12));
+            productRepo.save(new Product("Smart Office Lamp", "Lighting", "Adjustable color temp, Voice control", 89.00,
+                    "https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800", 50));
         }
     }
 
     @GetMapping("/health")
     public Map<String, String> health() {
-        return Map.of("status", "UP", "service", "E-commerce API");
+        return Map.of("status", "UP", "service", "Tech Store Hub API");
     }
 
     @GetMapping("/products")
@@ -160,10 +176,5 @@ class EcommerceController {
     @PostMapping("/orders")
     public UserOrder placeOrder(@RequestBody UserOrder order) {
         return orderRepo.save(order);
-    }
-
-    @GetMapping("/orders")
-    public List<UserOrder> getOrders() {
-        return orderRepo.findAll();
     }
 }
