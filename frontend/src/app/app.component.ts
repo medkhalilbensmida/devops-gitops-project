@@ -13,10 +13,13 @@ interface Product {
 }
 
 interface Order {
+    id?: number;
     customerName: string;
     customerEmail: string;
     productNames: string[];
     totalAmount: number;
+    orderDate?: string;
+    status?: string;
 }
 
 @Component({
@@ -28,14 +31,22 @@ interface Order {
 })
 export class AppComponent implements OnInit {
     products: Product[] = [];
+    orders: Order[] = [];
     cart: Product[] = [];
+
+    // UI State
     isCartOpen = false;
     orderPlaced = false;
+    currentView: 'shop' | 'admin' = 'shop';
+    currentCategory = 'All';
+    searchQuery = '';
 
     customer = {
         name: '',
         email: ''
     };
+
+    categories = ['All', 'Laptops', 'Monitors', 'Audio', 'Gadgets', 'Accessories', 'Office'];
 
     constructor(private http: HttpClient) { }
 
@@ -47,6 +58,22 @@ export class AppComponent implements OnInit {
         this.http.get<Product[]>('/api/products').subscribe({
             next: (data: Product[]) => this.products = data,
             error: (err: any) => console.error('Error loading products', err)
+        });
+    }
+
+    loadOrders() {
+        this.http.get<Order[]>('/api/orders').subscribe({
+            next: (data: Order[]) => this.orders = data,
+            error: (err: any) => console.error('Error loading orders', err)
+        });
+    }
+
+    get filteredProducts() {
+        return this.products.filter(p => {
+            const matchesCategory = this.currentCategory === 'All' || p.category === this.currentCategory;
+            const matchesSearch = p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                p.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
         });
     }
 
@@ -80,6 +107,19 @@ export class AppComponent implements OnInit {
                 setTimeout(() => this.orderPlaced = false, 5000);
             }
         });
+    }
+
+    updateOrderStatus(orderId: number, status: string) {
+        this.http.put(`/api/orders/${orderId}/status`, { status }).subscribe({
+            next: () => this.loadOrders()
+        });
+    }
+
+    switchView(view: 'shop' | 'admin') {
+        this.currentView = view;
+        if (view === 'admin') {
+            this.loadOrders();
+        }
     }
 
     toggleCart() {
