@@ -7,116 +7,163 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class DevopsApiApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(DevopsApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DevopsApiApplication.class, args);
+    }
+}
+
+// --- ENTITIES ---
+
+@Entity
+class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String description;
+    private double price;
+    private String imageUrl;
+
+    public Product() {
+    }
+
+    public Product(String name, String description, double price, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }
 
 @Entity
-class DevOpsTask {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private String description;
-	private String status; // TODO, IN_PROGRESS, DONE
-	private String priority; // LOW, MEDIUM, HIGH
-	private LocalDateTime createdAt = LocalDateTime.now();
+class UserOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String customerName;
+    private String customerEmail;
+    private double totalAmount;
+    private LocalDateTime orderDate = LocalDateTime.now();
 
-	// Getters and Setters
-	public Long getId() {
-		return id;
-	}
+    @ElementCollection
+    private List<String> productNames = new ArrayList<>();
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public double getTotalAmount() {
+        return totalAmount;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
-	public String getPriority() {
-		return priority;
-	}
+    public List<String> getProductNames() {
+        return productNames;
+    }
 
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
+    public void setProductNames(List<String> productNames) {
+        this.productNames = productNames;
+    }
+}
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+// --- REPOSITORIES ---
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+@Repository
+interface ProductRepository extends JpaRepository<Product, Long> {
 }
 
 @Repository
-interface TaskRepository extends JpaRepository<DevOpsTask, Long> {
+interface OrderRepository extends JpaRepository<UserOrder, Long> {
 }
+
+// --- CTRL ---
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
-class TaskController {
-	private final TaskRepository repository;
+class EcommerceController {
+    private final ProductRepository productRepo;
+    private final OrderRepository orderRepo;
 
-	public TaskController(TaskRepository repository) {
-		this.repository = repository;
-	}
+    public EcommerceController(ProductRepository productRepo, OrderRepository orderRepo) {
+        this.productRepo = productRepo;
+        this.orderRepo = orderRepo;
 
-	@GetMapping("/health")
-	public Map<String, String> health() {
-		return Map.of("status", "UP", "message", "DevOps API is running smoothly");
-	}
+        // Seed some data
+        if (productRepo.count() == 0) {
+            productRepo.save(new Product("Cloud Server Pro", "High-performance virtual instance", 99.99,
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?w=400"));
+            productRepo.save(new Product("Kubernetes Masterclass", "Complete guide to K8s orchestration", 49.50,
+                    "https://images.unsplash.com/photo-1667372333374-0d44583d7bc9?w=400"));
+            productRepo.save(new Product("DevOps Monitoring Pack", "Prometheus & Grafana pre-built dashboards", 25.00,
+                    "https://images.unsplash.com/photo-1551288049-bbbda5366391?w=400"));
+        }
+    }
 
-	@GetMapping("/tasks")
-	public List<DevOpsTask> getAllTasks() {
-		return repository.findAll();
-	}
+    @GetMapping("/health")
+    public Map<String, String> health() {
+        return Map.of("status", "UP", "service", "E-commerce API");
+    }
 
-	@PostMapping("/tasks")
-	public DevOpsTask createTask(@RequestBody DevOpsTask task) {
-		return repository.save(task);
-	}
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productRepo.findAll();
+    }
 
-	@PutMapping("/tasks/{id}")
-	public DevOpsTask updateTask(@PathVariable Long id, @RequestBody DevOpsTask taskDetails) {
-		DevOpsTask task = repository.findById(id).orElseThrow();
-		task.setStatus(taskDetails.getStatus());
-		task.setPriority(taskDetails.getPriority());
-		return repository.save(task);
-	}
+    @PostMapping("/orders")
+    public UserOrder placeOrder(@RequestBody UserOrder order) {
+        return orderRepo.save(order);
+    }
 
-	@DeleteMapping("/tasks/{id}")
-	public void deleteTask(@PathVariable Long id) {
-		repository.deleteById(id);
-	}
+    @GetMapping("/orders")
+    public List<UserOrder> getOrders() {
+        return orderRepo.findAll();
+    }
 }

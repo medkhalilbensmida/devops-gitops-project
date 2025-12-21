@@ -3,13 +3,19 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-interface DevOpsTask {
-    id?: number;
-    title: string;
+interface Product {
+    id: number;
+    name: string;
     description: string;
-    status: string;
-    priority: string;
-    createdAt?: string;
+    price: number;
+    imageUrl: string;
+}
+
+interface Order {
+    customerName: string;
+    customerEmail: string;
+    productNames: string[];
+    totalAmount: number;
 }
 
 @Component({
@@ -20,60 +26,62 @@ interface DevOpsTask {
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    title = 'DevOps Platform';
-    backendStatus: any = { status: 'Checking...', message: 'Connecting to API...' };
-    tasks: DevOpsTask[] = [];
+    products: Product[] = [];
+    cart: Product[] = [];
+    isCartOpen = false;
+    orderPlaced = false;
 
-    newTask: DevOpsTask = {
-        title: '',
-        description: '',
-        status: 'TODO',
-        priority: 'MEDIUM'
+    customer = {
+        name: '',
+        email: ''
     };
 
     constructor(private http: HttpClient) { }
 
     ngOnInit() {
-        this.checkBackend();
-        this.loadTasks();
+        this.loadProducts();
     }
 
-    checkBackend() {
-        this.http.get<any>('/api/health').subscribe({
-            next: (data) => this.backendStatus = data,
-            error: () => this.backendStatus = { status: 'OFFLINE', message: 'Backend unreachable' }
+    loadProducts() {
+        this.http.get<Product[]>('/api/products').subscribe({
+            next: (data) => this.products = data,
+            error: (err) => console.error('Error loading products', err)
         });
     }
 
-    loadTasks() {
-        this.http.get<DevOpsTask[]>('/api/tasks').subscribe({
-            next: (data) => this.tasks = data,
-            error: () => console.error('Failed to load tasks')
-        });
+    addToCart(product: Product) {
+        this.cart.push(product);
     }
 
-    addTask() {
-        if (!this.newTask.title) return;
-        this.http.post<DevOpsTask>('/api/tasks', this.newTask).subscribe({
-            next: (task) => {
-                this.tasks.push(task);
-                this.newTask = { title: '', description: '', status: 'TODO', priority: 'MEDIUM' };
+    removeFromCart(index: number) {
+        this.cart.splice(index, 1);
+    }
+
+    get total() {
+        return this.cart.reduce((sum, p) => sum + p.price, 0);
+    }
+
+    checkout() {
+        if (!this.customer.name || !this.customer.email || this.cart.length === 0) return;
+
+        const order: Order = {
+            customerName: this.customer.name,
+            customerEmail: this.customer.email,
+            productNames: this.cart.map(p => p.name),
+            totalAmount: this.total
+        };
+
+        this.http.post('/api/orders', order).subscribe({
+            next: () => {
+                this.orderPlaced = true;
+                this.cart = [];
+                this.isCartOpen = false;
+                setTimeout(() => this.orderPlaced = false, 5000);
             }
         });
     }
 
-    updateTaskStatus(task: DevOpsTask, newStatus: string) {
-        task.status = newStatus;
-        this.http.put(`/api/tasks/${task.id}`, task).subscribe();
-    }
-
-    deleteTask(id: number) {
-        this.http.delete(`/api/tasks/${id}`).subscribe({
-            next: () => this.tasks = this.tasks.filter(t => t.id !== id)
-        });
-    }
-
-    getTasksByStatus(status: string) {
-        return this.tasks.filter(t => t.status === status);
+    toggleCart() {
+        this.isCartOpen = !this.isCartOpen;
     }
 }

@@ -1,83 +1,68 @@
-<div class="container">
-    <header class="app-header">
-        <div class="logo-area">
-            <h1>DevOps<span>Control</span></h1>
-            <p class="subtitle">Cloud Native Orchestrator</p>
+<div class="shop-container">
+    <nav class="navbar">
+        <div class="logo">Cloud<span>Store</span></div>
+        <div class="nav-actions">
+            <button class="cart-btn" (click)="toggleCart()">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count" *ngIf="cart.length > 0">{{ cart.length }}</span>
+            </button>
         </div>
-        <div class="status-badge" [ngClass]="{'status-online': backendStatus.status === 'UP'}">
-            <span class="pulse"></span>
-            Backend: {{ backendStatus.status }}
-        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Premium DevOps Solutions</h1>
+        <p>Fuel your infrastructure with our curated tools.</p>
     </header>
 
-    <main class="dashboard">
-        <!-- Add New Task Section -->
-        <section class="add-task-card">
-            <h2>New Deployment Task</h2>
-            <div class="form-row">
-                <input [(ngModel)]="newTask.title" placeholder="Task Title (e.g. Deploy Ingress)" type="text">
-                <select [(ngModel)]="newTask.priority">
-                    <option value="LOW">Low</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="HIGH">High</option>
-                </select>
-                <button (click)="addTask()" class="btn-primary">Provision</button>
-            </div>
-        </section>
-
-        <!-- Kanban Board -->
-        <div class="kanban">
-            <!-- TODO COLUMN -->
-            <div class="column">
-                <div class="column-header">
-                    <h3>Backlog</h3>
-                    <span class="count">{{ getTasksByStatus('TODO').length }}</span>
-                </div>
-                <div class="task-list">
-                    <div *ngFor="let task of getTasksByStatus('TODO')" class="task-card">
-                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
-                        <h4>{{ task.title }}</h4>
-                        <div class="card-actions">
-                            <button (click)="updateTaskStatus(task, 'IN_PROGRESS')" class="btn-icon">▶</button>
-                            <button (click)="deleteTask(task.id!)" class="btn-icon btn-danger">🗑</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- IN PROGRESS COLUMN -->
-            <div class="column">
-                <div class="column-header">
-                    <h3>Running</h3>
-                    <span class="count">{{ getTasksByStatus('IN_PROGRESS').length }}</span>
-                </div>
-                <div class="task-list">
-                    <div *ngFor="let task of getTasksByStatus('IN_PROGRESS')" class="task-card running">
-                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
-                        <h4>{{ task.title }}</h4>
-                        <div class="card-actions">
-                            <button (click)="updateTaskStatus(task, 'DONE')" class="btn-icon">✔</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DONE COLUMN -->
-            <div class="column">
-                <div class="column-header">
-                    <h3>Deployed</h3>
-                    <span class="count">{{ getTasksByStatus('DONE').length }}</span>
-                </div>
-                <div class="task-list">
-                    <div *ngFor="let task of getTasksByStatus('DONE')" class="task-card completed">
-                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
-                        <h4>{{ task.title }}</h4>
-                        <div class="card-actions">
-                            <button (click)="deleteTask(task.id!)" class="btn-icon btn-danger">🗑</button>
-                        </div>
-                    </div>
+    <div class="product-grid">
+        <div class="product-card" *ngFor="let product of products">
+            <div class="product-image" [style.background-image]="'url(' + product.imageUrl + ')'"></div>
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="price-row">
+                    <span class="price">${{ product.price | number:'1.2-2' }}</span>
+                    <button class="add-btn" (click)="addToCart(product)">Add to Cart</button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- Order Success Toast -->
+    <div class="toast" *ngIf="orderPlaced">
+        ✅ Order placed successfully! Check your email.
+    </div>
+
+    <!-- Sidebar Cart -->
+    <div class="cart-sidebar" [class.open]="isCartOpen">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button (click)="toggleCart()">✕</button>
+        </div>
+
+        <div class="cart-items" *ngIf="cart.length > 0; else empty">
+            <div class="cart-item" *ngFor="let item of cart; let i = index">
+                <span>{{ item.name }}</span>
+                <b>${{ item.price }}</b>
+                <button (click)="removeFromCart(i)">🗑</button>
+            </div>
+            <div class="cart-total">
+                Total: <span>${{ total | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="checkout-form">
+                <input [(ngModel)]="customer.name" placeholder="Full Name" type="text">
+                <input [(ngModel)]="customer.email" placeholder="Email Address" type="email">
+                <button (click)="checkout()" [disabled]="!customer.name || !customer.email" class="checkout-btn">
+                    Place Order
+                </button>
+            </div>
+        </div>
+
+        <ng-template #empty>
+            <div class="empty-cart">
+                <p>🛒 Your cart is empty.</p>
+            </div>
+        </ng-template>
+    </div>
 </div>
