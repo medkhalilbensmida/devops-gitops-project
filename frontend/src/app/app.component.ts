@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
     currentView: 'shop' | 'admin' = 'shop';
     currentCategory = 'All';
     searchQuery = '';
+    lastOrderTotal = 0;
 
     customer = {
         name: '',
@@ -89,6 +90,10 @@ export class AppComponent implements OnInit {
         return this.cart.reduce((sum, p) => sum + p.price, 0);
     }
 
+    get totalRevenue() {
+        return this.orders.reduce((acc, o) => acc + o.totalAmount, 0);
+    }
+
     checkout() {
         if (!this.customer.name || !this.customer.email || this.cart.length === 0) return;
 
@@ -101,6 +106,7 @@ export class AppComponent implements OnInit {
 
         this.http.post('/api/orders', order).subscribe({
             next: () => {
+                this.lastOrderTotal = this.total;
                 this.orderPlaced = true;
                 this.cart = [];
                 this.isCartOpen = false;

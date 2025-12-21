@@ -82,7 +82,7 @@
             </div>
             <div class="stat-card">
                 <label>Revenue</label>
-                <span>${{ orders.reduce((acc, o) => acc + o.totalAmount, 0) | number:'1.2-2' }}</span>
+                <span>${{ totalRevenue | number:'1.2-2' }}</span>
             </div>
         </div>
 
@@ -174,7 +174,7 @@
     <div class="success-box">
         <div class="check">✔</div>
         <h2>Order Received!</h2>
-        <p>Your order for ${{ lastTotal | number:'1.2-2' }} has been successfully placed.</p>
+        <p>Your order for ${{ lastOrderTotal | number:'1.2-2' }} has been successfully placed.</p>
         <button (click)="orderPlaced = false" class="btn-main">Back to Shopping</button>
     </div>
 </div>
