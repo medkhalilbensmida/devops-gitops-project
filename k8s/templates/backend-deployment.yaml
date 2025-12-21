@@ -21,17 +21,18 @@ spec:
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           ports:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /api/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /api/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
