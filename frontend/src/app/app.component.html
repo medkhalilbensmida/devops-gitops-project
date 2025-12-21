@@ -1,126 +1,167 @@
 <div class="app-shell" [class.theme-light]="!isDarkMode" [class.rtl-mode]="currentLang === 'ar'">
 
-    <!-- Ultra-Premium Navbar -->
-    <nav class="main-nav">
-        <div class="nav-container">
-            <div class="nav-left">
-                <div class="brand-logo" (click)="switchView('shop')">
+    <!-- Professional Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-left">
+                <div class="logo" (click)="switchView('shop')">
                     TECH<span>PRO</span>
                 </div>
-                <div class="nav-links desktop-only">
+                <nav class="desktop-nav">
                     <a (click)="switchView('shop')" [class.active]="currentView === 'shop'">{{ t('store') }}</a>
                     <a (click)="switchView('admin')" [class.active]="currentView === 'admin'">{{ t('admin') }}</a>
                     <a (click)="switchView('contact')" [class.active]="currentView === 'contact'">{{ t('contact') }}</a>
-                </div>
+                </nav>
             </div>
 
-            <div class="nav-right">
-                <div class="setup-controls">
-                    <div class="lang-pill">
+            <div class="header-right">
+                <div class="nav-utils">
+                    <!-- Language Switcher -->
+                    <div class="lang-selector">
                         <button (click)="setLanguage('fr')" [class.active]="currentLang === 'fr'">FR</button>
                         <button (click)="setLanguage('en')" [class.active]="currentLang === 'en'">EN</button>
                         <button (click)="setLanguage('ar')" [class.active]="currentLang === 'ar'">AR</button>
                     </div>
-                    <button class="icon-btn theme-btn" (click)="toggleTheme()" [title]="t('theme_label')">
-                        <span *ngIf="isDarkMode">☀️</span>
-                        <span *ngIf="!isDarkMode">🌙</span>
+
+                    <!-- Theme Toggle SVG -->
+                    <button class="action-icon theme-toggle" (click)="toggleTheme()">
+                        <svg *ngIf="isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+                        <svg *ngIf="!isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
                     </button>
-                    <button class="icon-btn cart-btn" (click)="toggleCart()">
-                        <span class="icon">🛒</span>
-                        <span class="count" *ngIf="cart.length > 0">{{ cart.length }}</span>
+
+                    <!-- Cart SVG -->
+                    <button class="action-icon cart-trigger" (click)="toggleCart()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1" />
+                            <circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        </svg>
+                        <span class="badger" *ngIf="cart.length > 0">{{ cart.length }}</span>
                     </button>
-                    <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
+
+                    <!-- Mobile Toggle -->
+                    <button class="mobile-btn" (click)="toggleMobileMenu()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Overlay -->
-        <div class="mobile-nav" [class.is-open]="isMobileMenuOpen">
+        <!-- Mobile Menu -->
+        <div class="mobile-overlay" [class.is-visible]="isMobileMenuOpen">
             <a (click)="switchView('shop')">{{ t('store') }}</a>
             <a (click)="switchView('admin')">{{ t('admin') }}</a>
             <a (click)="switchView('contact')">{{ t('contact') }}</a>
         </div>
-    </nav>
+    </header>
 
-    <div class="view-content" [class.is-blurred]="isCartOpen">
+    <!-- Main Content Container with proper padding -->
+    <main class="page-body" [class.blurred-active]="isCartOpen">
 
         <!-- SHOP VIEW -->
-        <div *ngIf="currentView === 'shop'" class="fade-in">
-            <header class="luxury-hero">
-                <div class="hero-bg"></div>
-                <div class="hero-inner">
-                    <div class="hero-tag">{{ t('hero_title') }}</div>
+        <div *ngIf="currentView === 'shop'" class="store-view bounce-in">
+            <section class="hero-premium">
+                <div class="hero-mask"></div>
+                <div class="hero-wrap">
+                    <span class="pre-title">{{ t('hero_title') }}</span>
                     <h1>{{ t('hero_title') }}</h1>
-                    <p>{{ t('hero_subtitle') }}</p>
-                    <div class="search-container">
-                        <div class="search-box-pro">
-                            <span>🔍</span>
+                    <p class="sub-text">{{ t('hero_subtitle') }}</p>
+                    <div class="pro-search">
+                        <div class="search-inner">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
                             <input [(ngModel)]="searchQuery" [placeholder]="t('search_placeholder')" type="text">
                         </div>
                     </div>
                 </div>
-            </header>
+            </section>
 
-            <main class="store-module">
-                <div class="category-strip">
-                    <button *ngFor="let cat of categories" [class.selected]="currentCategory === cat"
+            <div class="catalog-section">
+                <div class="filter-strip">
+                    <button *ngFor="let cat of categories" [class.active-cat]="currentCategory === cat"
                         (click)="currentCategory = cat">
                         {{ t(cat) }}
                     </button>
                 </div>
 
-                <div class="designer-grid">
-                    <div class="glass-product-card" *ngFor="let product of filteredProducts">
-                        <div class="product-media">
+                <div class="product-gallery">
+                    <div class="luxury-card" *ngFor="let product of filteredProducts">
+                        <div class="card-top">
                             <img [src]="product.imageUrl" [alt]="t(product.nameKey)"
                                 onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400'">
-                            <div class="category-chip">{{ t(product.categoryKey) }}</div>
-                            <button class="hover-add-btn" (click)="addToCart(product)">{{ t('add_to_cart') }}</button>
+                            <span class="cat-label">{{ t(product.categoryKey) }}</span>
+                            <button class="add-overlay-btn" (click)="addToCart(product)">
+                                {{ t('add_to_cart') }}
+                            </button>
                         </div>
-                        <div class="product-info">
+                        <div class="card-info">
                             <h3>{{ t(product.nameKey) }}</h3>
-                            <p class="description">{{ t(product.descKey) }}</p>
-                            <div class="price-row">
-                                <span class="price-value">${{ product.price | number:'1.2-2' }}</span>
-                                <span class="stock-status">● {{ t('available') }}</span>
+                            <p>{{ t(product.descKey) }}</p>
+                            <div class="card-meta">
+                                <span class="price-pro">${{ product.price | number:'1.2-2' }}</span>
+                                <span class="stock-pro">● {{ t('available') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
 
         <!-- ADMIN VIEW -->
-        <div *ngIf="currentView === 'admin'" class="admin-module fade-in">
-            <div class="admin-parallax-header">
-                <div class="header-content">
-                    <h1>{{ t('admin') }}</h1>
-                    <div class="dashboard-metrics">
-                        <div class="metric-card gold">
+        <div *ngIf="currentView === 'admin'" class="admin-interface bounce-in">
+            <div class="admin-hero-banner">
+                <div class="hero-inner-pro">
+                    <h2>{{ t('admin') }}</h2>
+                    <div class="pro-metrics">
+                        <div class="m-card highlight">
                             <label>{{ t('revenue_label') }}</label>
-                            <div class="val">${{ totalRevenue | number:'1.2-2' }}</div>
+                            <span class="m-val">${{ totalRevenue | number:'1.2-2' }}</span>
                         </div>
-                        <div class="metric-card">
+                        <div class="m-card">
                             <label>{{ t('total_orders') }}</label>
-                            <div class="val">{{ orders.length }}</div>
+                            <span class="m-val">{{ orders.length }}</span>
                         </div>
-                        <div class="metric-card">
+                        <div class="m-card">
                             <label>{{ t('platform_status') }}</label>
-                            <div class="val text-success">{{ t('operational') }}</div>
+                            <span class="m-val text-ok">{{ t('operational') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="admin-scrolled-content">
-                <div class="orders-card">
-                    <div class="card-title-row">
+            <div class="admin-body">
+                <div class="orders-panel">
+                    <div class="panel-head">
                         <h3>{{ t('recent_orders') }}</h3>
-                        <button class="refresh-pill" (click)="loadOrders()">🔄</button>
+                        <button class="pro-refresh" (click)="loadOrders()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path
+                                    d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                            </svg>
+                        </button>
                     </div>
 
-                    <div class="pro-table-wrapper">
-                        <table class="designer-table">
+                    <div class="table-frame">
+                        <table class="pro-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -134,37 +175,37 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let order of orders">
-                                    <td><span class="id-ref">#{{ order.id }}</span></td>
+                                    <td><span class="id-tag">#{{ order.id }}</span></td>
                                     <td>
-                                        <div class="cust-pro">
+                                        <div class="c-info">
                                             <b>{{ order.customerName }}</b>
                                             <span>{{ order.customerEmail }}</span>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="item-stack">
-                                            <span *ngFor="let p of order.productNames" class="item-tag">{{ p }}</span>
+                                        <div class="p-tags">
+                                            <span *ngFor="let p of order.productNames" class="p-tag">{{ p }}</span>
                                         </div>
                                     </td>
                                     <td>{{ order.orderDate | date:'medium' }}</td>
-                                    <td class="bold-price">${{ order.totalAmount | number:'1.2-2' }}</td>
-                                    <td><span class="status-indicator" [attr.data-status]="order.status">
+                                    <td class="price-bold">${{ order.totalAmount | number:'1.2-2' }}</td>
+                                    <td><span class="status-pill" [attr.data-status]="order.status">
                                             {{ t('status_' + order.status.toLowerCase()) }}
                                         </span></td>
                                     <td>
-                                        <div class="control-actions">
+                                        <div class="btn-group">
                                             <button (click)="updateOrderStatus(order.id!, 'SHIPPED')"
-                                                *ngIf="order.status === 'PENDING'" class="primary-action">{{
-                                                t('ship_btn') }}</button>
+                                                *ngIf="order.status === 'PENDING'" class="btn-ship">{{ t('ship_btn')
+                                                }}</button>
                                             <button (click)="updateOrderStatus(order.id!, 'DELIVERED')"
-                                                *ngIf="order.status === 'SHIPPED'" class="success-action">{{
+                                                *ngIf="order.status === 'SHIPPED'" class="btn-deliver">{{
                                                 t('deliver_btn') }}</button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="empty-state-pro" *ngIf="orders.length === 0">
+                        <div class="empty-notif" *ngIf="orders.length === 0">
                             {{ t('empty_orders') }}
                         </div>
                     </div>
@@ -173,96 +214,119 @@
         </div>
 
         <!-- CONTACT VIEW -->
-        <div *ngIf="currentView === 'contact'" class="contact-module fade-in">
-            <div class="contact-grid">
-                <div class="contact-visual">
-                    <div class="visual-text">
+        <div *ngIf="currentView === 'contact'" class="contact-interface bounce-in">
+            <div class="contact-split">
+                <div class="split-visual">
+                    <div class="visual-content">
                         <h2>{{ t('contact_title') }}</h2>
                         <p>{{ t('hero_subtitle') }}</p>
                     </div>
                 </div>
-                <div class="contact-form-area">
-                    <div class="form-designer">
-                        <div class="input-group">
+                <div class="split-form">
+                    <div class="form-card">
+                        <div class="field-item">
                             <label>{{ t('contact_name') }}</label>
                             <input [(ngModel)]="contactForm.name" type="text" [placeholder]="t('contact_name')">
                         </div>
-                        <div class="input-group">
+                        <div class="field-item">
                             <label>{{ t('contact_email') }}</label>
                             <input [(ngModel)]="contactForm.email" type="email" [placeholder]="t('contact_email')">
                         </div>
-                        <div class="input-group">
+                        <div class="field-item">
                             <label>{{ t('contact_subject') }}</label>
                             <input [(ngModel)]="contactForm.subject" type="text" [placeholder]="t('contact_subject')">
                         </div>
-                        <div class="input-group">
+                        <div class="field-item">
                             <label>{{ t('contact_msg') }}</label>
                             <textarea [(ngModel)]="contactForm.message" [placeholder]="t('contact_msg')"></textarea>
                         </div>
-                        <button class="designer-btn-submit" (click)="sendContact()">{{ t('send_msg') }}</button>
-                        <div class="contact-success-toast" *ngIf="contactMsgSent">
+                        <button class="btn-submit-pro" (click)="sendContact()">{{ t('send_msg') }}</button>
+                        <div class="msg-sent-alert" *ngIf="contactMsgSent">
                             {{ t('contact_success') }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Designer Cart Drawer -->
-    <div class="cart-drawer-module" [class.is-open]="isCartOpen">
-        <div class="drawer-header">
-            <h3>{{ t('cart') }} <span>({{ cart.length }} {{ t('items_count') }})</span></h3>
-            <button class="close-drawer" (click)="toggleCart()">✕</button>
+    <!-- Side Cart (Fixed) -->
+    <div class="cart-sidebar" [class.show-cart]="isCartOpen">
+        <div class="sidebar-header">
+            <h3>{{ t('cart') }} <span>({{ cart.length }})</span></h3>
+            <button class="sidebar-close" (click)="toggleCart()">✕</button>
         </div>
-        <div class="drawer-body">
-            <div class="cart-scroll-pro" *ngIf="cart.length > 0">
-                <div class="cart-pro-card" *ngFor="let item of cart; let i = index">
+        <div class="sidebar-body">
+            <div class="cart-items-scroll" *ngIf="cart.length > 0">
+                <div class="cart-item-pro" *ngFor="let item of cart; let i = index">
                     <img [src]="item.imageUrl">
-                    <div class="item-meta">
+                    <div class="item-info-pro">
                         <h4>{{ t(item.nameKey) }}</h4>
-                        <span class="item-price">${{ item.price | number:'1.2-2' }}</span>
+                        <span class="item-price-pro">${{ item.price | number:'1.2-2' }}</span>
                     </div>
-                    <button class="remove-trigger" (click)="removeFromCart(i)">🗑</button>
+                    <button class="item-del-btn" (click)="removeFromCart(i)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="empty-cart-designer" *ngIf="cart.length === 0">
-                <div class="icon-empty">🛒</div>
+            <div class="cart-empty-state" *ngIf="cart.length === 0">
+                <div class="empty-icon">🛒</div>
                 <p>{{ t('search_placeholder') }}</p>
             </div>
         </div>
-        <div class="drawer-footer" *ngIf="cart.length > 0">
-            <div class="subtotal-row">
+        <div class="sidebar-footer" *ngIf="cart.length > 0">
+            <div class="footer-total">
                 <span>{{ t('total_label') }}</span>
                 <span>${{ total | number:'1.2-2' }}</span>
             </div>
-            <div class="checkout-designer">
+            <div class="footer-form">
                 <input [(ngModel)]="customer.name" [placeholder]="t('contact_name')" type="text">
                 <input [(ngModel)]="customer.email" [placeholder]="t('contact_email')" type="email">
-                <button (click)="checkout()" [disabled]="!customer.name || !customer.email">
+                <button class="btn-pay-pro" (click)="checkout()" [disabled]="!customer.name || !customer.email">
                     {{ t('checkout_btn') }}
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="pro-modal-overlay" *ngIf="orderPlaced">
-        <div class="pro-modal-box">
-            <div class="modal-success-icon">✓</div>
+    <!-- Success Modal -->
+    <div class="modal-overlay-pro" *ngIf="orderPlaced">
+        <div class="modal-box-pro">
+            <div class="modal-check-pro">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
+            </div>
             <h2>{{ t('order_success_title') }}</h2>
             <p>{{ t('order_success_msg') }}</p>
-            <button class="modal-btn-close" (click)="orderPlaced = false">{{ t('close') }}</button>
+            <button class="btn-modal-close" (click)="orderPlaced = false">{{ t('close') }}</button>
         </div>
     </div>
 
     <!-- Designer Footer -->
     <footer class="designer-footer">
-        <div class="footer-grid">
-            <div class="footer-brand">TECH<span>PRO</span></div>
-            <p>{{ t('footer_text') }}</p>
-            <div class="footer-links">
-                <span>LinkedIn</span> • <span>GitHub</span> • <span>Dribbble</span>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">TECH<span>PRO</span></div>
+                <nav class="footer-nav">
+                    <a (click)="switchView('shop')">{{ t('store') }}</a>
+                    <a (click)="switchView('admin')">{{ t('admin') }}</a>
+                    <a (click)="switchView('contact')">{{ t('contact') }}</a>
+                </nav>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p>{{ t('footer_text') }}</p>
+                <div class="social-tags">
+                    <a>LinkedIn</a>
+                    <a>GitHub</a>
+                    <a>Twitter</a>
+                </div>
             </div>
         </div>
     </footer>
