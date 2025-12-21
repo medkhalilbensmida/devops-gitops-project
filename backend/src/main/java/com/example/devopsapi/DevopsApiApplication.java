@@ -11,10 +11,21 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
+import java.util.List;
+
 @SpringBootApplication
 public class DevopsApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(DevopsApiApplication.class, args);
+    }
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        // Force les URLs relatives pour Swagger (fix pour le port-forwarding)
+        return new OpenAPI().servers(List.of(new Server().url("/")));
     }
 }
 
