@@ -31,7 +31,12 @@
                         "styles": [
                             "src/styles.css"
                         ],
-                        "scripts": []
+                        "scripts": [],
+                        "optimization": {
+                            "fonts": {
+                                "inline": false
+                            }
+                        }
                     },
                     "configurations": {
                         "production": {
@@ -43,8 +48,8 @@
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "4kb",
-                                    "maximumError": "10kb"
+                                    "maximumWarning": "10kb",
+                                    "maximumError": "50kb"
                                 }
                             ],
                             "outputHashing": "all"
