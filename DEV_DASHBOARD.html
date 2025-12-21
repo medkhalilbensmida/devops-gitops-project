@@ -450,7 +450,7 @@
                 </div>
                 <h2>Grafana Metrics</h2>
                 <p>Visualisez la performance JVM (Heap, Threads, HikariCP) en temps réel.</p>
-                <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&from=now-1h&to=now&timezone=browser&var-application=&var-instance=10.244.0.73:8080&var-hikaricp=HikariPool-1&var-memory_pool_heap=$__all&var-memory_pool_nonheap=$__all&refresh=5s"
+                <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
                     target="_blank" class="btn secondary">Ouvrir Grafana</a>
             </div>
 
@@ -585,7 +585,15 @@
         }
 
         function copy(text) {
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(text).catch(() => {
+                // Fallback for non-secure contexts
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            });
             const toast = document.getElementById('toast');
             toast.className = 'visible';
             setTimeout(() => toast.className = '', 3000);
@@ -596,12 +604,11 @@
                 const cmd = "kubectl delete pods -l app=backend";
                 typeLine(cmd, () => {
                     print("[INFO] Signal sent to Kubernetes Cluster...");
-                    print("[EVENT] Pods 'backend-7d694dfc9f-x1' deleted.", "error-out");
-                    print("[EVENT] Pods 'backend-7d694dfc9f-y2' deleted.", "error-out");
+                    print("[EVENT] Pods deleted. Waiting for ArgoCD...", "error-out");
                     setTimeout(() => {
                         print("[GITOPS] ArgoCD detected 'Out of Sync' state.");
                         print("[SELF-HEALING] Automating reconciliation...");
-                        print("[SUCCESS] 2 new pods pending initialization.", "success-out");
+                        print("[SUCCESS] New pods initialized.", "success-out");
                         copy(cmd);
                     }, 1000);
                 });
@@ -609,10 +616,9 @@
                 const cmd = "ab -n 1000 -c 10 http://tech-hub.local/api/products";
                 typeLine(cmd, () => {
                     print("[INFO] Starting Apache Benchmark simulation...");
-                    print("[METRICS] Traffic increased by 400% in 2s.");
-                    print("[PROM] Rule 'HighTraffic' eval state: PENDING", "accent");
+                    print("[METRICS] Traffic spikes detected.");
                     setTimeout(() => {
-                        print("[ALERTE] AlertManager: Notification sent to admin channel!", "error-out");
+                        print("[ALERTE] AlertManager: Status FIRING", "error-out");
                         copy(cmd);
                     }, 1500);
                 });
@@ -620,17 +626,14 @@
                 const cmd = "git commit -am 'Update shop theme' && git push";
                 typeLine(cmd, () => {
                     print("[CI] GitHub Actions Workflow triggered.");
-                    print("[CI] Build successful. Trivy scan: 0 critical vulnerabilities.", "success-out");
-                    print("[GITOPS] values.yaml updated with new SHA.");
                     setTimeout(() => {
-                        print("[CD] ArgoCD: Auto-sync in progress... (1/1 pods updated)");
-                        print("[DEPLOY] New version is now LIVE on cluster.", "success-out");
+                        print("[CD] ArgoCD: Auto-sync in progress...", "success-out");
                         copy(cmd);
                     }, 2000);
                 });
             }
         }
-    </div >
-</body >
+    </script>
+</body>
 
-</html >
+</html>
