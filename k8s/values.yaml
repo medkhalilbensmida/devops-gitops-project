@@ -35,4 +35,4 @@ ingress:
           pathType: Prefix
           serviceName: frontend
 # Tag for forcing redeployments
-revision: "8d225b400e196942f8fc79bd1f60a4d7a97556fe"
+revision: "65f37497c2a4d0e087ea01f2e0e9d18729056623"
