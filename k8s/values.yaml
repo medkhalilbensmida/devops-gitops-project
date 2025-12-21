@@ -36,7 +36,7 @@ ingress:
           serviceName: frontend
 # Tag for forcing redeployments
 <<<<<<< HEAD
-revision: "833a5c3614298bac6255ba4f6b88a82e88155d"
+revision: "44199e0345664aeb8970ad10c89bbbdd319f6cf9"
 
 database:
   enabled: true
@@ -47,5 +47,5 @@ database:
   port: 5432
   storageSize: 1Gi
 =======
-revision: "833a5c331617cda496644375ddd5a543a645152a"
+revision: "44199e0345664aeb8970ad10c89bbbdd319f6cf9"
 >>>>>>> 52eb8b44b0bbe42e115847b2c5c1efc9a4d46106
