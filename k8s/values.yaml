@@ -35,4 +35,13 @@ ingress:
           pathType: Prefix
           serviceName: frontend
 # Tag for forcing redeployments
-revision: "a563e4debcc9de21c9925ba5f46b88a82e88155d"
+revision: "833a5c3614298bac6255ba4f6b88a82e88155d"
+
+database:
+  enabled: true
+  image: postgres:15
+  user: admin
+  password: devops_password
+  db: devops_db
+  port: 5432
+  storageSize: 1Gi
