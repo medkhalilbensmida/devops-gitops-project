@@ -80,7 +80,7 @@ class UserOrder {
     private String customerEmail;
     private double totalAmount;
     private LocalDateTime orderDate = LocalDateTime.now();
-    private String status = "PENDING"; // PENDING, SHIPPED, DELIVERED
+    private String status = "PENDING";
 
     @ElementCollection
     private List<String> productNames = new ArrayList<>();
@@ -154,25 +154,25 @@ class EcommerceController {
         this.orderRepo = orderRepo;
 
         if (productRepo.count() == 0) {
+            productRepo.save(new Product("EliteBook Pro X1", "Laptops", "High-performance laptop for developers",
+                    1899.99, "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800", 12));
+            productRepo.save(new Product("UltraWide 5K Display", "Monitors", "Perfect color accuracy for creative work",
+                    1249.00, "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=800", 7));
             productRepo
-                    .save(new Product("Quantum Laptop Pro", "Laptops", "16-inch display, M3 Max equivalent, 64GB RAM",
-                            2499.99, "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800", 15));
-            productRepo.save(new Product("Ultrawide Curved Gaming", "Monitors", "49-inch OLED, 240Hz, 0.03ms response",
-                    1299.00, "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800", 8));
-            productRepo.save(new Product("Keychron Q6 Pro", "Accessories", "Full Metal, Wireless, Custom Switches",
-                    210.50, "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800", 42));
-            productRepo.save(new Product("Sony WH-1000XM5", "Audio", "Industry-leading noise cancellation", 349.00,
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800", 24));
-            productRepo.save(new Product("DJI Mavic 3 Pro", "Gadgets", "Triple camera system, 43 min flight", 2199.00,
-                    "https://images.unsplash.com/photo-1473968512445-3b7c53f27b61?w=800", 12));
-            productRepo.save(new Product("Herman Miller Embody", "Office", "Top-tier ergonomic workstation chair",
-                    1895.00, "https://images.unsplash.com/photo-1505843490533-53bc77864705?w=800", 5));
+                    .save(new Product("Mechanical MX Keyboard", "Accessories", "Tactile feedback with RGB backlighting",
+                            179.50, "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=800", 30));
+            productRepo.save(new Product("Studio Noise-Canceling", "Audio", "Immersive sound with long-lasting battery",
+                    349.00, "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800", 15));
+            productRepo.save(new Product("Stealth Camera Drone", "Gadgets", "4K HDR video with AI tracking", 899.00,
+                    "https://images.unsplash.com/photo-1473968512445-3b7c53f27b61?q=80&w=800", 5));
+            productRepo.save(new Product("ErgoDesk Pro Stand", "Office", "Adjustable standing desk with memory", 599.00,
+                    "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=800", 20));
         }
     }
 
     @GetMapping("/health")
     public Map<String, String> health() {
-        return Map.of("status", "UP", "service", "Tech Hub Full-Stack API");
+        return Map.of("status", "UP", "service", "Tech Hub API");
     }
 
     @GetMapping("/products")

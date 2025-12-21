@@ -64,7 +64,10 @@ export class AppComponent implements OnInit {
 
     loadOrders() {
         this.http.get<Order[]>('/api/orders').subscribe({
-            next: (data: Order[]) => this.orders = data,
+            next: (data: Order[]) => {
+                this.orders = data;
+                console.log('Orders loaded:', this.orders);
+            },
             error: (err: any) => console.error('Error loading orders', err)
         });
     }
@@ -76,6 +79,10 @@ export class AppComponent implements OnInit {
                 p.description.toLowerCase().includes(this.searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
+    }
+
+    get totalRevenue() {
+        return this.orders.reduce((acc, o) => acc + o.totalAmount, 0);
     }
 
     addToCart(product: Product) {
@@ -90,28 +97,27 @@ export class AppComponent implements OnInit {
         return this.cart.reduce((sum, p) => sum + p.price, 0);
     }
 
-    get totalRevenue() {
-        return this.orders.reduce((acc, o) => acc + o.totalAmount, 0);
-    }
-
     checkout() {
         if (!this.customer.name || !this.customer.email || this.cart.length === 0) return;
 
+        this.lastOrderTotal = this.total;
         const order: Order = {
             customerName: this.customer.name,
             customerEmail: this.customer.email,
             productNames: this.cart.map(p => p.name),
-            totalAmount: this.total
+            totalAmount: this.lastOrderTotal
         };
 
-        this.http.post('/api/orders', order).subscribe({
+        this.http.post<Order>('/api/orders', order).subscribe({
             next: () => {
-                this.lastOrderTotal = this.total;
                 this.orderPlaced = true;
                 this.cart = [];
                 this.isCartOpen = false;
+                // Auto reload orders if we ever switch to admin later
+                this.loadOrders();
                 setTimeout(() => this.orderPlaced = false, 5000);
-            }
+            },
+            error: (err) => console.error('Checkout failed', err)
         });
     }
 
