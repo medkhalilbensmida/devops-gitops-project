@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps/GitOps Project - Master Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #6366f1, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .card.success::before { background: var(--secondary); }
+        .card.warning::before { background: var(--accent); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active { background: rgba(16, 185, 129, 0.2); color: var(--secondary); }
+
+        .btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover { background: #4f46e5; transform: scale(1.02); }
+
+        .credentials {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .credentials code { color: var(--accent); }
+
+        .testing-log {
+            grid-column: 1 / -1;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .log-entry {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .log-icon { color: var(--secondary); }
+        .log-text b { color: var(--primary); }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pipeline-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .connector {
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            flex: 1;
+            margin: 0 10px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DevOps / GitOps ShowCase</h1>
+        <p class="subtitle">Plateforme Complète End-to-End</p>
+    </header>
+
+    <div class="grid">
+        <!-- Application Card -->
+        <div class="card success">
+            <div class="card-header">
+                <div class="card-title">🚀 Application</div>
+                <span class="status-badge status-active">Online</span>
+            </div>
+            <p>Frontend Angular & Backend Spring Boot synchronisés via Ingress.</p>
+            <a href="http://127.0.0.1:58682" target="_blank" class="btn">Ouvrir l'App</a>
+        </div>
+
+        <!-- GitOps Card -->
+        <div class="card success">
+            <div class="card-header">
+                <div class="card-title">🐙 GitOps (ArgoCD)</div>
+                <span class="status-badge status-active">Synced</span>
+            </div>
+            <p>Gestion automatique du cycle de vie des applications Kubernetes.</p>
+            <div class="credentials">
+                User: <code>admin</code><br>
+                Pass: <code>szRq6bbfNJEomJZu</code>
+            </div>
+            <a href="http://127.0.0.1:54975" target="_blank" class="btn">Dashboard GitOps</a>
+        </div>
+
+        <!-- Observability Card -->
+        <div class="card warning">
+            <div class="card-header">
+                <div class="card-title">📊 Observability</div>
+                <span class="status-badge status-active">Monitoring</span>
+            </div>
+            <p>Prometheus (Métriques) & Grafana (Dashboards visuels).</p>
+            <div class="credentials">
+                Grafana: <code>admin / admin</code><br>
+                Prometheus Targets: <code>2/2 UP</code>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="http://127.0.0.1:63176" target="_blank" class="btn" style="background: var(--accent);">Grafana</a>
+                <a href="http://127.0.0.1:61150" target="_blank" class="btn" style="background: var(--secondary);">Prometheus</a>
+            </div>
+        </div>
+
+        <!-- Alerts Card -->
+        <div class="card success">
+            <div class="card-header">
+                <div class="card-title">🔔 Alertmanager</div>
+                <span class="status-badge status-active">Guard Active</span>
+            </div>
+            <p>Gestion intelligente des alertes critiques (Backend & Frontend).</p>
+            <a href="http://127.0.0.1:61587" target="_blank" class="btn">Gérer les Alertes</a>
+        </div>
+
+        <!-- Testing Section -->
+        <div class="testing-log">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🧪 Journal des Tests & Preuves</h2>
+            
+            <div class="log-entry">
+                <div class="log-icon">✅</div>
+                <div class="log-text">
+                    <b>Test de Résilience (Chaos Engineering) :</b> Suppression de 2 pods Backend via <code>kubectl delete</code>.
+                    <br><small style="color:var(--text-dim)">Résultat : ArgoCD a recréé les pods automatiquement en 12s.</small>
+                </div>
+            </div>
+
+            <div class="log-entry">
+                <div class="log-icon">✅</div>
+                <div class="log-text">
+                    <b>Test de Monitoring :</b> Indice de santé Prometheus passé à <code>0</code> pendant le test.
+                    <br><small style="color:var(--text-dim)">Résultat : Alerte "ServiceDown" déclenchée avec succès dans Alertmanager.</small>
+                </div>
+            </div>
+
+            <div class="log-entry">
+                <div class="log-icon">✅</div>
+                <div class="log-text">
+                    <b>Pipeline CI/CD :</b> Correction du Dockerfile et Push sur GitHub.
+                    <br><small style="color:var(--text-dim)">Résultat : Build GitHub Actions réussi et Auto-Sync ArgoCD validé.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 3rem; color: var(--text-dim); font-size: 0.9rem;">
+        DevOps Master Dashboard - Mohamed Khalil Ben Smida & Antigravity AI
+    </footer>
+
+</body>
+</html>

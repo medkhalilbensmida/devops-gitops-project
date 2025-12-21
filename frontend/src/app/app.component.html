@@ -1,76 +1,83 @@
-<div class="container animate-fade-in">
-    <header>
-        <div class="logo-container">
-            <div class="logo-orb"></div>
-            <h1>DevOps<span>Platform</span></h1>
+<div class="container">
+    <header class="app-header">
+        <div class="logo-area">
+            <h1>DevOps<span>Control</span></h1>
+            <p class="subtitle">Cloud Native Orchestrator</p>
         </div>
-        <div class="status-badge" [ngClass]="{'online': backendStatus.status === 'UP'}">
-            <span class="dot"></span>
+        <div class="status-badge" [ngClass]="{'status-online': backendStatus.status === 'UP'}">
+            <span class="pulse"></span>
             Backend: {{ backendStatus.status }}
         </div>
     </header>
 
-    <main>
-        <!-- Hero Section with Real-Time Stats from Backend -->
-        <section class="hero glass-card animate-slide-up">
-            <div class="hero-content">
-                <h2>GitOps Live Environment</h2>
-                <p>Monitoring system performance and deployment health.</p>
-            </div>
-
-            <div class="stats-grid" *ngIf="dashboardData">
-                <div class="stat-item pulse-stat">
-                    <span class="label">CPU Usage</span>
-                    <span class="value">{{ dashboardData.cpuUsage }}</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Memory</span>
-                    <span class="value">{{ dashboardData.memoryUsage }}</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Uptime</span>
-                    <span class="value">{{ dashboardData.uptime }}</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Active Users</span>
-                    <span class="value">{{ dashboardData.activeUsers }}</span>
-                </div>
+    <main class="dashboard">
+        <!-- Add New Task Section -->
+        <section class="add-task-card">
+            <h2>New Deployment Task</h2>
+            <div class="form-row">
+                <input [(ngModel)]="newTask.title" placeholder="Task Title (e.g. Deploy Ingress)" type="text">
+                <select [(ngModel)]="newTask.priority">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                </select>
+                <button (click)="addTask()" class="btn-primary">Provision</button>
             </div>
         </section>
 
-        <!-- System Health Section from Backend -->
-        <section class="health-section grid-2" *ngIf="dashboardData">
-            <div class="glass-card health-card">
-                <h3><span class="icon">🔌</span> Dependencies</h3>
-                <ul class="health-list">
-                    <li>Database: <span class="badge success">{{ dashboardData.systemHealth.database }}</span></li>
-                    <li>Redis: <span class="badge success">{{ dashboardData.systemHealth.redis }}</span></li>
-                    <li>Storage: <span class="badge info">{{ dashboardData.systemHealth.storage }}</span></li>
-                </ul>
-            </div>
-            <div class="glass-card status-card">
-                <h3><span class="icon">🛰️</span> API Info</h3>
-                <p><strong>Message:</strong> {{ backendStatus.message }}</p>
-                <p><strong>API Version:</strong> <code>{{ backendStatus.version || 'unknown' }}</code></p>
-            </div>
-        </section>
-
-        <!-- Pipeline Tracking -->
-        <section class="pipeline-section">
-            <h3>CI/CD Lifecycle Tracking</h3>
-            <div class="pipeline-flow">
-                <div *ngFor="let step of pipelineSteps" class="step-card glass-card" [attr.data-status]="step.status">
-                    <div class="step-icon">{{ step.icon }}</div>
-                    <div class="step-info">
-                        <h4>{{ step.name }}</h4>
-                        <span class="status-text">{{ step.status }}</span>
+        <!-- Kanban Board -->
+        <div class="kanban">
+            <!-- TODO COLUMN -->
+            <div class="column">
+                <div class="column-header">
+                    <h3>Backlog</h3>
+                    <span class="count">{{ getTasksByStatus('TODO').length }}</span>
+                </div>
+                <div class="task-list">
+                    <div *ngFor="let task of getTasksByStatus('TODO')" class="task-card">
+                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
+                        <h4>{{ task.title }}</h4>
+                        <div class="card-actions">
+                            <button (click)="updateTaskStatus(task, 'IN_PROGRESS')" class="btn-icon">▶</button>
+                            <button (click)="deleteTask(task.id!)" class="btn-icon btn-danger">🗑</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>© 2025 DevOps GitOps Showcase - Designed for Excellence</p>
-    </footer>
+            <!-- IN PROGRESS COLUMN -->
+            <div class="column">
+                <div class="column-header">
+                    <h3>Running</h3>
+                    <span class="count">{{ getTasksByStatus('IN_PROGRESS').length }}</span>
+                </div>
+                <div class="task-list">
+                    <div *ngFor="let task of getTasksByStatus('IN_PROGRESS')" class="task-card running">
+                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
+                        <h4>{{ task.title }}</h4>
+                        <div class="card-actions">
+                            <button (click)="updateTaskStatus(task, 'DONE')" class="btn-icon">✔</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DONE COLUMN -->
+            <div class="column">
+                <div class="column-header">
+                    <h3>Deployed</h3>
+                    <span class="count">{{ getTasksByStatus('DONE').length }}</span>
+                </div>
+                <div class="task-list">
+                    <div *ngFor="let task of getTasksByStatus('DONE')" class="task-card completed">
+                        <div class="task-priority" [attr.data-priority]="task.priority"></div>
+                        <h4>{{ task.title }}</h4>
+                        <div class="card-actions">
+                            <button (click)="deleteTask(task.id!)" class="btn-icon btn-danger">🗑</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>

@@ -1,47 +1,79 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+interface DevOpsTask {
+    id?: number;
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    createdAt?: string;
+}
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
     title = 'DevOps Platform';
-    backendStatus: any = { status: 'Checking...', message: 'Initializing connection to API...' };
-    dashboardData: any = null;
+    backendStatus: any = { status: 'Checking...', message: 'Connecting to API...' };
+    tasks: DevOpsTask[] = [];
 
-    pipelineSteps = [
-        { name: 'Build', status: 'success', icon: '📦' },
-        { name: 'SAST Scan', status: 'success', icon: '🔍' },
-        { name: 'SCA Analysis', status: 'success', icon: '🛡️' },
-        { name: 'Docker Push', status: 'success', icon: '🐳' },
-        { name: 'GitOps Sync', status: 'success', icon: '🔄' }
-    ];
+    newTask: DevOpsTask = {
+        title: '',
+        description: '',
+        status: 'TODO',
+        priority: 'MEDIUM'
+    };
 
     constructor(private http: HttpClient) { }
 
     ngOnInit() {
         this.checkBackend();
-        this.fetchDashboard();
+        this.loadTasks();
     }
 
     checkBackend() {
-        this.http.get('/api/status').subscribe({
+        this.http.get<any>('/api/health').subscribe({
             next: (data) => this.backendStatus = data,
-            error: (err) => {
-                this.backendStatus = { status: 'ERROR', message: 'Backend unreachable' };
+            error: () => this.backendStatus = { status: 'OFFLINE', message: 'Backend unreachable' }
+        });
+    }
+
+    loadTasks() {
+        this.http.get<DevOpsTask[]>('/api/tasks').subscribe({
+            next: (data) => this.tasks = data,
+            error: () => console.error('Failed to load tasks')
+        });
+    }
+
+    addTask() {
+        if (!this.newTask.title) return;
+        this.http.post<DevOpsTask>('/api/tasks', this.newTask).subscribe({
+            next: (task) => {
+                this.tasks.push(task);
+                this.newTask = { title: '', description: '', status: 'TODO', priority: 'MEDIUM' };
             }
         });
     }
 
-    fetchDashboard() {
-        this.http.get('/api/dashboard').subscribe({
-            next: (data) => this.dashboardData = data,
-            error: (err) => console.error('Dashboard error:', err)
+    updateTaskStatus(task: DevOpsTask, newStatus: string) {
+        task.status = newStatus;
+        this.http.put(`/api/tasks/${task.id}`, task).subscribe();
+    }
+
+    deleteTask(id: number) {
+        this.http.delete(`/api/tasks/${id}`).subscribe({
+            next: () => this.tasks = this.tasks.filter(t => t.id !== id)
         });
+    }
+
+    getTasksByStatus(status: string) {
+        return this.tasks.filter(t => t.status === status);
     }
 }

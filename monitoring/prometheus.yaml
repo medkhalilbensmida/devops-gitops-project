@@ -6,7 +6,17 @@ metadata:
 data:
   prometheus.yml: |
     global:
-      scrape_interval: 15s
+      scrape_interval: 5s
+    
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets:
+                - 'alertmanager:9093'
+
+    rule_files:
+      - "/etc/prometheus/alert_rules.yml"
+
     scrape_configs:
       - job_name: 'kubernetes-pods'
         kubernetes_sd_configs:
@@ -24,6 +34,20 @@ data:
             regex: ([^:]+)(?::\d+)?;(\d+)
             replacement: $1:$2
             target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+  alert_rules.yml: |
+    groups:
+      - name: platform_alerts
+        rules:
+          - alert: ServiceDown
+            expr: up{app=~"backend|frontend"} == 0
+            for: 0s
+            labels:
+              severity: critical
+            annotations:
+              summary: "Alerte : Le service {{ $labels.app }} est en panne !"
+              description: "L'instance {{ $labels.instance }} du service {{ $labels.app }} ne répond plus."
 ---
 apiVersion: apps/v1
 kind: Deployment

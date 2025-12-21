@@ -5,9 +5,11 @@ Write-Host "===================================================" -ForegroundColo
 Write-Host "   GITOPS PLATFORM AUTO-DEPLOYMENT" -ForegroundColor Cyan
 Write-Host "===================================================" -ForegroundColor Cyan
 
+$MINIKUBE_BIN = "D:\Kubernetes\Minikube\minikube.exe"
+
 # 1. Enable Ingress
 Write-Host "[1/6] Enabling Minikube Ingress..." -ForegroundColor Yellow
-minikube addons enable ingress
+& $MINIKUBE_BIN addons enable ingress
 
 # 2. Create Namespaces
 Write-Host "[2/6] Creating Namespaces..." -ForegroundColor Yellow
@@ -38,7 +40,7 @@ $decoded_pass = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBas
 
 Write-Host "===================================================" -ForegroundColor Cyan
 Write-Host "DEPLOYMENT INITIATED!" -ForegroundColor Green
-Write-Host "ArgoCD URL: run 'minikube service argocd-server -n argocd'"
+Write-Host "ArgoCD URL: run '& `$MINIKUBE_BIN service argocd-server -n argocd'"
 Write-Host "ArgoCD Login: admin"
 Write-Host "ArgoCD Password: $decoded_pass"
 Write-Host "===================================================" -ForegroundColor Cyan
