@@ -599,39 +599,37 @@
             setTimeout(() => toast.className = '', 3000);
         }
 
-        function runSimulation(type) {
-            if (type === 'resilience') {
-                const cmd = "kubectl delete pods -l app=backend";
-                typeLine(cmd, () => {
-                    print("[INFO] Signal sent to Kubernetes Cluster...");
-                    print("[EVENT] Pods deleted. Waiting for ArgoCD...", "error-out");
-                    setTimeout(() => {
-                        print("[GITOPS] ArgoCD detected 'Out of Sync' state.");
-                        print("[SELF-HEALING] Automating reconciliation...");
-                        print("[SUCCESS] New pods initialized.", "success-out");
-                        copy(cmd);
-                    }, 1000);
-                });
-            } else if (type === 'traffic') {
-                const cmd = "ab -n 1000 -c 10 http://tech-hub.local/api/products";
-                typeLine(cmd, () => {
-                    print("[INFO] Starting Apache Benchmark simulation...");
-                    print("[METRICS] Traffic spikes detected.");
-                    setTimeout(() => {
-                        print("[ALERTE] AlertManager: Status FIRING", "error-out");
-                        copy(cmd);
-                    }, 1500);
-                });
-            } else if (type === 'gitops') {
-                const cmd = "git commit -am 'Update shop theme' && git push";
-                typeLine(cmd, () => {
-                    print("[CI] GitHub Actions Workflow triggered.");
-                    setTimeout(() => {
-                        print("[CD] ArgoCD: Auto-sync in progress...", "success-out");
-                        copy(cmd);
-                    }, 2000);
-                });
-            }
+        async function runSimulation(type) {
+            const bridgeUrl = `http://localhost:5000/run/${type}`;
+
+            // 1. Déterminer la commande pour l'affichage
+            let cmdText = "";
+            if (type === 'resilience') cmdText = "kubectl delete pods -l app=backend";
+            else if (type === 'traffic') cmdText = "ab -n 500 -c 10 http://127.0.0.1:65029/";
+            else if (type === 'gitops') cmdText = "git commit -am 'Manual Trigger' && git push";
+
+            // 2. Animation de frappe
+            typeLine(cmdText, async () => {
+                print(`[BRIDGE] Envoi de l'ordre au cluster...`, "accent");
+
+                try {
+                    const response = await fetch(bridgeUrl);
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        print(`[REAL-TIME] Commande exécutée avec succès !`, "success-out");
+                        print(`<pre>${result.output}</pre>`, "success-out");
+
+                        if (type === 'resilience') {
+                            print("[SYSTEM] ArgoCD va maintenant détecter la panne et recréer les pods.", "accent");
+                        }
+                    } else {
+                        print(`[ERROR] ${result.output}`, "error-out");
+                    }
+                } catch (err) {
+                    print("[FATAL] Le Bridge n'est pas lancé ! Lancez 'node demo_bridge.js' dans votre terminal.", "error-out");
+                }
+            });
         }
     </script>
 </body>
