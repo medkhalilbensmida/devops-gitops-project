@@ -1,223 +1,181 @@
-<!-- Modern Navigation Bar -->
-<nav class="glass-nav">
-    <div class="nav-content">
-        <!-- Brand -->
-        <div class="brand" (click)="switchView('shop')">TECH<span>PRO</span></div>
+<div class="main-container" [class.theme-light]="!isDarkMode" [class.rtl]="currentLang === 'ar'">
 
-        <!-- Main Navigation Links -->
-        <div class="main-menu">
-            <a (click)="switchView('shop')" [class.active]="currentView === 'shop'">Store</a>
-            <a (click)="switchView('admin')" [class.active]="currentView === 'admin'">Admin Console</a>
-            <a href="#">Support</a>
+    <!-- Navigation -->
+    <nav class="navbar-pro">
+        <div class="nav-wrapper">
+            <div class="brand" (click)="switchView('shop')">TECH<span>HUB</span></div>
+
+            <div class="menu-desktop">
+                <a (click)="switchView('shop')" [class.active]="currentView === 'shop'">{{ t('store') }}</a>
+                <a (click)="switchView('admin')" [class.active]="currentView === 'admin'">{{ t('admin') }}</a>
+                <a (click)="switchView('contact')" [class.active]="currentView === 'contact'">{{ t('contact') }}</a>
+            </div>
+
+            <div class="nav-controls">
+                <div class="lang-switcher">
+                    <button (click)="setLanguage('fr')" [class.active]="currentLang === 'fr'">FR</button>
+                    <button (click)="setLanguage('en')" [class.active]="currentLang === 'en'">EN</button>
+                    <button (click)="setLanguage('ar')" [class.active]="currentLang === 'ar'">AR</button>
+                </div>
+
+                <button class="theme-toggle" (click)="toggleTheme()">
+                    {{ isDarkMode ? '☀️' : '🌙' }}
+                </button>
+
+                <button class="cart-trigger" (click)="toggleCart()">
+                    <span class="icon">🛒</span>
+                    <span class="badge" *ngIf="cart.length">{{ cart.length }}</span>
+                </button>
+
+                <button class="mobile-menu-btn" (click)="toggleMobileMenu()">☰</button>
+            </div>
         </div>
 
-        <!-- Right Side Actions -->
-        <div class="nav-actions">
-            <div class="search-box" *ngIf="currentView === 'shop'">
-                <span>🔍</span>
-                <input [(ngModel)]="searchQuery" placeholder="Find premium tech..." type="text">
-            </div>
-
-            <button class="cart-btn" *ngIf="currentView === 'shop'" (click)="toggleCart()">
-                <span class="icon">🛒</span>
-                <span class="badge" *ngIf="cart.length">{{ cart.length }}</span>
-            </button>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+            <a (click)="switchView('shop')">{{ t('store') }}</a>
+            <a (click)="switchView('admin')">{{ t('admin') }}</a>
+            <a (click)="switchView('contact')">{{ t('contact') }}</a>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- Sub-Navigation for Categories -->
-<div class="sub-nav" *ngIf="currentView === 'shop'">
-    <div class="category-links">
-        <button *ngFor="let cat of categories" [class.selected]="currentCategory === cat"
-            (click)="currentCategory = cat">
-            {{ cat }}
-        </button>
-    </div>
-</div>
+    <!-- Main Content -->
+    <div class="page-content" [class.blurred]="isCartOpen">
 
-<div class="page-wrapper" [class.blurred-bg]="isCartOpen">
-
-    <!-- SHOPPING VIEW -->
-    <div *ngIf="currentView === 'shop'" class="animate-fade">
-        <header class="hero-section">
-            <div class="hero-text">
-                <span class="upper-title">Next-Gen Technology Hub</span>
-                <h1>Upgrade Your Workspace</h1>
-                <p>Premium curated collection of High-Performance hardware for Developers and Creatives.</p>
-            </div>
-        </header>
-
-        <main class="store-grid">
-            <div class="grid-header">
-                <h2>{{ currentCategory }} Products</h2>
-                <span>{{ filteredProducts.length }} items available</span>
-            </div>
-
-            <div class="products-container">
-                <div class="store-card" *ngFor="let product of filteredProducts">
-                    <div class="card-media">
-                        <img [src]="product.imageUrl" [alt]="product.name"
-                            onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400'">
-                        <div class="item-tag">{{ product.category }}</div>
-                        <button class="add-to-cart-overlay" (click)="addToCart(product)">Add to Cart</button>
+        <!-- View: Store -->
+        <div *ngIf="currentView === 'shop'" class="animate-in">
+            <header class="hero-banner">
+                <div class="hero-content">
+                    <h1>{{ t('welcome') }}</h1>
+                    <p>{{ t('hero_p') }}</p>
+                    <div class="search-area">
+                        <input [(ngModel)]="searchQuery" [placeholder]="t('search')" type="text">
                     </div>
-                    <div class="card-details">
-                        <h3>{{ product.name }}</h3>
-                        <p class="desc">{{ product.description }}</p>
-                        <div class="card-row">
-                            <span class="price-val">${{ product.price | number:'1.2-2' }}</span>
-                            <div class="vibrant-stock">● In Stock</div>
+                </div>
+            </header>
+
+            <section class="storefront">
+                <div class="category-drawer">
+                    <button *ngFor="let cat of categories" [class.active]="currentCategory === cat"
+                        (click)="currentCategory = cat">
+                        {{ cat }}
+                    </button>
+                </div>
+
+                <div class="product-grid">
+                    <div class="product-card" *ngFor="let product of filteredProducts">
+                        <div class="card-img">
+                            <img [src]="product.imageUrl" [alt]="product.name"
+                                onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400'">
+                        </div>
+                        <div class="card-info">
+                            <h3>{{ product.name }}</h3>
+                            <p>{{ product.description }}</p>
+                            <div class="card-bottom">
+                                <span class="price">${{ product.price | number:'1.2-2' }}</span>
+                                <button class="btn-add" (click)="addToCart(product)">{{ t('add_to_cart') }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- ADMIN DASHBOARD VIEW -->
-    <div *ngIf="currentView === 'admin'" class="admin-view animate-fade">
-        <div class="admin-hero">
-            <div class="hero-inner">
-                <h1>Command Center</h1>
-                <p>Real-time analytics and order orchestration platform.</p>
-            </div>
+            </section>
         </div>
 
-        <div class="admin-content">
-            <div class="analytics-row">
-                <div class="metric">
-                    <label>Total Volume</label>
-                    <div class="val">{{ orders.length }} Orders</div>
-                </div>
-                <div class="metric">
-                    <label>Gross Revenue</label>
-                    <div class="val highlight">${{ totalRevenue | number:'1.2-2' }}</div>
-                </div>
-                <div class="metric">
-                    <label>Platform Status</label>
-                    <div class="val success">Operational</div>
-                </div>
-            </div>
-
-            <div class="orders-section">
-                <div class="section-top">
-                    <h3>Recent Transactions</h3>
-                    <button (click)="loadOrders()" class="sync-btn">Refresh Data</button>
-                </div>
-
-                <div class="table-container">
-                    <table class="pro-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer Details</th>
-                                <th>Products Purchased</th>
-                                <th>Purchase Date</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Orchestration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let order of orders">
-                                <td><span class="id-badge">#{{ order.id }}</span></td>
-                                <td>
-                                    <div class="cust-info">
-                                        <b>{{ order.customerName }}</b>
-                                        <span>{{ order.customerEmail }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="items-list">
-                                        <span *ngFor="let p of order.productNames">{{ p }}</span>
-                                    </div>
-                                </td>
-                                <td>{{ order.orderDate | date:'medium' }}</td>
-                                <td class="total-col">${{ order.totalAmount | number:'1.2-2' }}</td>
-                                <td><span class="status-pill" [attr.data-status]="order.status">{{ order.status
-                                        }}</span></td>
-                                <td>
-                                    <div class="control-btns">
-                                        <button (click)="updateOrderStatus(order.id!, 'SHIPPED')"
-                                            *ngIf="order.status === 'PENDING'" class="ship">Process Ship</button>
-                                        <button (click)="updateOrderStatus(order.id!, 'DELIVERED')"
-                                            *ngIf="order.status === 'SHIPPED'" class="deliver">Complete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div *ngIf="orders.length === 0" class="empty-orders">
-                        <p>No transactions detected in the system.</p>
+        <!-- View: Admin -->
+        <div *ngIf="currentView === 'admin'" class="admin-view animate-in">
+            <div class="admin-header">
+                <h2>📊 {{ t('orders_title') }}</h2>
+                <div class="stats-row">
+                    <div class="stat">
+                        <label>{{ t('orders_title') }}</label>
+                        <span>{{ orders.length }}</span>
+                    </div>
+                    <div class="stat">
+                        <label>{{ t('revenue') }}</label>
+                        <span>${{ totalRevenue | number:'1.2-2' }}</span>
                     </div>
                 </div>
             </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders">
+                            <td>{{ order.customerName }}</td>
+                            <td>${{ order.totalAmount }}</td>
+                            <td><span class="status-pill" [attr.data-status]="order.status">{{ order.status }}</span>
+                            </td>
+                            <td>{{ order.orderDate | date:'short' }}</td>
+                            <td>
+                                <button (click)="updateOrderStatus(order.id!, 'EXPÉDIÉ')"
+                                    *ngIf="order.status === 'PENDING'">Expédier</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</div>
 
-<!-- Sliding Cart Drawer -->
-<div class="cart-drawer" [class.drawer-open]="isCartOpen">
-    <div class="drawer-header">
-        <h2>Your Cart ({{ cart.length }})</h2>
-        <button class="close-drawer" (click)="toggleCart()">✕</button>
-    </div>
-
-    <div class="drawer-body">
-        <div class="cart-scroll-area" *ngIf="cart.length > 0">
-            <div class="cart-item-card" *ngFor="let item of cart; let i = index">
-                <img [src]="item.imageUrl" [alt]="item.name">
-                <div class="item-meta">
-                    <h4>{{ item.name }}</h4>
-                    <span class="item-price">${{ item.price | number:'1.2-2' }}</span>
+        <!-- View: Contact -->
+        <div *ngIf="currentView === 'contact'" class="contact-view animate-in">
+            <div class="contact-container">
+                <h2>✉️ {{ t('contact_title') }}</h2>
+                <div class="contact-form">
+                    <input [(ngModel)]="contactForm.name" placeholder="Nom" type="text">
+                    <input [(ngModel)]="contactForm.email" placeholder="Email" type="email">
+                    <input [(ngModel)]="contactForm.subject" placeholder="Sujet" type="text">
+                    <textarea [(ngModel)]="contactForm.message" placeholder="Votre message"></textarea>
+                    <button class="btn-send" (click)="sendContact()">{{ t('send') }}</button>
                 </div>
-                <button class="delete-item" (click)="removeFromCart(i)">🗑</button>
+                <div class="alert-success" *ngIf="contactMsgSent">
+                    Message envoyé avec succès ! Nous vous répondrons bientôt.
+                </div>
             </div>
-        </div>
-        <div class="empty-cart-state" *ngIf="cart.length === 0">
-            <div class="placeholder-icon">🛒</div>
-            <p>Your shopping cart is waiting for premium tech.</p>
         </div>
     </div>
 
-    <div class="drawer-footer" *ngIf="cart.length > 0">
-        <div class="summary-total">
-            <span>Subtotal</span>
-            <span>${{ total | number:'1.2-2' }}</span>
+    <!-- Side Cart -->
+    <div class="cart-drawer" [class.open]="isCartOpen">
+        <div class="drawer-header">
+            <h3>{{ t('cart') }} ({{ cart.length }})</h3>
+            <button class="close-btn" (click)="toggleCart()">✕</button>
         </div>
-        <div class="checkout-gui">
-            <div class="gui-input">
-                <label>Shipping Name</label>
-                <input [(ngModel)]="customer.name" placeholder="Full Name" type="text">
+        <div class="drawer-body">
+            <div class="cart-item" *ngFor="let item of cart; let i = index">
+                <span>{{ item.name }}</span>
+                <b>${{ item.price }}</b>
+                <button (click)="removeFromCart(i)">🗑</button>
             </div>
-            <div class="gui-input">
-                <label>Email Receipt</label>
-                <input [(ngModel)]="customer.email" placeholder="email@example.com" type="email">
+        </div>
+        <div class="drawer-footer" *ngIf="cart.length > 0">
+            <div class="cart-total">
+                <span>{{ t('total') }}</span>
+                <span>${{ total | number:'1.2-2' }}</span>
             </div>
-            <button class="finish-order-btn" (click)="checkout()" [disabled]="!customer.name || !customer.email">
-                Verify and Place Order
-            </button>
+            <div class="checkout-form">
+                <input [(ngModel)]="customer.name" placeholder="Nom Complet" type="text">
+                <input [(ngModel)]="customer.email" placeholder="Email" type="email">
+                <button (click)="checkout()" [disabled]="!customer.name || !customer.email">{{ t('checkout') }}</button>
+            </div>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    <div class="success-overlay" *ngIf="orderPlaced">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h2>{{ t('order_success') }}</h2>
+            <button (click)="orderPlaced = false" class="btn-close">Continuer</button>
+        </div>
+    </div>
+
 </div>
-
-<!-- Order Confirmation Overlay -->
-<div class="modal-overlay" *ngIf="orderPlaced">
-    <div class="modal-content">
-        <div class="success-ring">✓</div>
-        <h2>Transaction Successful</h2>
-        <p>Order for <b>${{ lastOrderTotal | number:'1.2-2' }}</b> has been processed.</p>
-        <button (click)="orderPlaced = false" class="return-btn">Continue Shopping</button>
-    </div>
-</div>
-
-<footer class="pro-footer">
-    <div class="footer-wrap">
-        <div class="footer-logo">TECH<span>PRO</span></div>
-        <p>Advanced Microservices & GitOps Showcase Platform</p>
-        <div class="social-sim">
-            <span>LinkedIn</span> • <span>GitHub</span> • <span>Twitter</span>
-        </div>
-    </div>
-</footer>

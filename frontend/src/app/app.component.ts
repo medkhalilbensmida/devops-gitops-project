@@ -22,6 +22,12 @@ interface Order {
     status?: string;
 }
 
+interface Translation {
+    [key: string]: {
+        [key: string]: string;
+    };
+}
+
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -37,10 +43,22 @@ export class AppComponent implements OnInit {
     // UI State
     isCartOpen = false;
     orderPlaced = false;
-    currentView: 'shop' | 'admin' = 'shop';
+    currentView: 'shop' | 'admin' | 'contact' = 'shop';
     currentCategory = 'All';
     searchQuery = '';
     lastOrderTotal = 0;
+    isDarkMode = true;
+    currentLang: 'fr' | 'en' | 'ar' = 'fr';
+    isMobileMenuOpen = false;
+
+    // Contact Form
+    contactForm = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    };
+    contactMsgSent = false;
 
     customer = {
         name: '',
@@ -49,10 +67,84 @@ export class AppComponent implements OnInit {
 
     categories = ['All', 'Laptops', 'Monitors', 'Audio', 'Gadgets', 'Accessories', 'Office'];
 
+    translations: Translation = {
+        fr: {
+            store: 'Boutique',
+            admin: 'Administration',
+            contact: 'Contact',
+            cart: 'Panier',
+            search: 'Rechercher un produit...',
+            welcome: 'Améliorez votre espace de travail',
+            hero_p: 'Collection premium de matériel haute performance pour les développeurs et créatifs.',
+            available: 'En stock',
+            add_to_cart: 'Ajouter au panier',
+            total: 'Total',
+            checkout: 'Vérifier et commander',
+            order_success: 'Commande réussie !',
+            revenue: 'Chiffre d\'affaires',
+            orders_title: 'Gestion des Commandes',
+            contact_title: 'Contactez-nous',
+            send: 'Envoyer le message',
+            lang: 'Langue',
+            theme: 'Thème',
+            filter: 'Tous les produits',
+            no_orders: 'Aucune commande détectée.'
+        },
+        en: {
+            store: 'Store',
+            admin: 'Admin',
+            contact: 'Contact',
+            cart: 'Cart',
+            search: 'Search products...',
+            welcome: 'Upgrade Your Workspace',
+            hero_p: 'Premium curated collection of High-Performance hardware for Developers.',
+            available: 'In Stock',
+            add_to_cart: 'Add to Cart',
+            total: 'Total',
+            checkout: 'Place Order',
+            order_success: 'Order Successful!',
+            revenue: 'Gross Revenue',
+            orders_title: 'Order Management',
+            contact_title: 'Contact Us',
+            send: 'Send Message',
+            lang: 'Language',
+            theme: 'Theme',
+            filter: 'All products',
+            no_orders: 'No orders found.'
+        },
+        ar: {
+            store: 'المتجر',
+            admin: 'الإدارة',
+            contact: 'اتصل بنا',
+            cart: 'السلة',
+            search: 'البحث عن المنتجات...',
+            welcome: 'قم بترقية مساحة عملك',
+            hero_p: 'مجموعة متميزة من الأجهزة عالية الأداء للمبرمجين والمبدعين.',
+            available: 'في المخزن',
+            add_to_cart: 'أضف إلى السلة',
+            total: 'المجموع',
+            checkout: 'إتمام الطلب',
+            order_success: 'تم الطلب بنجاح!',
+            revenue: 'إجمالي الإيرادات',
+            orders_title: 'إدارة الطلبات',
+            contact_title: 'اتصل بنا',
+            send: 'إرسال الرسالة',
+            lang: 'اللغة',
+            theme: 'الوضع',
+            filter: 'جميع المنتجات',
+            no_orders: 'لم يتم العثور على طلبات.'
+        }
+    };
+
     constructor(private http: HttpClient) { }
 
     ngOnInit() {
         this.loadProducts();
+        // Initial language set to French
+    }
+
+    t(key: string): string {
+        return this.translations[this.currentLang][key] || key;
     }
 
     loadProducts() {
@@ -64,10 +156,7 @@ export class AppComponent implements OnInit {
 
     loadOrders() {
         this.http.get<Order[]>('/api/orders').subscribe({
-            next: (data: Order[]) => {
-                this.orders = data;
-                console.log('Orders loaded:', this.orders);
-            },
+            next: (data: Order[]) => this.orders = data,
             error: (err: any) => console.error('Error loading orders', err)
         });
     }
@@ -113,11 +202,19 @@ export class AppComponent implements OnInit {
                 this.orderPlaced = true;
                 this.cart = [];
                 this.isCartOpen = false;
-                // Auto reload orders if we ever switch to admin later
                 this.loadOrders();
                 setTimeout(() => this.orderPlaced = false, 5000);
-            },
-            error: (err) => console.error('Checkout failed', err)
+            }
+        });
+    }
+
+    sendContact() {
+        this.http.post('/api/contact', this.contactForm).subscribe({
+            next: () => {
+                this.contactMsgSent = true;
+                this.contactForm = { name: '', email: '', subject: '', message: '' };
+                setTimeout(() => this.contactMsgSent = false, 5000);
+            }
         });
     }
 
@@ -127,14 +224,28 @@ export class AppComponent implements OnInit {
         });
     }
 
-    switchView(view: 'shop' | 'admin') {
+    switchView(view: 'shop' | 'admin' | 'contact') {
         this.currentView = view;
+        this.isMobileMenuOpen = false;
         if (view === 'admin') {
             this.loadOrders();
         }
     }
 
+    toggleTheme() {
+        this.isDarkMode = !this.isDarkMode;
+    }
+
+    setLanguage(lang: 'fr' | 'en' | 'ar') {
+        this.currentLang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+
     toggleCart() {
         this.isCartOpen = !this.isCartOpen;
+    }
+
+    toggleMobileMenu() {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
     }
 }
