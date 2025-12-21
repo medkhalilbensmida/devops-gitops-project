@@ -37,11 +37,11 @@ ingress:
 <<<<<<< HEAD
 
 # Tag for forcing redeployments (Updated to latest)
-revision: "44199e0345664aeb8970ad10c8"
+revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
 =======
 # Tag for forcing redeployments
 <<<<<<< HEAD
-revision: "44199e0345664aeb8970ad10c89bbbdd319f6cf9"
+revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
 >>>>>>> d07cd8f1f649a3cc78d2bbe71238ce955a242cdc
 
 database:
@@ -55,6 +55,6 @@ database:
 <<<<<<< HEAD
 =======
 =======
-revision: "44199e0345664aeb8970ad10c89bbbdd319f6cf9"
+revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
 >>>>>>> 52eb8b44b0bbe42e115847b2c5c1efc9a4d46106
 >>>>>>> d07cd8f1f649a3cc78d2bbe71238ce955a242cdc
