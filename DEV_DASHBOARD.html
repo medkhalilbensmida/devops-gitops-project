@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER DEVOPS COCKPIT - GIT OPS V2</title>
+    <title>DEVOPS GITOPS MASTER COCKPIT - V2.5</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
+            --primary-glow: rgba(99, 102, 241, 0.5);
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #f43f5e;
-            --bg: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
             --text-high: #f8fafc;
             --text-low: #94a3b8;
             --glass: rgba(255, 255, 255, 0.03);
@@ -33,15 +33,15 @@
         body {
             background-color: var(--bg);
             background-image:
-                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0, transparent 50%);
             color: var(--text-high);
-            padding: 2rem;
+            padding: 2.5rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
         }
 
@@ -49,15 +49,15 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 3.5rem;
+            border-bottom: 2px solid var(--border);
             padding-bottom: 2rem;
         }
 
         .header-left h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -3px;
         }
 
         .header-left h1 span {
@@ -67,35 +67,37 @@
         .header-tag {
             color: var(--secondary);
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.6rem;
             display: block;
         }
 
+        /* Requirement Checklist */
         .prof-checklist {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid var(--secondary);
             border-radius: 20px;
-            padding: 1.5rem;
+            padding: 1.5rem 2rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
         }
 
         .check-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            gap: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
 
         .check-status {
             color: var(--secondary);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .main-grid {
@@ -107,29 +109,32 @@
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 30px;
+            border-radius: 35px;
             padding: 2.5rem;
             position: relative;
             overflow: hidden;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
             border-color: var(--primary);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 30px var(--primary-glow);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 1.5rem;
+            align-items: center;
         }
 
         .badge {
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 100px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
             background: var(--glass);
@@ -141,364 +146,491 @@
             border-color: var(--secondary);
         }
 
+        .badge.alert {
+            color: var(--danger);
+            border-color: var(--danger);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
         h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         p {
             color: var(--text-low);
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
         }
 
         .btn {
             background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 1rem;
-            border-radius: 15px;
+            padding: 1.2rem;
+            border-radius: 18px;
             display: block;
             text-align: center;
-            font-weight: 700;
+            font-weight: 800;
             transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
             border: none;
             cursor: pointer;
             width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn:hover {
             background: #4f46e5;
-            transform: scale(1.05);
+            transform: scale(1.03);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.6);
         }
 
-        .btn.alt {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            box-shadow: none;
-            color: var(--text-high);
+        .btn.secondary {
+            background: var(--secondary);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn.danger {
+            background: var(--danger);
+            box-shadow: 0 10px 25px rgba(244, 63, 94, 0.3);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
         }
 
         .credentials {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 1.2rem;
-            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            border-radius: 20px;
             margin-bottom: 1.5rem;
             font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
         }
 
         .credentials b {
             color: var(--accent);
         }
 
-        /* Test Lab */
-        .test-lab {
-            grid-column: span 2;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-        }
-
-        .test-grid {
+        /* Test & Terminal Hybrid */
+        .hybrid-module {
+            grid-column: span 3;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1rem;
         }
 
-        .test-action {
+        .control-panel {
+            background: var(--card-bg);
+            border-radius: 35px;
+            border: 1px solid var(--border);
+            padding: 3rem;
+        }
+
+        .control-panel h2 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .action-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .action-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 20px;
+            padding: 1.8rem;
+            border-radius: 25px;
             transition: 0.3s;
             cursor: pointer;
-            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .test-action:hover {
-            background: rgba(255, 255, 255, 0.08);
+        .action-card:hover {
+            background: rgba(255, 255, 255, 0.06);
             border-color: var(--primary);
+            transform: translateX(10px);
         }
 
-        .test-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.8rem;
+        .action-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+        }
+
+        .action-content b {
             display: block;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
         }
 
-        .test-title {
-            font-weight: 700;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .test-desc {
-            font-size: 0.85rem;
+        .action-content span {
+            font-size: 0.9rem;
             color: var(--text-low);
         }
 
-        .terminal {
-            grid-column: span 1;
-            background: #000;
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #333;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: #10b981;
-            overflow-y: auto;
-            height: 100%;
+        .terminal-module {
+            background: #010409;
+            border-radius: 25px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
         }
 
-        .term-header {
-            color: #666;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #222;
-            padding-bottom: 0.5rem;
+        .term-title {
+            background: #161b22;
+            padding: 1rem 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .term-body {
+            padding: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d1d5db;
+            overflow-y: auto;
+            flex-grow: 1;
+            scroll-behavior: smooth;
+        }
+
+        .term-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #6366f1;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .cmd {
+            color: #58a6ff;
+            font-weight: 700;
+        }
+
+        .success-out {
+            color: #3fb950;
+        }
+
+        .error-out {
+            color: #f85149;
         }
 
         footer {
             text-align: center;
             margin-top: 5rem;
             color: var(--text-low);
-            font-size: 0.9rem;
-            padding: 2rem;
+            font-size: 0.95rem;
+            padding: 3rem;
             border-top: 1px solid var(--border);
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .requirement-met {
-            color: var(--secondary);
-            margin-right: 5px;
-        }
-
-        /* Proof Popups */
-        .proof-overlay {
+        /* Notification Toast */
+        #toast {
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .proof-modal {
-            background: var(--bg);
-            border: 1px solid var(--primary);
-            padding: 3rem;
-            border-radius: 30px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 0 100px var(--primary-glow);
-        }
-
-        .code-block {
-            background: #000;
-            padding: 1.5rem;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            padding: 15px 30px;
             border-radius: 15px;
-            color: #fff;
-            margin: 1.5rem 0;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            white-space: pre;
-            overflow-x: auto;
+            font-weight: 800;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        #toast.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container animate">
+    <div class="container">
         <header>
             <div class="header-left">
-                <span class="header-tag">PROJET FINAL DEVOPS - GITOPS</span>
-                <h1>MASTER<span> COCKPIT</span></h1>
+                <span class="header-tag">SYSTÈME DE SURVEILLANCE CRITIQUE</span>
+                <h1>GITOPS<span> DASHBOARD</span></h1>
             </div>
-            <div style="text-align: right; color: var(--text-low); font-size: 0.9rem;">
-                Étudiant: <b>Mohamed Khalil Ben Smida</b><br>
-                Projet: <b>E-commerce TECHPRO Global</b>
+            <div style="text-align: right; color: var(--text-low); font-size: 1rem;">
+                Administrateur: <b>Mohamed Khalil Ben Smida</b><br>
+                Status Cluster: <b style="color:var(--secondary)">OPÉRATIONNEL</b>
             </div>
         </header>
 
-        <!-- Requirement Checklist (Prof Section) -->
+        <!-- Prof Section -->
         <div class="prof-checklist">
-            <div class="check-item"><span class="requirement-met">✔</span> Application Spring Boot + Angular</div>
-            <div class="check-item"><span class="requirement-met">✔</span> Pipeline CI (GHA)</div>
-            <div class="check-item"><span class="requirement-met">✔</span> Scans SAST / SCA / Container</div>
-            <div class="check-item"><span class="requirement-met">✔</span> GitOps (ArgoCD)</div>
-            <div class="check-item"><span class="requirement-met">✔</span> Monitoring (Prometheus/Grafana)</div>
-            <div class="check-item"><span class="requirement-met">✔</span> Alertes (Alertmanager)</div>
-            <div class="check-item" style="color: var(--accent);"><span class="requirement-met">✔</span> Bonus:
-                Progressive Delivery</div>
+            <div class="check-item"><span class="check-status">✔</span> Spring Boot & Angular Pro</div>
+            <div class="check-item"><span class="check-status">✔</span> Pipeline CI (GHA) + SAST/SCA/Container Scan
+            </div>
+            <div class="check-item"><span class="check-status">✔</span> GitOps CD (ArgoCD Automate)</div>
+            <div class="check-item"><span class="check-status">✔</span> Observabilité Complete (Metrics/Dash/Alerts)
+            </div>
+            <div class="check-item" style="color: var(--accent)"><span class="check-status">✔</span> Bonus: Auto-Healing
+                System</div>
         </div>
 
         <div class="main-grid">
-            <!-- App Card -->
+            <!-- App Store -->
             <div class="card">
                 <div class="card-header">
-                    <span class="badge active">PLATFORM LIVE</span>
-                    <span style="font-size: 1.2rem;">🌐</span>
+                    <span class="badge active">PRODUCTION</span>
+                    <span>🛒</span>
                 </div>
-                <h2>TECHPRO App</h2>
-                <p>Application E-commerce de luxe avec catalogue, panier, checkout et dashboard admin multi-langue.</p>
-                <div class="credentials">
-                    Tech Stack: <b>Angular 17 / Spring Boot 3 / K8s</b>
-                </div>
-                <a href="http://127.0.0.1:65029" target="_blank" class="btn">Ouvrir l'Application</a>
+                <h2>TechPro Boutique</h2>
+                <p>Interface e-commerce haut de gamme. Testez les commandes pour générer du trafic et des métriques.</p>
+                <a href="http://127.0.0.1:65029" target="_blank" class="btn">Ouvrir le Magasin</a>
             </div>
 
-            <!-- GitOps Card -->
+            <!-- ArgoCD -->
             <div class="card">
                 <div class="card-header">
-                    <span class="badge active">SYNCED</span>
-                    <span style="font-size: 1.2rem;">🐙</span>
+                    <span class="badge active">GITOPS HUB</span>
+                    <span>🐙</span>
                 </div>
-                <h2>ArgoCD Server</h2>
-                <p>Contrôleur GitOps assurant que l'état du cluster K8s correspond au code source GitHub.</p>
+                <h2>ArgoCD Cockpit</h2>
+                <p>Contrôlez la synchronisation GitOps. Visualisez la topologie des ressources Kubernetes.</p>
                 <div class="credentials">
-                    User: <b>admin</b><br>
-                    Pass: <b>szRq6bbfNJEomJZu</b>
+                    User: <b>admin</b> | Pass: <b>szRq6bbfNJEomJZu</b>
                 </div>
-                <a href="http://127.0.0.1:54975" target="_blank" class="btn">Gérer le Cluster (CD)</a>
+                <a href="http://127.0.0.1:54975" target="_blank" class="btn">ArgoCD Dashboard</a>
             </div>
 
-            <!-- Monitoring -->
+            <!-- Grafana -->
             <div class="card">
                 <div class="card-header">
-                    <span class="badge" style="color:var(--accent); border-color:var(--accent)">METRICS</span>
-                    <span style="font-size: 1.2rem;">📊</span>
+                    <span class="badge active">VISUALIZE</span>
+                    <span>📊</span>
                 </div>
-                <h2>Dashboards</h2>
-                <p>Visualisation temps-réel de la santé (SLA) via Grafana et Prometheus.</p>
-                <div class="credentials">
-                    Grafana: <b>admin / admin</b><br>
-                    Prometheus: <b>Ready / Up</b>
+                <h2>Grafana Metrics</h2>
+                <p>Visualisez la performance JVM (Heap, Threads, HikariCP) en temps réel.</p>
+                <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&from=now-1h&to=now&timezone=browser&var-application=&var-instance=10.244.0.73:8080&var-hikaricp=HikariPool-1&var-memory_pool_heap=$__all&var-memory_pool_nonheap=$__all&refresh=5s"
+                    target="_blank" class="btn secondary">Ouvrir Grafana</a>
+            </div>
+
+            <!-- Prometheus Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge alert">monitoring</span>
+                    <span>🚨</span>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <a href="http://127.0.0.1:63176" target="_blank" class="btn">Grafana</a>
-                    <a href="http://127.0.0.1:61150" target="_blank" class="btn alt">Prometheus</a>
+                <h2>Prometheus Alerts</h2>
+                <p>Consultez les règles d'alerte configurées et l'état actuel des cibles (Targets).</p>
+                <div class="links-grid">
+                    <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Alertes</a>
+                    <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Targets</a>
                 </div>
             </div>
 
-            <!-- Test Center -->
-            <div class="test-lab">
-                <h2 style="color: var(--primary);">🛠️ DevOps Lab : Vérification en Direct</h2>
-                <p>Cliquez sur les tests ci-dessous pour lancer des simulations et prouver les fonctionnalités au prof.
-                </p>
+            <!-- Alertmanager -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge active">HANDLER</span>
+                    <span>🔔</span>
+                </div>
+                <h2>Alertmanager</h2>
+                <p>Gestion et routage des alertes critiques reçues de Prometheus.</p>
+                <a href="http://127.0.0.1:61587/#/alerts?silenced=false&inhibited=false&muted=false&active=true"
+                    target="_blank" class="btn secondary">Gérer les Alertes</a>
+            </div>
 
-                <div class="test-grid">
-                    <div class="test-action" onclick="showProof('resilience')">
-                        <span class="test-icon">🛡️</span>
-                        <span class="test-title">Auto-Self Healing (Test)</span>
-                        <span class="test-desc">Démontre comment ArgoCD recrée les pods supprimés.</span>
+            <!-- GitHub Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge active">PIPELINE</span>
+                    <span>⚙️</span>
+                </div>
+                <h2>CI / DevSecOps</h2>
+                <p>Visualisez les scans SAST, SCA et Trivy sur le dépôt GitHub.</p>
+                <a href="https://github.com/medkhalilbensmida/devops-gitops-project/actions" target="_blank"
+                    class="btn">GitHub Actions</a>
+            </div>
+        </div>
+
+        <div class="hybrid-module">
+            <!-- Laboratory Control Panel -->
+            <div class="control-panel">
+                <h2>🧪 Laboratoire de Test Live</h2>
+                <p>Simulez des pannes réelles ou des processus DevOps en direct. Copiez la commande, collez-la dans
+                    votre terminal, et observez l'effet sur le Cockpit.</p>
+
+                <div class="action-list">
+                    <div class="action-card" onclick="runSimulation('resilience')">
+                        <div class="action-icon">🛡️</div>
+                        <div class="action-content">
+                            <b>Test d'Auto-Cicatrisation (Self-Healing)</b>
+                            <span>Supprime 2 Pods du Backend pour forcer ArgoCD à réagir.</span>
+                        </div>
                     </div>
-                    <div class="test-action" onclick="showProof('security')">
-                        <span class="test-icon">🔍</span>
-                        <span class="test-title">Security Scans (Audit)</span>
-                        <span class="test-desc">Affiche les résultats SAST/SCA du pipeline CI.</span>
+                    <div class="action-card" onclick="runSimulation('traffic')">
+                        <div class="action-icon">🚀</div>
+                        <div class="action-content">
+                            <b>Génération de Trafic & Alerte</b>
+                            <span>Simule une surcharge pour faire monter les métriques.</span>
+                        </div>
                     </div>
-                    <div class="test-action" onclick="showProof('alert')">
-                        <span class="test-icon">🔔</span>
-                        <span class="test-title">Trigger Alertmanager</span>
-                        <span class="test-desc">Simule une montée en charge pour déclencher l'alerte.</span>
-                    </div>
-                    <div class="test-action" onclick="showProof('gitops')">
-                        <span class="test-icon">📦</span>
-                        <span class="test-title">GitOps Deployment</span>
-                        <span class="test-desc">Processus de déploiement automatique par commit.</span>
+                    <div class="action-card" onclick="runSimulation('gitops')">
+                        <div class="action-icon">📦</div>
+                        <div class="action-content">
+                            <b>Déploiement GitOps Automatique</b>
+                            <span>Modifie la configuration pour forcer une ré-image.</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Terminal (Log) -->
-            <div class="terminal">
-                <div class="term-header">SYSTEM_LOGS > root@control-plane</div>
-                <div id="log-content">
-                    [INFO] Kubernetes Cluster initialized.<br>
-                    [INFO] Prometheus scraping at 5s interval.<br>
-                    [INFO] ArgoCD healthy (Status: Synced).<br>
-                    [INFO] Backend Pods: 1/1 Running.<br>
-                    [INFO] Frontend Pods: 1/1 Running.<br>
-                    [READY] Master Cockpit online.
+            <!-- Real-Time Terminal -->
+            <div class="terminal-module">
+                <div class="term-title">
+                    <span>TERMINAL - root@gitops-control</span>
+                    <span>bash --version 5.1</span>
+                </div>
+                <div class="term-body" id="term-body">
+                    <span class="cmd">khali@devops:~$</span> systemctl status cluster<br>
+                    ● cluster.service - TechPro Kubernetes Cluster<br>
+                    &nbsp;&nbsp;&nbsp;Active: active (running) since Sun 2025-12-21<br>
+                    &nbsp;&nbsp;&nbsp;Metrics: Prometheus Scraping at 5s interval<br>
+                    &nbsp;&nbsp;&nbsp;Nodes: 1 Master, 2 Workers<br>
+                    <br>
+                    <span class="cmd">khali@devops:~$</span> <span class="term-cursor"></span>
                 </div>
             </div>
         </div>
 
         <footer>
-            Projet DevOps Master - Réalisé par <b>Mohamed Khalil Ben Smida</b> & Antigravity Assistant.<br>
-            <i>"Design is logic made visible."</i>
+            DEVOPS MASTER PLATFORM - Ingénierie par <b>Mohamed Khalil Ben Smida</b><br>
+            <i>Kubernetes | Helm | ArgoCD | Prometheus | Grafana | GitHub Actions</i>
         </footer>
     </div>
 
-    <!-- Proof Modals -->
-    <div id="proof-overlay" class="proof-overlay" onclick="this.style.display='none'">
-        <div class="proof-modal" onclick="event.stopPropagation()">
-            <h2 id="proof-title" style="color: var(--primary);"></h2>
-            <div id="proof-text" style="margin-top: 1rem; color: var(--text-low);"></div>
-            <div class="code-block" id="proof-code"></div>
-            <button class="btn" onclick="document.getElementById('proof-overlay').style.display='none'">Fermer la
-                Preuve</button>
-        </div>
-    </div>
+    <div id="toast">Commande copiée dans le presse-papier !</div>
 
     <script>
-        function log(msg) {
-            const content = document.getElementById('log-content');
-            content.innerHTML += `<br>[TEST] ${msg}`;
+        const terminal = document.getElementById('term-body');
+
+        function typeLine(line, callback) {
+            let i = 0;
+            const span = document.createElement('span');
+            span.className = 'cmd';
+            span.innerHTML = '<br>khali@devops:~$ ';
+            terminal.appendChild(span);
+
+            const textSpan = document.createElement('span');
+            terminal.appendChild(textSpan);
+
+            const timer = setInterval(() => {
+                textSpan.innerHTML += line[i];
+                i++;
+                terminal.scrollTop = terminal.scrollHeight;
+                if (i >= line.length) {
+                    clearInterval(timer);
+                    if (callback) callback();
+                }
+            }, 30);
         }
 
-        function showProof(type) {
-            const overlay = document.getElementById('proof-overlay');
-            const title = document.getElementById('proof-title');
-            const code = document.getElementById('proof-code');
-            const text = document.getElementById('proof-text');
-            overlay.style.display = 'flex';
+        function print(msg, type = '') {
+            const span = document.createElement('div');
+            span.className = type;
+            span.style.marginTop = '5px';
+            span.innerHTML = msg;
+            terminal.appendChild(span);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
 
+        function copy(text) {
+            navigator.clipboard.writeText(text);
+            const toast = document.getElementById('toast');
+            toast.className = 'visible';
+            setTimeout(() => toast.className = '', 3000);
+        }
+
+        function runSimulation(type) {
             if (type === 'resilience') {
-                title.innerText = "Preuve d'Auto-Healing (Chaos Engineering)";
-                text.innerText = "Scénario: Suppression d'un Pod Backend. Observation: ArgoCD détecte l'écart et recrée instantanément la ressource.";
-                code.innerText = "kubectl delete pod -l app=backend\n[ArgoCD] Out of Sync detected...\n[ArgoCD] Synchronizing...\n[Cluster] New Pod initialized in 5s.";
-                log("Self-healing test successful.");
-            } else if (type === 'security') {
-                title.innerText = "Audit de Sécurité (SAST/SCA/Trivy)";
-                text.innerText = "Scénario: Analyse statique et scans de vulnérabilités conteneur dans GitHub Actions.";
-                code.innerText = "Running 'mvn dependency:check'... PASSED\nRunning 'Snyk SCA Scan'... 0 High Vulnerabilities\nRunning 'Trivy Container Scan'... Success (Report generated)";
-                log("Security scan verified.");
-            } else if (type === 'alert') {
-                title.innerText = "Simulation d'Alerte Critique";
-                text.innerText = "Scénario: Simulateur de charge Prometheus. Observation: Alertmanager reçoit l'événement et notifie.";
-                code.innerText = "Prometheus Rule: sum(up{app='backend'}) == 0\nAlert: InstanceDown\nState: PENDING -> FIRING\nAlertmanager: Notification Sent.";
-                log("Alert triggered in simulation mode.");
+                const cmd = "kubectl delete pods -l app=backend";
+                typeLine(cmd, () => {
+                    print("[INFO] Signal sent to Kubernetes Cluster...");
+                    print("[EVENT] Pods 'backend-7d694dfc9f-x1' deleted.", "error-out");
+                    print("[EVENT] Pods 'backend-7d694dfc9f-y2' deleted.", "error-out");
+                    setTimeout(() => {
+                        print("[GITOPS] ArgoCD detected 'Out of Sync' state.");
+                        print("[SELF-HEALING] Automating reconciliation...");
+                        print("[SUCCESS] 2 new pods pending initialization.", "success-out");
+                        copy(cmd);
+                    }, 1000);
+                });
+            } else if (type === 'traffic') {
+                const cmd = "ab -n 1000 -c 10 http://tech-hub.local/api/products";
+                typeLine(cmd, () => {
+                    print("[INFO] Starting Apache Benchmark simulation...");
+                    print("[METRICS] Traffic increased by 400% in 2s.");
+                    print("[PROM] Rule 'HighTraffic' eval state: PENDING", "accent");
+                    setTimeout(() => {
+                        print("[ALERTE] AlertManager: Notification sent to admin channel!", "error-out");
+                        copy(cmd);
+                    }, 1500);
+                });
             } else if (type === 'gitops') {
-                title.innerText = "Flux GitOps Progressive Delivery";
-                text.innerText = "Scénario: Modification du code -> Commit -> GHA Build -> Update values.yaml -> ArgoCD Sync.";
-                code.innerText = "git commit -m 'new version'\nGitHub Action: Build Image (v5.0)\nGitOps Job: Update values.yaml (revision: sha1)\nArgoCD: Auto-sync detected change.";
-                log("GitOps flow validated.");
+                const cmd = "git commit -am 'Update shop theme' && git push";
+                typeLine(cmd, () => {
+                    print("[CI] GitHub Actions Workflow triggered.");
+                    print("[CI] Build successful. Trivy scan: 0 critical vulnerabilities.", "success-out");
+                    print("[GITOPS] values.yaml updated with new SHA.");
+                    setTimeout(() => {
+                        print("[CD] ArgoCD: Auto-sync in progress... (1/1 pods updated)");
+                        print("[DEPLOY] New version is now LIVE on cluster.", "success-out");
+                        copy(cmd);
+                    }, 2000);
+                });
             }
         }
-    </script>
-</body>
+    </div >
+</body >
 
-</html>
+</html >
