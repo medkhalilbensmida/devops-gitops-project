@@ -19,8 +19,25 @@ public class DevopsApiApplication {
 	public Map<String, String> getStatus() {
 		Map<String, String> status = new HashMap<>();
 		status.put("status", "UP");
-		status.put("message", "Backend is running and healthy");
+		status.put("message", "Backend API is online");
 		status.put("version", "v1");
 		return status;
+	}
+
+	@GetMapping("/api/dashboard")
+	public Map<String, Object> getDashboardData() {
+		Map<String, Object> data = new HashMap<>();
+		data.put("uptime", "4h 12m");
+		data.put("cpuUsage", "12%");
+		data.put("memoryUsage", "512MB");
+		data.put("activeUsers", 15);
+
+		Map<String, String> health = new HashMap<>();
+		health.put("database", "Connected");
+		health.put("redis", "Healthy");
+		health.put("storage", "92% free");
+		data.put("systemHealth", health);
+
+		return data;
 	}
 }

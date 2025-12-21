@@ -11,26 +11,51 @@
     </header>
 
     <main>
-        <section class="hero glass-card">
-            <h2>Welcome to the GitOps Environment</h2>
-            <p>Continuous Deployment via ArgoCD & Kubernetes</p>
+        <!-- Hero Section with Real-Time Stats from Backend -->
+        <section class="hero glass-card animate-slide-up">
+            <div class="hero-content">
+                <h2>GitOps Live Environment</h2>
+                <p>Monitoring system performance and deployment health.</p>
+            </div>
 
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="label">Environments</span>
-                    <span class="value">Production</span>
+            <div class="stats-grid" *ngIf="dashboardData">
+                <div class="stat-item pulse-stat">
+                    <span class="label">CPU Usage</span>
+                    <span class="value">{{ dashboardData.cpuUsage }}</span>
                 </div>
                 <div class="stat-item">
-                    <span class="label">Replicas</span>
-                    <span class="value">4 Pods</span>
+                    <span class="label">Memory</span>
+                    <span class="value">{{ dashboardData.memoryUsage }}</span>
                 </div>
                 <div class="stat-item">
-                    <span class="label">Last Sync</span>
-                    <span class="value">Just now</span>
+                    <span class="label">Uptime</span>
+                    <span class="value">{{ dashboardData.uptime }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Active Users</span>
+                    <span class="value">{{ dashboardData.activeUsers }}</span>
                 </div>
             </div>
         </section>
 
+        <!-- System Health Section from Backend -->
+        <section class="health-section grid-2" *ngIf="dashboardData">
+            <div class="glass-card health-card">
+                <h3><span class="icon">🔌</span> Dependencies</h3>
+                <ul class="health-list">
+                    <li>Database: <span class="badge success">{{ dashboardData.systemHealth.database }}</span></li>
+                    <li>Redis: <span class="badge success">{{ dashboardData.systemHealth.redis }}</span></li>
+                    <li>Storage: <span class="badge info">{{ dashboardData.systemHealth.storage }}</span></li>
+                </ul>
+            </div>
+            <div class="glass-card status-card">
+                <h3><span class="icon">🛰️</span> API Info</h3>
+                <p><strong>Message:</strong> {{ backendStatus.message }}</p>
+                <p><strong>API Version:</strong> <code>{{ backendStatus.version || 'unknown' }}</code></p>
+            </div>
+        </section>
+
+        <!-- Pipeline Tracking -->
         <section class="pipeline-section">
             <h3>CI/CD Lifecycle Tracking</h3>
             <div class="pipeline-flow">
@@ -42,11 +67,6 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section class="backend-info glass-card">
-            <h3>Backend Response Data</h3>
-            <pre>{{ backendStatus | json }}</pre>
         </section>
     </main>
 
