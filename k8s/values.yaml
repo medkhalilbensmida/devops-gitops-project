@@ -34,15 +34,9 @@ ingress:
         - path: /
           pathType: Prefix
           serviceName: frontend
-<<<<<<< HEAD
 
-# Tag for forcing redeployments (Updated to latest)
-revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
-=======
 # Tag for forcing redeployments
-<<<<<<< HEAD
-revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
->>>>>>> d07cd8f1f649a3cc78d2bbe71238ce955a242cdc
+revision: "clean-deployment-v1.0"
 
 database:
   enabled: true
@@ -52,9 +46,3 @@ database:
   db: devops_db
   port: 5432
   storageSize: 1Gi
-<<<<<<< HEAD
-=======
-=======
-revision: "0d49183f8dbf71fb1733a95a9684b43e153155d7"
->>>>>>> 52eb8b44b0bbe42e115847b2c5c1efc9a4d46106
->>>>>>> d07cd8f1f649a3cc78d2bbe71238ce955a242cdc
