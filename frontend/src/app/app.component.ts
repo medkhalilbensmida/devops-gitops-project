@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 interface Product {
     id: number;
     name: string;
+    category: string;
     description: string;
     price: number;
     imageUrl: string;
@@ -44,8 +45,8 @@ export class AppComponent implements OnInit {
 
     loadProducts() {
         this.http.get<Product[]>('/api/products').subscribe({
-            next: (data) => this.products = data,
-            error: (err) => console.error('Error loading products', err)
+            next: (data: Product[]) => this.products = data,
+            error: (err: any) => console.error('Error loading products', err)
         });
     }
 
