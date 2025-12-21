@@ -389,15 +389,19 @@
                         <span class="cmd-icon">🚀</span>
                         <span class="cmd-title">Génération de Charge</span>
                     </div>
-                    <p>Simulez un pic de trafic via une boucle PowerShell native.</p>
+                    <p>Simulez un pic de trafic rapide pour voir la réaction du CPU.</p>
                     <div class="cmd-box">
                         <button class="copy-btn"
-                            onclick="copy('powershell -Command &quot;1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/ -UseBasicParsing | Out-Null }&quot;')">Copier</button>
-                        powershell -Command "1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/
-                        -UseBasicParsing | Out-Null }"
+                            onclick="copy('powershell -Command &quot;1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }&quot;')">Copier</button>
+                        powershell -Command "1..20 | ForEach-Object { Invoke-WebRequest -Uri
+                        http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }"
                     </div>
-                    <div class="expected-result">
-                        <b>Résultat :</b> Testé OK ! Les métriques montent dans Grafana et Prometheus.
+                    <p style="font-size: 0.8rem; margin-top: -10px; color: var(--accent);">🔥 Option démo : <b>Stress
+                            Test (200 req)</b></p>
+                    <div class="cmd-box" style="margin-top: 5px; padding: 0.8rem;">
+                        <button class="copy-btn"
+                            onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \'.\' }&quot;')">Copier</button>
+                        Stress Test (Long)
                     </div>
                 </div>
 
