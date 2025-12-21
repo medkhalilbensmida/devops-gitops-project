@@ -89,13 +89,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Update Helm Chart values
+      - name: Update Helm Chart Revision
         run: |
-          # In a real GitOps repo, we would update the image tags here
-          # For example using yq:
-          # yq -i '.backend.image.tag = "${{ github.sha }}"' k8s/values.yaml
-          echo "Updating GitOps repo..."
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          # git commit -am "Update image tags to ${{ github.sha }}"
-          # git push
+          # Use sed to update the revision with the current commit SHA
+          sed -i 's/revision: .*/revision: "${{ github.sha }}"/' k8s/values.yaml
+          git add k8s/values.yaml
+          git commit -m "GitOps: Update deployment revision to ${{ github.sha }}"
+          git push

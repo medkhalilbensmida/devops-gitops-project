@@ -34,3 +34,5 @@ ingress:
         - path: /
           pathType: Prefix
           serviceName: frontend
+# Tag for forcing redeployments
+revision: "initial"
