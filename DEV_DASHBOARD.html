@@ -442,35 +442,47 @@
                     </div>
                 </div>
 
-                <!-- 5. Bonus: Canary Trigger -->
+                <!-- 5. Bonus: Déclencheur Canary (Action CI/CD) -->
                 <div class="command-card" style="border-left: 5px solid var(--accent);">
                     <div class="command-header">
                         <span class="cmd-icon">&#128037;</span>
-                        <span class="cmd-title">Déclencheur Canary (Live)</span>
+                        <span class="cmd-title">1. Déclencher le Canary (V1 → V2)</span>
                     </div>
-                    <p>Mettez à jour la version Helm pour lancer un déploiement progressif 20% -> 50% -> 100%.</p>
+                    <p><b>ACTION :</b> Cette commande simule une mise à jour applicative en changeant la version dans
+                        Git.</p>
                     <div class="cmd-box">
                         <button class="copy-btn"
-                            onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&quot;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Demo: Canary Rollout Deployment\&quot;; git push origin main')">Copier</button>
-                        LANCER DÉPLOIEMENT CANARY (V2)
+                            onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&apos;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Demo: Canary Rollout Deployment\&quot;; git push origin main')">Copier</button>
+                        LANCER LA MISE À JOUR (GIT PUSH)
+                    </div>
+                    <div class="expected-result">
+                        <b>Où ?</b> Terminal VS Code.<br>
+                        <b>Effet :</b> ArgoCD détecte le commit et lance le Rollout progressif.
                     </div>
                 </div>
 
-                <!-- 6. Bonus: Canary Dashboard View & Steps -->
+                <!-- 6. Bonus: Canary Dashboard & Test Flow -->
                 <div class="command-card" style="border-left: 5px solid var(--accent);">
                     <div class="command-header">
                         <span class="cmd-icon">&#128225;</span>
-                        <span class="cmd-title">Canary Live View (Dashboard)</span>
+                        <span class="cmd-title">2. Visualisation & Guide de Test</span>
                     </div>
-                    <p><b>ÉTAPE 1 :</b> Lancez cette commande dans un terminal Windows séparé.</p>
-                    <div class="cmd-box">
+                    <div class="steps-box"
+                        style="background: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 15px; margin-bottom: 1rem; font-size: 0.82rem; border: 1px dashed var(--accent);">
+                        <b style="color: var(--accent);">MENU DE SOUTENANCE :</b><br>
+                        1. <b>Activer :</b> Lancer la commande ci-dessous.<br>
+                        2. <b>Vérifier :</b> Ouvrez le lien et montrez les 5 pods Backend.<br>
+                        3. <b>Observer :</b> Regardez le passage auto à 20% (1 pod V2).<br>
+                        4. <b>Progression :</b> Après 30s, le trafic passe à 50%.<br>
+                        5. <b>Finaliser :</b> Le cycle se finit à 100% (Tous les pods en V2).
+                    </div>
+                    <div class="cmd-box" style="margin-bottom: 10px;">
                         <button class="copy-btn"
                             onclick="copy('.\kubectl-argo-rollouts.exe dashboard -n devops-prod')">Copier</button>
                         .\kubectl-argo-rollouts.exe dashboard -n devops-prod
                     </div>
-                    <p><b>ÉTAPE 2 :</b> Une fois le terminal actif, cliquez sur le bouton.</p>
-                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Visualisation
-                        Canary</a>
+                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">VOIR LE TRAFIC EN
+                        DIRECT</a>
                 </div>
 
                 <!-- 7. Observabilité & Santé -->
