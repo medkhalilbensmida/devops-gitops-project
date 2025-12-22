@@ -254,6 +254,64 @@
             word-break: break-all;
         }
 
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stack-item {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .stack-item:hover {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .stack-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .stack-name {
+            font-weight: 700;
+            color: var(--text-high);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stack-role {
+            font-size: 0.75rem;
+            color: var(--text-low);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .test-scenario {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .test-scenario b {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+
         .copy-btn {
             position: absolute;
             top: 10px;
@@ -326,13 +384,49 @@
         </header>
 
         <div class="prof-checklist">
-            <div class="check-item"><span class="check-status">&#10004;</span> Spring Boot & Angular</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> CI (GHA) + DevSecOps</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> GitOps CD (ArgoCD)</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> Monitoring (Prom/Graf)</div>
-            <div class="check-item" style="color:var(--accent)"><span class="check-status">&#10004;</span> Self-Healing
-                Verified</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> Spring Boot (Backend)</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> Angular (Frontend)</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> Docker & Multi-stage Build</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> GitHub Actions (CI & DevSecOps)</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> ArgoCD (GitOps CD)</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> Prometheus & Grafana</div>
         </div>
+
+        <section>
+            <h2 style="margin-bottom: 1.5rem; color: var(--secondary);">&#128736; Écosystème Technique</h2>
+            <div class="stack-grid">
+                <div class="stack-item">
+                    <span class="stack-icon">&#128230;</span>
+                    <span class="stack-name">Docker</span>
+                    <span class="stack-role">Conteneurisation</span>
+                </div>
+                <div class="stack-item">
+                    <span class="stack-icon">&#9094;</span>
+                    <span class="stack-name">Kubernetes</span>
+                    <span class="stack-role">Orchestration</span>
+                </div>
+                <div class="stack-item">
+                    <span class="stack-icon">&#128301;</span>
+                    <span class="stack-name">SonarQube</span>
+                    <span class="stack-role">Analyse Qualité</span>
+                </div>
+                <div class="stack-item">
+                    <span class="stack-icon">&#128641;</span>
+                    <span class="stack-name">Helm</span>
+                    <span class="stack-role">Gestion Package</span>
+                </div>
+                <div class="stack-item">
+                    <span class="stack-icon">&#128025;</span>
+                    <span class="stack-name">Argo Rollouts</span>
+                    <span class="stack-role">Canary Deployment</span>
+                </div>
+                <div class="stack-item">
+                    <span class="stack-icon">&#128142;</span>
+                    <span class="stack-name">Postgres SQL</span>
+                    <span class="stack-role">Persistance PVC</span>
+                </div>
+            </div>
+        </section>
 
         <div class="main-grid">
             <!-- Boutique & Backend -->
@@ -383,116 +477,105 @@
                 <div class="command-card">
                     <div class="command-header">
                         <span class="cmd-icon">&#128737;</span>
-                        <span class="cmd-title">Auto-Cicatrisation & SQL</span>
+                        <span class="cmd-title">Résilience & Persistance</span>
                     </div>
-                    <p>Supprimez les Pods Backend. ArgoCD les recréera, et PostgreSQL gardera vos données.</p>
+                    <div class="test-scenario">
+                        <b>Scénario de Test :</b>
+                        1. Supprimer tous les pods backend réels.<br>
+                        2. Regarder ArgoCD les recréer tout de suite (Self-healing).<br>
+                        3. Refaire une commande SQL via Swagger pour prouver que les données n'ont pas disparu (PVC).
+                    </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('kubectl delete pods -l app=backend -n devops-prod')">Copier</button>
                         kubectl delete pods -l app=backend -n devops-prod
                     </div>
-                    <div class="expected-result">
-                        <b>Résultat :</b> Les pods reviennent en "Running" et les produits/orders restent intacts en
-                        base.
-                    </div>
                 </div>
 
-                <!-- 2. Traffic original -->
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128640;</span>
-                        <span class="cmd-title">Génération de Charge</span>
-                    </div>
-                    <p>Simulez un pic de trafic rapide pour voir la réaction du CPU.</p>
-                    <div class="cmd-box">
-                        <button class="copy-btn"
-                            onclick="copy('powershell -Command &quot;1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }&quot;')">Copier</button>
-                        Générer un Pic de Trafic (20 requêtes)
-                    </div>
-                </div>
-
-                <!-- 3. Stress Test -->
+                <!-- 2. Stress Test -->
                 <div class="command-card">
                     <div class="command-header">
                         <span class="cmd-icon">&#128293;</span>
-                        <span class="cmd-title">Stress Test (200 req)</span>
+                        <span class="cmd-title">Observabilité (Stress Test)</span>
                     </div>
-                    <p>Générez un trafic massif pour faire réagir les graphiques Grafana en direct.</p>
+                    <div class="test-scenario">
+                        <b>Scénario de Test :</b>
+                        1. Lancer 200 requêtes API ultra-rapides.<br>
+                        2. Basculer sur Grafana pour voir les pics de CPU et de débit.<br>
+                        3. Démontrer l'alerte Prometheus si le seuil est dépassé.
+                    </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \&apos;.\&apos; }&quot;')">Copier</button>
-                        Démarrer le Stress Test
+                        Lancer le Stress Test (200 req)
                     </div>
                 </div>
 
-                <!-- 4. GitOps original -->
+                <!-- 3. Déploiement Continu -->
                 <div class="command-card">
                     <div class="command-header">
                         <span class="cmd-icon">&#9881;</span>
-                        <span class="cmd-title">Déploiement Continu</span>
+                        <span class="cmd-title">Pipeline CI/CD (GHA)</span>
                     </div>
-                    <p>Déclenchez un cycle CI/CD complet via un commit GitHub.</p>
+                    <div class="test-scenario">
+                        <b>Scénario de Test :</b>
+                        1. Faire un commit vide pour simuler un changement de code.<br>
+                        2. Montrer sur GitHub Actions le Build Docker et le Scan Trivy.<br>
+                        3. Observer la synchronisation automatique dans ArgoCD.
+                    </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('git commit --allow-empty -m &quot;PRO-DEMO: Web Triggered Sync&quot; && git push origin main')">Copier</button>
-                        git commit --allow-empty -m "DEMO: Trigger CI/CD"
-                    </div>
-                    <div class="expected-result">
-                        <b>Résultat :</b> GitHub Actions builds et ArgoCD met à jour le cluster.
+                        Déclencher le Pipeline GitHub
                     </div>
                 </div>
 
-                <!-- 5. Bonus: Déclencheur Canary (Action CI/CD) -->
+                <!-- 4. Canary Step 1 -->
                 <div class="command-card" style="border-left: 5px solid var(--accent);">
                     <div class="command-header">
                         <span class="cmd-icon">&#128037;</span>
-                        <span class="cmd-title">1. Déclencher le Canary (Vi→ Vi+1)</span>
+                        <span class="cmd-title">Canary : Déclenchement (GitOps)</span>
                     </div>
-                    <p><b>ACTION :</b> Cette commande simule une mise à jour applicative en changeant la version dans
-                        Git.</p>
+                    <div class="test-scenario">
+                        <b>Scénario de Test :</b>
+                        Mettre à jour la version du déploiement via Gita. Cela déclenche le Rollout progressif pour
+                        éviter une interruption de service totale.
+                    </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&apos;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Demo: Canary Rollout Deployment\&quot;; git push origin main')">Copier</button>
-                        LANCER LA MISE À JOUR (GIT PUSH)
-                    </div>
-                    <div class="expected-result">
-                        <b>Où ?</b> Terminal VS Code.<br>
-                        <b>Effet :</b> ArgoCD détecte le commit et lance le Rollout progressif.
+                        Lancer Mise à Jour Canary (Push Git)
                     </div>
                 </div>
 
-                <!-- 6. Bonus: Canary Dashboard & Test Flow -->
+                <!-- 5. Canary Step 2 -->
                 <div class="command-card" style="border-left: 5px solid var(--accent);">
                     <div class="command-header">
                         <span class="cmd-icon">&#128225;</span>
-                        <span class="cmd-title">2. Visualisation & Guide de Test</span>
+                        <span class="cmd-title">Canary : Analyse du Trafic</span>
                     </div>
-                    <div class="steps-box"
-                        style="background: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 15px; margin-bottom: 1rem; font-size: 0.82rem; border: 1px dashed var(--accent);">
-                        <b style="color: var(--accent);">MENU DE SOUTENANCE :</b><br>
-                        1. <b>Activer :</b> Lancer la commande ci-dessous.<br>
-                        2. <b>Vérifier :</b> Ouvrez le lien et montrez les 5 pods Backend.<br>
-                        3. <b>Observer :</b> Regardez le passage auto à 20% (1 pod V2).<br>
-                        4. <b>Progression :</b> Après 30s, le trafic passe à 50%.<br>
-                        5. <b>Finaliser :</b> Le cycle se finit à 100% (Tous les pods en V2).
+                    <div class="test-scenario">
+                        <b>Guide de Soutenance :</b>
+                        1. Ouvrez le dashboard de visualisation.<br>
+                        2. Montrez le shift progressif : 20% → 50% → 100%.<br>
+                        3. Expliquez comment cela sécurise la mise en production.
                     </div>
                     <div class="cmd-box" style="margin-bottom: 10px;">
                         <button class="copy-btn"
                             onclick="copy('.\kubectl-argo-rollouts.exe dashboard -n devops-prod')">Copier</button>
                         .\kubectl-argo-rollouts.exe dashboard -n devops-prod
                     </div>
-                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">VOIR LE TRAFIC EN
-                        DIRECT</a>
+                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Vue Graphique
+                        Canary</a>
                 </div>
 
-                <!-- 7. Observabilité & Santé -->
+                <!-- 6. Observabilité System -->
                 <div class="command-card">
                     <div class="command-header">
                         <span class="cmd-icon">&#128680;</span>
-                        <span class="cmd-title">Observabilité System</span>
+                        <span class="cmd-title">Observabilité & Santé</span>
                     </div>
-                    <p>Le Backend est monitoré dynamiquement. <i>Note: Le Frontend (statique) a été exclu du scraping
-                            pour éviter les fausses erreurs.</i></p>
+                    <p>Contrôle final des targets et des seuils d'alertes Kubernetes.</p>
                     <div class="links-grid">
                         <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Alertes</a>
                         <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Cibles
@@ -504,7 +587,7 @@
         </section>
 
         <footer>
-            DASHBOARD DEVOPS MASTER V3.1 - <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b>
+            DASHBOARD DEVOPS MASTER V3.3 - <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b>
         </footer>
     </div>
 
