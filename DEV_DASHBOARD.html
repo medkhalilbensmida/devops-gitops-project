@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏆 MASTER DEVOPS COCKPIT V4.0 - FINAL DELIVERY</title>
+    <title>DEVOPS GITOPS MASTER COCKPIT - V3.0</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
+            --primary-glow: rgba(99, 102, 241, 0.5);
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #f43f5e;
-            --bg: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
             --text-high: #f8fafc;
             --text-low: #94a3b8;
             --glass: rgba(255, 255, 255, 0.03);
@@ -28,16 +28,15 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Outfit', sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--bg);
             background-image:
-                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0, transparent 40%);
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0, transparent 50%);
             color: var(--text-high);
-            padding: 2rem;
+            padding: 2.5rem;
             min-height: 100vh;
         }
 
@@ -49,237 +48,261 @@
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-            background: var(--glass);
-            padding: 2rem;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 2rem;
         }
 
         .header-left h1 {
-            font-size: 2.5rem;
+            font-size: 4rem;
             font-weight: 800;
+            letter-spacing: -3px;
         }
 
         .header-left h1 span {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
         }
 
         .header-tag {
             color: var(--secondary);
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            font-size: 0.7rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.6rem;
             display: block;
         }
 
-        .compliance-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .compliance-box {
+        /* Checklist */
+        .prof-checklist {
             background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 1.5rem;
+            border: 1px solid var(--secondary);
             border-radius: 20px;
-            text-align: center;
-            transition: 0.3s;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3.5rem;
         }
 
-        .compliance-box:hover {
-            border-color: var(--secondary);
-            background: rgba(16, 185, 129, 0.1);
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
 
-        .compliance-box h3 {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+        .check-status {
             color: var(--secondary);
-        }
-
-        .compliance-box p {
-            font-size: 0.8rem;
-            color: var(--text-low);
+            font-size: 1.3rem;
         }
 
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-        }
-
-        .stack-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 25px;
-            padding: 2rem;
+            border-radius: 35px;
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: var(--glass);
+            border: 1px solid var(--border);
+        }
+
+        .badge.active {
+            color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .badge.alert {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-low);
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         .btn {
             background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 12px;
-            display: inline-block;
+            padding: 1rem;
+            border-radius: 15px;
+            display: block;
             text-align: center;
-            font-weight: 700;
+            font-weight: 800;
             transition: 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            width: 100%;
+            text-transform: uppercase;
         }
 
         .btn:hover {
             background: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px var(--primary-glow);
+            transform: scale(1.03);
         }
 
         .btn.secondary {
             background: var(--secondary);
         }
 
-        .btn.outline {
-            background: transparent;
+        .btn.danger {
+            background: var(--danger);
+        }
+
+        .btn.accent {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        /* Test Lab */
+        .test-section {
+            grid-column: span 3;
+            margin-top: 2rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .command-card {
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            color: var(--text-high);
+            padding: 2.5rem;
+            border-radius: 35px;
         }
 
-        .btn.outline:hover {
-            border-color: var(--primary);
-        }
-
-        .cli-container {
-            background: #010409;
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            padding: 2rem;
-        }
-
-        .cli-header {
+        .command-header {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 1.5rem;
+        }
+
+        .cmd-icon {
+            font-size: 2rem;
+        }
+
+        .cmd-title {
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary);
-            font-weight: 700;
         }
 
-        .test-case {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-        }
-
-        .test-case:last-child {
-            border: none;
-        }
-
-        .test-label {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .cmd-block {
-            background: #0d1117;
-            border-radius: 12px;
-            padding: 1rem;
-            position: relative;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: #58a6ff;
-            margin-bottom: 1rem;
+        .cmd-box {
+            background: #010409;
             border: 1px solid #30363d;
+            border-radius: 15px;
+            padding: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #58a6ff;
+            position: relative;
+            margin-bottom: 1.5rem;
+            word-break: break-all;
         }
 
-        .copy-trigger {
+        .copy-btn {
             position: absolute;
-            right: 10px;
             top: 10px;
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 4px 8px;
-            border-radius: 6px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
             font-size: 0.7rem;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .result-info {
-            font-size: 0.85rem;
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
+
+        .expected-result {
+            font-size: 0.9rem;
+            color: var(--text-low);
             border-left: 3px solid var(--secondary);
             padding-left: 15px;
-            color: var(--text-low);
         }
 
-        .tech-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: var(--glass);
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            border: 1px solid var(--border);
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            color: var(--text-low);
+            font-size: 0.95rem;
+            padding: 3rem;
+            border-top: 1px solid var(--border);
         }
 
         #toast {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 30px;
+            right: 30px;
             background: var(--secondary);
-            color: white;
-            padding: 1rem 2rem;
+            padding: 15px 30px;
             border-radius: 15px;
             font-weight: 800;
             transform: translateY(100px);
             opacity: 0;
             transition: 0.4s;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        #toast.active {
+        #toast.visible {
             transform: translateY(0);
             opacity: 1;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-low);
-            font-size: 0.8rem;
-            margin-top: 2rem;
-            border-top: 1px solid var(--border);
         }
     </style>
 </head>
@@ -289,131 +312,142 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <span class="header-tag">DÉMONSTRATION FINALE - SESSION DÉCEMBRE 2025</span>
-                <h1>PLATFORME GITOPS<span> END-TO-END</span></h1>
+                <span class="header-tag">SYSTÈME DE SURVEILLANCE CRITIQUE</span>
+                <h1>DEVOPS<span> COCKPIT</span></h1>
             </div>
-            <div style="text-align: right">
-                <p style="font-weight: 800; font-size: 1.1rem;">Mohamed Khalil Ben Smida</p>
-                <p style="color: var(--secondary); font-weight: 700; font-size: 0.8rem;">PROJET VALIDÉ ÉTAT : PRODUCTION
-                </p>
+            <div style="text-align: right; color: var(--text-low);">
+                Étudiant: <b>Mohamed Khalil Ben Smida</b><br>
+                Étudiante <b>Yasmine Ben Slimane</b><br>
+                Cluster: <b style="color:var(--secondary)">OPÉRATIONNEL</b>
             </div>
         </header>
 
-        <div class="compliance-grid">
-            <div class="compliance-box">
-                <h3>🏗️ Architecture</h3>
-                <p>Fullstack Spring/Angular + PostgreSQL Persistant</p>
-            </div>
-            <div class="compliance-box">
-                <h3>🛡️ DevSecOps CI</h3>
-                <p>SAST, SCA (Snyk) & Container Scan (Trivy)</p>
-            </div>
-            <div class="compliance-box">
-                <h3>🐙 GitOps CD</h3>
-                <p>Synchronisation automatique via ArgoCD & Helm</p>
-            </div>
-            <div class="compliance-box">
-                <h3>📊 Observabilité</h3>
-                <p>Metrics, Live Dashboards & Alerting Critical</p>
-            </div>
+        <div class="prof-checklist">
+            <div class="check-item"><span class="check-status">✔</span> Spring Boot & Angular</div>
+            <div class="check-item"><span class="check-status">✔</span> CI (GHA) + DevSecOps</div>
+            <div class="check-item"><span class="check-status">✔</span> GitOps CD (ArgoCD)</div>
+            <div class="check-item"><span class="check-status">✔</span> Monitoring (Prom/Graf)</div>
+            <div class="check-item" style="color:var(--accent)"><span class="check-status">✔</span> Self-Healing
+                Verified</div>
         </div>
 
         <div class="main-grid">
-            <div class="stack-list">
-                <div class="card">
-                    <h2><span>🌐</span> Application Live</h2>
-                    <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-low);">L'application est
-                        déployée sur le cluster Kubernetes avec Ingress Controller.</p>
-                    <div style="display: flex; gap: 10px;">
-                        <a href="http://127.0.0.1:65029" target="_blank" class="btn">Ouvrir Boutique</a>
-                        <a href="http://127.0.0.1:65029/api/swagger-ui.html" target="_blank"
-                            class="btn secondary">Swagger API</a>
-                    </div>
-                    <div style="margin-top: 1rem; display: flex; gap: 5px; flex-wrap: wrap;">
-                        <span class="tech-badge">Angular 17</span>
-                        <span class="tech-badge">Spring Boot 3.2</span>
-                        <span class="tech-badge">PostgreSQL</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2><span>🐙</span> Centre de Déploiement</h2>
-                    <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-low);">Gestion de l'état du
-                        cluster via ArgoCD (Pull Model).</p>
-                    <a href="http://127.0.0.1:54975" target="_blank" class="btn outline" style="width: 100%;">Accéder à
-                        ArgoCD</a>
-                </div>
-
-                <div class="card">
-                    <h2><span>📈</span> Tour de Contrôle</h2>
-                    <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-low);">Analyse des métriques
-                        JVM et alertes système.</p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <a href="http://127.0.0.1:63176" target="_blank" class="btn outline">Grafana</a>
-                        <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn outline">Alertmanager</a>
-                    </div>
-                </div>
-
-                <div class="card" style="border-color: var(--accent);">
-                    <h2><span>🌟</span> Bonus : Canary Ready</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-low);">L'architecture utilise un révisioning Helm
-                        (`revision: sha`) permettant des Rollouts progressifs et des Rollbacks instantanés en cas
-                        d'échec de scan.</p>
+            <!-- Boutique & Backend -->
+            <div class="card">
+                <div class="card-header"><span class="badge active">APP & API</span><span>🌐</span></div>
+                <h2>Services Live</h2>
+                <p>Accédez à la boutique e-commerce ou testez directement l'API via Swagger.</p>
+                <div class="links-grid">
+                    <a href="http://127.0.0.1:65029" target="_blank" class="btn">Boutique</a>
+                    <a href="http://127.0.0.1:65029/api/swagger-ui.html" target="_blank" class="btn accent">Swagger
+                        UI</a>
                 </div>
             </div>
 
-            <div class="cli-container">
-                <div class="cli-header">🧪 LABORATOIRE DE VALIDATION (LIVE)</div>
+            <!-- ArgoCD -->
+            <div class="card">
+                <div class="card-header"><span class="badge active">GITOPS</span><span>🐙</span></div>
+                <h2>ArgoCD Server</h2>
+                <p>Synchronisation automatique de l'état du cluster.</p>
+                <a href="http://127.0.0.1:54975" target="_blank" class="btn">Dashboard ArgoCD</a>
+            </div>
 
-                <div class="test-case">
-                    <span class="test-label">1. Validation de l'Auto-Heal (Résilience)</span>
-                    <p style="font-size: 0.85rem; color: var(--text-low); margin-bottom: 1rem;">Simulation d'une panne
-                        majeure du backend. ArgoCD doit recréer les pods immédiatement.</p>
-                    <div class="cmd-block">
-                        <button class="copy-trigger"
-                            onclick="copyToClipboard('kubectl delete pods -l app=backend -n devops-prod')">COPIER</button>
-                        kubectl delete pods -l app=backend -n devops-prod
-                    </div>
-                    <div class="result-info"><b>Attendu :</b> Le prof voit les pods passer à 'Terminating' puis de
-                        nouveaux apparaître instantanément.</div>
-                </div>
-
-                <div class="test-case">
-                    <span class="test-label">2. Validation Monitoring & Stress Test</span>
-                    <p style="font-size: 0.85rem; color: var(--text-low); margin-bottom: 1rem;">Générer une charge
-                        artificielle pour faire monter les graphiques Grafana en direct.</p>
-                    <div class="cmd-block">
-                        <button class="copy-trigger"
-                            onclick="copyToClipboard('powershell -Command &quot;1..100 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \'.\' }&quot;')">COPIER</button>
-                        powershell -Command "1..100 | ForEach-Object { iwr -Uri http://127.0.0.1:65029/api/products ...
-                        }"
-                    </div>
-                    <div class="result-info"><b>Attendu :</b> Pic de CPU et de requêtes HTTP visible dans Grafana
-                        (Dashboard JVM).</div>
-                </div>
-
-                <div class="test-case">
-                    <span class="test-label">3. Validation GitOps & SQL Persistence</span>
-                    <p style="font-size: 0.85rem; color: var(--text-low); margin-bottom: 1rem;">Prouver que les données
-                        sont centralisées en base SQL et non volatiles entre les pods.</p>
-                    <div class="result-info">
-                        <b>Action :</b> Faire un <i>POST /api/orders</i> dans Swagger, rafraîchir plusieurs fois, le
-                        résultat du <i>GET</i> reste constant malgré l'équilibrage de charge entre les pods !
-                    </div>
-                </div>
+            <!-- Grafana -->
+            <div class="card">
+                <div class="card-header"><span class="badge active">METRICS</span><span>📊</span></div>
+                <h2>Grafana Analysis</h2>
+                <p>Visualisation temps-réel des métriques JVM et Ingress.</p>
+                <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
+                    target="_blank" class="btn secondary">Ouvrir Grafana</a>
             </div>
         </div>
 
+        <section class="test-section">
+            <h2 style="margin-bottom: 2rem; color: var(--primary);">🧪 Laboratoire de Test (Exécution Manuelle)</h2>
+            <div class="test-grid">
+
+                <!-- Test 1: Resilience -->
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="cmd-icon">🛡️</span>
+                        <span class="cmd-title">Auto-Cicatrisation (Self-Healing)</span>
+                    </div>
+                    <p>Supprimez les Pods Backend du namespace <code>devops-prod</code>.</p>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('kubectl delete pods -l app=backend -n devops-prod')">Copier</button>
+                        kubectl delete pods -l app=backend -n devops-prod
+                    </div>
+                    <div class="expected-result">
+                        <b>Résultat :</b> Testé OK ! ArgoCD recrée les pods immédiatement pour maintenir la haute
+                        disponibilité.
+                    </div>
+                </div>
+
+                <!-- Test 2: Traffic -->
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="cmd-icon">🚀</span>
+                        <span class="cmd-title">Génération de Charge</span>
+                    </div>
+                    <p>Simulez un pic de trafic rapide pour voir la réaction du CPU.</p>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('powershell -Command &quot;1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }&quot;')">Copier</button>
+                        powershell -Command "1..20 | ForEach-Object { Invoke-WebRequest -Uri
+                        http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }"
+                    </div>
+                    <p style="font-size: 0.8rem; margin-top: -10px; color: var(--accent);">🔥 Option démo : <b>Stress
+                            Test (200 req)</b></p>
+                    <div class="cmd-box" style="margin-top: 5px; padding: 0.8rem;">
+                        <button class="copy-btn"
+                            onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \'.\' }&quot;')">Copier</button>
+                        Stress Test (Long)
+                    </div>
+                </div>
+
+                <!-- Test 3: GitOps -->
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="cmd-icon">⚙️</span>
+                        <span class="cmd-title">Déploiement Continu</span>
+                    </div>
+                    <p>Déclenchez un cycle CI/CD complet via un commit GitHub.</p>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('git commit --allow-empty -m &quot;PRO-DEMO: Web Triggered Sync&quot; && git push origin main')">Copier</button>
+                        git commit --allow-empty -m "PRO-DEMO: Web Triggered Sync" && git push origin main
+                    </div>
+                    <div class="expected-result">
+                        <b>Résultat :</b> GitHub Actions builds et ArgoCD met à jour le cluster automatiquement.
+                    </div>
+                </div>
+
+                <!-- Monitoring Status -->
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="cmd-icon">🚨</span>
+                        <span class="cmd-title">État Observabilité</span>
+                    </div>
+                    <p>Vérifiez les alertes actives et la santé des cibles (Targets).</p>
+                    <div class="links-grid" style="margin-top: 10px;">
+                        <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Prom Rules</a>
+                        <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Targets Info</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <footer>
-            Dossier de livraison DEVOPS GITOPS - École Polytechnique / Session 2025<br>
-            <b>Ingénierie menée par Mohamed Khalil Ben Smida</b>
+            DASHBOARD DEVOPS MASTER V3.0 - <b>Mohamed Khalil Ben Smida</b>
         </footer>
     </div>
 
-    <div id="toast">Commande copiée !</div>
+    <div id="toast">Commande copiée dans le presse-papier !</div>
 
     <script>
-        function copyToClipboard(text) {
+        function copy(text) {
             const el = document.createElement('textarea');
             el.value = text;
             document.body.appendChild(el);
@@ -422,11 +456,10 @@
             document.body.removeChild(el);
 
             const toast = document.getElementById('toast');
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 2500);
+            toast.className = 'visible';
+            setTimeout(() => toast.className = '', 3000);
         }
     </script>
-
 </body>
 
 </html>
