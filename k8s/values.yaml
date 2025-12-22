@@ -36,7 +36,7 @@ ingress:
           serviceName: frontend
 
 # Tag for forcing redeployments
-revision: "9e595b28cae03b5433afdc29039c4ba3402a639b"
+revision: "efbaf198020f4824df747f2f920e2019166e818b"
 
 database:
   enabled: true
