@@ -36,7 +36,7 @@ ingress:
           serviceName: frontend
 
 # Tag for forcing redeployments
-revision: "1d14ced0a9c6e07e5d43320832b4151752f19fc7"
+revision: "canary-v2-final-test"
 
 database:
   enabled: true
