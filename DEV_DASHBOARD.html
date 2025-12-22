@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVOPS GITOPS MASTER COCKPIT - V3.0</title>
+    <title>DEVOPS GITOPS MASTER COCKPIT - FINAL</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
@@ -101,7 +101,7 @@
 
         .main-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
@@ -175,6 +175,7 @@
             cursor: pointer;
             width: 100%;
             text-transform: uppercase;
+            margin-top: auto;
         }
 
         .btn:hover {
@@ -200,17 +201,17 @@
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             width: 100%;
+            margin-top: auto;
         }
 
         /* Test Lab */
         .test-section {
-            grid-column: span 3;
             margin-top: 2rem;
         }
 
         .test-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2rem;
         }
 
@@ -219,6 +220,8 @@
             border: 1px solid var(--border);
             padding: 2.5rem;
             border-radius: 35px;
+            display: flex;
+            flex-direction: column;
         }
 
         .command-header {
@@ -275,6 +278,7 @@
             color: var(--text-low);
             border-left: 3px solid var(--secondary);
             padding-left: 15px;
+            margin-top: auto;
         }
 
         footer {
@@ -316,25 +320,24 @@
                 <h1>DEVOPS<span> COCKPIT</span></h1>
             </div>
             <div style="text-align: right; color: var(--text-low);">
-                Étudiant: <b>Mohamed Khalil Ben Smida</b><br>
-                Étudiante <b>Yasmine Ben Slimane</b><br>
+                Étudiant: <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b><br>
                 Cluster: <b style="color:var(--secondary)">OPÉRATIONNEL</b>
             </div>
         </header>
 
         <div class="prof-checklist">
-            <div class="check-item"><span class="check-status">✔</span> Spring Boot & Angular</div>
-            <div class="check-item"><span class="check-status">✔</span> CI (GHA) + DevSecOps</div>
-            <div class="check-item"><span class="check-status">✔</span> GitOps CD (ArgoCD)</div>
-            <div class="check-item"><span class="check-status">✔</span> Monitoring (Prom/Graf)</div>
-            <div class="check-item" style="color:var(--accent)"><span class="check-status">✔</span> Self-Healing
+            <div class="check-item"><span class="check-status">&#10004;</span> Spring Boot & Angular</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> CI (GHA) + DevSecOps</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> GitOps CD (ArgoCD)</div>
+            <div class="check-item"><span class="check-status">&#10004;</span> Monitoring (Prom/Graf)</div>
+            <div class="check-item" style="color:var(--accent)"><span class="check-status">&#10004;</span> Self-Healing
                 Verified</div>
         </div>
 
         <div class="main-grid">
             <!-- Boutique & Backend -->
             <div class="card">
-                <div class="card-header"><span class="badge active">APP & API</span><span>🌐</span></div>
+                <div class="card-header"><span class="badge active">APP & API</span><span>&#127760;</span></div>
                 <h2>Services Live</h2>
                 <p>Accédez à la boutique e-commerce ou testez directement l'API via Swagger.</p>
                 <div class="links-grid">
@@ -344,17 +347,26 @@
                 </div>
             </div>
 
+            <!-- GitHub Actions -->
+            <div class="card">
+                <div class="card-header"><span class="badge active">CI/CD</span><span>&#9889;</span></div>
+                <h2>GitHub Workflows</h2>
+                <p>Pipeline d'intégration et déploiement continu GHA (Build, Scan, Push).</p>
+                <a href="https://github.com/medkhalilbensmida/devops-gitops-project/actions" target="_blank"
+                    class="btn">Actions Lab</a>
+            </div>
+
             <!-- ArgoCD -->
             <div class="card">
-                <div class="card-header"><span class="badge active">GITOPS</span><span>🐙</span></div>
+                <div class="card-header"><span class="badge active">GITOPS</span><span>&#128025;</span></div>
                 <h2>ArgoCD Server</h2>
                 <p>Synchronisation automatique de l'état du cluster.</p>
-                <a href="http://127.0.0.1:54975" target="_blank" class="btn">Dashboard ArgoCD</a>
+                <a href="http://127.0.0.1:54975" target="_blank" class="btn secondary">ArgoCD UI</a>
             </div>
 
             <!-- Grafana -->
             <div class="card">
-                <div class="card-header"><span class="badge active">METRICS</span><span>📊</span></div>
+                <div class="card-header"><span class="badge active">METRICS</span><span>&#128202;</span></div>
                 <h2>Grafana Analysis</h2>
                 <p>Visualisation temps-réel des métriques JVM et Ingress.</p>
                 <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
@@ -363,91 +375,116 @@
         </div>
 
         <section class="test-section">
-            <h2 style="margin-bottom: 2rem; color: var(--primary);">🧪 Laboratoire de Test (Exécution Manuelle)</h2>
+            <h2 style="margin-bottom: 2rem; color: var(--primary);">&#129514; Laboratoire de Démonstration (Soutenance)
+            </h2>
             <div class="test-grid">
 
-                <!-- Test 1: Resilience -->
+                <!-- 1. Persistence & Resilience -->
                 <div class="command-card">
                     <div class="command-header">
-                        <span class="cmd-icon">🛡️</span>
-                        <span class="cmd-title">Auto-Cicatrisation (Self-Healing)</span>
+                        <span class="cmd-icon">&#128737;</span>
+                        <span class="cmd-title">Auto-Cicatrisation & SQL</span>
                     </div>
-                    <p>Supprimez les Pods Backend du namespace <code>devops-prod</code>.</p>
+                    <p>Supprimez les Pods Backend. ArgoCD les recréera, et PostgreSQL gardera vos données.</p>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('kubectl delete pods -l app=backend -n devops-prod')">Copier</button>
                         kubectl delete pods -l app=backend -n devops-prod
                     </div>
                     <div class="expected-result">
-                        <b>Résultat :</b> Testé OK ! ArgoCD recrée les pods immédiatement pour maintenir la haute
-                        disponibilité.
+                        <b>Résultat :</b> Les pods reviennent en "Running" et les produits/orders restent intacts en
+                        base.
                     </div>
                 </div>
 
-                <!-- Test 2: Traffic -->
+                <!-- 2. Traffic original -->
                 <div class="command-card">
                     <div class="command-header">
-                        <span class="cmd-icon">🚀</span>
+                        <span class="cmd-icon">&#128640;</span>
                         <span class="cmd-title">Génération de Charge</span>
                     </div>
                     <p>Simulez un pic de trafic rapide pour voir la réaction du CPU.</p>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('powershell -Command &quot;1..20 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }&quot;')">Copier</button>
-                        powershell -Command "1..20 | ForEach-Object { Invoke-WebRequest -Uri
-                        http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null }"
-                    </div>
-                    <p style="font-size: 0.8rem; margin-top: -10px; color: var(--accent);">🔥 Option démo : <b>Stress
-                            Test (200 req)</b></p>
-                    <div class="cmd-box" style="margin-top: 5px; padding: 0.8rem;">
-                        <button class="copy-btn"
-                            onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \'.\' }&quot;')">Copier</button>
-                        Stress Test (Long)
+                        Générer un Pic de Trafic (20 requêtes)
                     </div>
                 </div>
 
-                <!-- Test 3: GitOps -->
+                <!-- 3. Stress Test -->
                 <div class="command-card">
                     <div class="command-header">
-                        <span class="cmd-icon">⚙️</span>
+                        <span class="cmd-icon">&#128293;</span>
+                        <span class="cmd-title">Stress Test (200 req)</span>
+                    </div>
+                    <p>Générez un trafic massif pour faire réagir les graphiques Grafana en direct.</p>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \&apos;.\&apos; }&quot;')">Copier</button>
+                        Démarrer le Stress Test
+                    </div>
+                </div>
+
+                <!-- 4. GitOps original -->
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="cmd-icon">&#9881;</span>
                         <span class="cmd-title">Déploiement Continu</span>
                     </div>
                     <p>Déclenchez un cycle CI/CD complet via un commit GitHub.</p>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('git commit --allow-empty -m &quot;PRO-DEMO: Web Triggered Sync&quot; && git push origin main')">Copier</button>
-                        git commit --allow-empty -m "PRO-DEMO: Web Triggered Sync" && git push origin main
+                        git commit --allow-empty -m "DEMO: Trigger CI/CD"
                     </div>
                     <div class="expected-result">
-                        <b>Résultat :</b> GitHub Actions builds et ArgoCD met à jour le cluster automatiquement.
+                        <b>Résultat :</b> GitHub Actions builds et ArgoCD met à jour le cluster.
                     </div>
                 </div>
 
-                <!-- NEW: Canary Rollout Status -->
-                <div class="command-card" style="border-color: var(--accent);">
+                <!-- 5. Bonus: Canary Trigger -->
+                <div class="command-card" style="border-left: 5px solid var(--accent);">
                     <div class="command-header">
-                        <span class="cmd-icon">🐤</span>
-                        <span class="cmd-title">Canary Rollout Live</span>
+                        <span class="cmd-icon">&#128037;</span>
+                        <span class="cmd-title">Déclencheur Canary (Live)</span>
                     </div>
-                    <p>Visualisez la progression du déploiement progressif (V1 vers V2).</p>
-                    <div class="cmd-box" style="font-size: 0.75rem;">
+                    <p>Mettez à jour la version Helm pour lancer un déploiement progressif 20% -> 50% -> 100%.</p>
+                    <div class="cmd-box">
                         <button class="copy-btn"
-                            onclick="copy('kubectl argo rollouts dashboard -n devops-prod')">Copier</button>
-                        kubectl argo rollouts dashboard -n devops-prod
+                            onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&quot;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Demo: Canary Rollout Deployment\&quot;; git push origin main')">Copier</button>
+                        LANCER DÉPLOIEMENT CANARY (V2)
                     </div>
-                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Vue Canary</a>
                 </div>
 
-                <!-- Monitoring Status -->
+                <!-- 6. Bonus: Canary Dashboard View & Steps -->
+                <div class="command-card" style="border-left: 5px solid var(--accent);">
+                    <div class="command-header">
+                        <span class="cmd-icon">&#128225;</span>
+                        <span class="cmd-title">Canary Live View (Dashboard)</span>
+                    </div>
+                    <p><b>ÉTAPE 1 :</b> Lancez cette commande dans un terminal Windows séparé.</p>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('.\kubectl-argo-rollouts.exe dashboard -n devops-prod')">Copier</button>
+                        .\kubectl-argo-rollouts.exe dashboard -n devops-prod
+                    </div>
+                    <p><b>ÉTAPE 2 :</b> Une fois le terminal actif, cliquez sur le bouton.</p>
+                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Visualisation
+                        Canary</a>
+                </div>
+
+                <!-- 7. Observabilité & Santé -->
                 <div class="command-card">
                     <div class="command-header">
-                        <span class="cmd-icon">🚨</span>
-                        <span class="cmd-title">État Observabilité</span>
+                        <span class="cmd-icon">&#128680;</span>
+                        <span class="cmd-title">Observabilité System</span>
                     </div>
-                    <p>Vérifiez les alertes actives et la santé des cibles (Targets).</p>
-                    <div class="links-grid" style="margin-top: 10px;">
-                        <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Prom Rules</a>
-                        <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Targets Info</a>
+                    <p>Le Backend est monitoré dynamiquement. <i>Note: Le Frontend (statique) a été exclu du scraping
+                            pour éviter les fausses erreurs.</i></p>
+                    <div class="links-grid">
+                        <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Alertes</a>
+                        <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Cibles
+                            (Targets)</a>
                     </div>
                 </div>
 
@@ -455,7 +492,7 @@
         </section>
 
         <footer>
-            DASHBOARD DEVOPS MASTER V3.0 - <b>Mohamed Khalil Ben Smida</b>
+            DASHBOARD DEVOPS MASTER V3.1 - <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b>
         </footer>
     </div>
 

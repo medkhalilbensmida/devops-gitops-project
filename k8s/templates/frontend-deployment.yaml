@@ -14,9 +14,6 @@ spec:
       labels:
         app: frontend
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/"
-        prometheus.io/port: "80"
         deployment.revision: "{{ .Values.revision }}"
     spec:
       containers:
