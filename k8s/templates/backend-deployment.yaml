@@ -1,11 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "devops-platform.fullname" . }}-backend
   labels:
     app: backend
 spec:
   replicas: {{ .Values.backend.replicaCount }}
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: { duration: 30s }
+        - setWeight: 50
+        - pause: { duration: 30s }
   selector:
     matchLabels:
       app: backend

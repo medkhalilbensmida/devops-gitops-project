@@ -423,6 +423,21 @@
                     </div>
                 </div>
 
+                <!-- NEW: Canary Rollout Status -->
+                <div class="command-card" style="border-color: var(--accent);">
+                    <div class="command-header">
+                        <span class="cmd-icon">🐤</span>
+                        <span class="cmd-title">Canary Rollout Live</span>
+                    </div>
+                    <p>Visualisez la progression du déploiement progressif (V1 vers V2).</p>
+                    <div class="cmd-box" style="font-size: 0.75rem;">
+                        <button class="copy-btn"
+                            onclick="copy('kubectl argo rollouts dashboard -n devops-prod')">Copier</button>
+                        kubectl argo rollouts dashboard -n devops-prod
+                    </div>
+                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Vue Canary</a>
+                </div>
+
                 <!-- Monitoring Status -->
                 <div class="command-card">
                     <div class="command-header">
