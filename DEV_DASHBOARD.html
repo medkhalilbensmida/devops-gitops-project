@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVOPS GITOPS MASTER COCKPIT - FINAL</title>
+    <title>DEVOPS GITOPS MASTER COCKPIT - V6.1 ULTIMATE FINAL</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
@@ -33,100 +33,134 @@
         body {
             background-color: var(--bg);
             background-image:
-                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0, transparent 50%);
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15) 0, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.1) 0, transparent 40%);
             color: var(--text-high);
             padding: 2.5rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
         }
 
+        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
             border-bottom: 2px solid var(--border);
             padding-bottom: 2rem;
+            position: relative;
         }
 
         .header-left h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 800;
-            letter-spacing: -3px;
+            letter-spacing: -4px;
+            line-height: 0.9;
         }
 
         .header-left h1 span {
             color: var(--primary);
+            text-shadow: 0 0 30px var(--primary-glow);
         }
 
         .header-tag {
             color: var(--secondary);
-            font-weight: 700;
-            letter-spacing: 5px;
+            font-weight: 800;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
             display: block;
         }
 
-        /* Checklist */
-        .prof-checklist {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid var(--secondary);
+        /* JOURNEY MAP */
+        .journey-map {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 4rem;
+        }
+
+        .journey-step {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
             border-radius: 20px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 3.5rem;
+            position: relative;
+            text-align: center;
         }
 
-        .check-item {
-            display: flex;
+        .journey-step::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .journey-step:last-child::after {
+            content: '';
+        }
+
+        .step-num {
+            background: var(--primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .step-title {
             font-weight: 700;
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
         }
 
-        .check-status {
+        .step-tools {
+            font-size: 0.75rem;
             color: var(--secondary);
-            font-size: 1.3rem;
+            font-weight: 600;
         }
 
+        /* GRID LAYOUT */
         .main-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            margin-bottom: 4rem;
         }
 
+        /* CARDS */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 35px;
             padding: 2.5rem;
             position: relative;
-            overflow: hidden;
             transition: 0.4s;
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(10px);
         }
 
         .card:hover {
             transform: translateY(-10px);
             border-color: var(--primary);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
         }
 
         .badge {
@@ -137,6 +171,8 @@
             text-transform: uppercase;
             background: var(--glass);
             border: 1px solid var(--border);
+            width: fit-content;
+            margin-bottom: 1.5rem;
         }
 
         .badge.active {
@@ -157,38 +193,35 @@
 
         p {
             color: var(--text-low);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
+        /* BUTTONS */
         .btn {
             background: var(--primary);
             color: white;
             text-decoration: none;
             padding: 1rem;
-            border-radius: 15px;
+            border-radius: 18px;
             display: block;
             text-align: center;
             font-weight: 800;
             transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
             border: none;
             cursor: pointer;
-            width: 100%;
-            text-transform: uppercase;
-            margin-top: auto;
         }
 
         .btn:hover {
             background: #4f46e5;
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         .btn.secondary {
             background: var(--secondary);
-        }
-
-        .btn.danger {
-            background: var(--danger);
         }
 
         .btn.accent {
@@ -196,49 +229,61 @@
             color: #000;
         }
 
+        .btn.danger {
+            background: var(--danger);
+        }
+
         .links-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            width: 100%;
+            gap: 12px;
             margin-top: auto;
         }
 
-        /* Test Lab */
-        .test-section {
-            margin-top: 2rem;
+        /* LAB SECTION */
+        .lab-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 4rem;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        .lab-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--primary);
         }
 
         .test-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
-        .command-card {
-            background: var(--card-bg);
+        .cmd-card {
+            background: rgba(17, 24, 39, 0.6);
             border: 1px solid var(--border);
             padding: 2.5rem;
             border-radius: 35px;
+            border-left: 5px solid var(--primary);
             display: flex;
             flex-direction: column;
         }
 
-        .command-header {
+        .cmd-header {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-bottom: 1.5rem;
         }
 
-        .cmd-icon {
-            font-size: 2rem;
-        }
-
         .cmd-title {
             font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-weight: 800;
+            color: var(--text-high);
         }
 
         .cmd-box {
@@ -254,64 +299,6 @@
             word-break: break-all;
         }
 
-        .stack-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .stack-item {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .stack-item:hover {
-            border-color: var(--secondary);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .stack-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.8rem;
-            display: block;
-        }
-
-        .stack-name {
-            font-weight: 700;
-            color: var(--text-high);
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .stack-role {
-            font-size: 0.75rem;
-            color: var(--text-low);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .test-scenario {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .test-scenario b {
-            color: var(--primary);
-            display: block;
-            margin-bottom: 5px;
-        }
-
-
-
         .copy-btn {
             position: absolute;
             top: 10px;
@@ -319,171 +306,173 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
+            padding: 6px 14px;
+            border-radius: 10px;
             font-size: 0.7rem;
             cursor: pointer;
-            font-weight: 700;
-            text-transform: uppercase;
+            font-weight: 800;
         }
 
-        .copy-btn:active {
-            transform: scale(0.9);
+        .guide-box {
+            background: rgba(16, 185, 129, 0.05);
+            padding: 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-high);
+            margin-bottom: 1.5rem;
+            border: 1px dashed var(--secondary);
         }
 
-        .expected-result {
-            font-size: 0.9rem;
-            color: var(--text-low);
-            border-left: 3px solid var(--secondary);
-            padding-left: 15px;
-            margin-top: auto;
+        .guide-box b {
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 5px;
         }
 
         footer {
             text-align: center;
-            margin-top: 5rem;
+            margin-top: 6rem;
             color: var(--text-low);
-            font-size: 0.95rem;
-            padding: 3rem;
+            padding: 4rem;
             border-top: 1px solid var(--border);
         }
 
         #toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 40px;
+            right: 40px;
             background: var(--secondary);
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-weight: 800;
-            transform: translateY(100px);
-            opacity: 0;
+            color: #000;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-weight: 950;
+            transform: translateY(120px);
             transition: 0.4s;
             z-index: 1000;
         }
 
         #toast.visible {
             transform: translateY(0);
-            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
+        <!-- HEADER -->
         <header>
             <div class="header-left">
-                <span class="header-tag">SYSTÈME DE SURVEILLANCE CRITIQUE</span>
-                <h1>DEVOPS<span> COCKPIT</span></h1>
+                <span class="header-tag">PROJET DE SOUTENANCE MASTER 2025</span>
+                <h1>EXPERT<span> DEVOPS</span></h1>
             </div>
-            <div style="text-align: right; color: var(--text-low);">
-                Étudiant: <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b><br>
-                Cluster: <b style="color:var(--secondary)">OPÉRATIONNEL</b>
+            <div style="text-align: right;">
+                <p style="margin-bottom: 0.5rem; color: var(--text-high); font-weight: 700;">
+                    Par: <b>M. Khalil Ben Smida & Yasmine Ben Slimane</b></p>
+                <div class="badge active" style="margin-bottom: 0;">INFRASTRUCTURE: OPÉRATIONNELLE</div>
             </div>
         </header>
 
-        <div class="prof-checklist">
-            <div class="check-item"><span class="check-status">&#10004;</span> Spring Boot (Backend)</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> Angular (Frontend)</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> Docker & Multi-stage Build</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> GitHub Actions (CI & DevSecOps)</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> ArgoCD (GitOps CD)</div>
-            <div class="check-item"><span class="check-status">&#10004;</span> Prometheus & Grafana</div>
-        </div>
-
-        <section>
-            <h2 style="margin-bottom: 1.5rem; color: var(--secondary);">&#128736; Écosystème Technique</h2>
-            <div class="stack-grid">
-                <div class="stack-item">
-                    <span class="stack-icon">&#128230;</span>
-                    <span class="stack-name">Docker</span>
-                    <span class="stack-role">Conteneurisation</span>
-                </div>
-                <div class="stack-item">
-                    <span class="stack-icon">&#9094;</span>
-                    <span class="stack-name">Kubernetes</span>
-                    <span class="stack-role">Orchestration</span>
-                </div>
-                <div class="stack-item">
-                    <span class="stack-icon">&#128301;</span>
-                    <span class="stack-name">SonarQube</span>
-                    <span class="stack-role">Analyse Qualité</span>
-                </div>
-                <div class="stack-item">
-                    <span class="stack-icon">&#128641;</span>
-                    <span class="stack-name">Helm</span>
-                    <span class="stack-role">Gestion Package</span>
-                </div>
-                <div class="stack-item">
-                    <span class="stack-icon">&#128025;</span>
-                    <span class="stack-name">Argo Rollouts</span>
-                    <span class="stack-role">Canary Deployment</span>
-                </div>
-                <div class="stack-item">
-                    <span class="stack-icon">&#128142;</span>
-                    <span class="stack-name">Postgres SQL</span>
-                    <span class="stack-role">Persistance PVC</span>
-                </div>
+        <!-- JOURNEY MAP (LES ÉTAPES DU PROJET) -->
+        <section class="journey-map">
+            <div class="journey-step">
+                <div class="step-num">1</div>
+                <span class="step-title">CONCEPTION</span>
+                <span class="step-tools">Spring Boot / Angular</span>
+            </div>
+            <div class="journey-step">
+                <div class="step-num">2</div>
+                <span class="step-title">DOCKERISATION</span>
+                <span class="step-tools">Multi-stage Build Docker</span>
+            </div>
+            <div class="journey-step">
+                <div class="step-num">3</div>
+                <span class="step-title">DEVSECOPS (CI)</span>
+                <span class="step-tools">GHA / Snyk / Trivy</span>
+            </div>
+            <div class="journey-step">
+                <div class="step-num">4</div>
+                <span class="step-title">GITOPS (CD)</span>
+                <span class="step-tools">ArgoCD / Helm / K8s</span>
+            </div>
+            <div class="journey-step">
+                <div class="step-num">5</div>
+                <span class="step-title">DÉPLOIEMENT</span>
+                <span class="step-tools">Canary / Monitoring</span>
             </div>
         </section>
 
+        <!-- CORE SERVICES -->
         <div class="main-grid">
-            <!-- Boutique & Backend -->
+            <!-- Boutique (Frontend) -->
             <div class="card">
-                <div class="card-header"><span class="badge active">APP & API</span><span>&#127760;</span></div>
-                <h2>Services Live</h2>
-                <p>Accédez à la boutique e-commerce ou testez directement l'API via Swagger.</p>
-                <div class="links-grid">
-                    <a href="http://127.0.0.1:65029" target="_blank" class="btn">Boutique</a>
-                    <a href="http://127.0.0.1:65029/api/swagger-ui.html" target="_blank" class="btn accent">Swagger
-                        UI</a>
-                </div>
+                <div class="badge active">PRODUCTION UI</div>
+                <h2>Frontend Angular 17</h2>
+                <p>Interface client haute performance, déployée sur <b>NGINX</b> au sein du cluster Kubernetes.</p>
+                <a href="http://127.0.0.1:65029" target="_blank" class="btn">Accéder à l'App Boutique</a>
             </div>
 
-            <!-- GitHub Actions -->
+            <!-- Backend API -->
             <div class="card">
-                <div class="card-header"><span class="badge active">CI/CD</span><span>&#9889;</span></div>
-                <h2>GitHub Workflows</h2>
-                <p>Pipeline d'intégration et déploiement continu GHA (Build, Scan, Push).</p>
+                <div class="badge active">REST ENGINE</div>
+                <h2>Backend Spring 3</h2>
+                <p>API métier connectée à <b>PostgreSQL</b>. Explorez les endpoints via la console interactive.</p>
+                <a href="http://127.0.0.1:65029/api/swagger-ui.html" target="_blank" class="btn accent">Console Swagger
+                    UI</a>
+            </div>
+
+            <!-- Pipeline CI/CD -->
+            <div class="card">
+                <div class="badge active">CI AUTOMATION</div>
+                <h2>GitHub Actions</h2>
+                <p>La colonne vertébrale du projet : Automatisé de A à Z (Build, Test, Scan, Push).</p>
                 <a href="https://github.com/medkhalilbensmida/devops-gitops-project/actions" target="_blank"
-                    class="btn">Actions Lab</a>
+                    class="btn">Suivre les Workflows</a>
             </div>
 
             <!-- ArgoCD -->
             <div class="card">
-                <div class="card-header"><span class="badge active">GITOPS</span><span>&#128025;</span></div>
-                <h2>ArgoCD Server</h2>
-                <p>Synchronisation automatique de l'état du cluster.</p>
-                <a href="http://127.0.0.1:54975" target="_blank" class="btn secondary">ArgoCD UI</a>
+                <div class="badge active">GITOPS CD</div>
+                <h2>ArgoCD Cockpit</h2>
+                <p>Outil central de déploiement continu. Gère la synchronisation Git -> Kubernetes.</p>
+                <a href="http://127.0.0.1:54975" target="_blank" class="btn secondary">Interface ArgoCD</a>
             </div>
 
             <!-- Grafana -->
             <div class="card">
-                <div class="card-header"><span class="badge active">METRICS</span><span>&#128202;</span></div>
+                <div class="badge active">VISUALISATION</div>
                 <h2>Grafana Analysis</h2>
-                <p>Visualisation temps-réel des métriques JVM et Ingress.</p>
+                <p>Surveillez en direct l'état de santé du cluster et les performances JVM du Backend.</p>
                 <a href="http://127.0.0.1:63176/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
-                    target="_blank" class="btn secondary">Ouvrir Grafana</a>
+                    target="_blank" class="btn secondary">Tableau de Bord Live</a>
+            </div>
+
+            <!-- Prometheus -->
+            <div class="card">
+                <div class="badge active">METRICS CORE</div>
+                <h2>Prometheus Engine</h2>
+                <p>Cerveau du monitoring. Collecte les métriques Ingress, K8s et Applicatives.</p>
+                <div class="links-grid">
+                    <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Cibles (UP)</a>
+                    <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Alertes</a>
+                </div>
             </div>
         </div>
 
-        <section class="test-section">
-            <h2 style="margin-bottom: 2rem; color: var(--primary);">&#129514; Laboratoire de Démonstration (Soutenance)
-            </h2>
-            <div class="test-grid">
+        <!-- DEMO LABORATORY -->
+        <section class="lab-section">
+            <h2 class="lab-title">&#129514; LABORATOIRE DE DÉMONSTRATION TECHNIQUE</h2>
 
-                <!-- 1. Persistence & Resilience -->
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128737;</span>
-                        <span class="cmd-title">Résilience & Persistance</span>
+            <div class="test-grid">
+                <!-- SCÉNARIO 1: AUTO-HEALING -->
+                <div class="cmd-card">
+                    <div class="cmd-header">
+                        <span style="font-size: 2rem;">&#128737;</span>
+                        <span class="cmd-title">1. Résilience (Auto-Healing)</span>
                     </div>
-                    <div class="test-scenario">
-                        <b>Scénario de Test :</b>
-                        1. Supprimer tous les pods backend réels.<br>
-                        2. Regarder ArgoCD les recréer tout de suite (Self-healing).<br>
-                        3. Refaire une commande SQL via Swagger pour prouver que les données n'ont pas disparu (PVC).
+                    <div class="guide-box">
+                        <b>GUIDE DE TEST :</b>
+                        On "tue" les pods Backend. Démontrez que Kubernetes les recrée en 2 secondes, sans perte de
+                        données (Preuve par la base SQL).
                     </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
@@ -492,106 +481,77 @@
                     </div>
                 </div>
 
-                <!-- 2. Stress Test -->
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128293;</span>
-                        <span class="cmd-title">Observabilité (Stress Test)</span>
+                <!-- SCÉNARIO 2: STRESS TEST -->
+                <div class="cmd-card">
+                    <div class="cmd-header">
+                        <span style="font-size: 2rem;">&#128293;</span>
+                        <span class="cmd-title">2. Observabilité (Stress Test)</span>
                     </div>
-                    <div class="test-scenario">
-                        <b>Scénario de Test :</b>
-                        1. Lancer 200 requêtes API ultra-rapides.<br>
-                        2. Basculer sur Grafana pour voir les pics de CPU et de débit.<br>
-                        3. Démontrer l'alerte Prometheus si le seuil est dépassé.
+                    <div class="guide-box">
+                        <b>GUIDE DE TEST :</b>
+                        Lancez 200 requêtes. Montrez au jury le pic de consommation CPU/RAM immédiat sur le graphique
+                        Grafana.
                     </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
                             onclick="copy('powershell -Command &quot;1..200 | ForEach-Object { Invoke-WebRequest -Uri http://127.0.0.1:65029/api/products -UseBasicParsing | Out-Null; Write-Host -NoNewline \&apos;.\&apos; }&quot;')">Copier</button>
-                        Lancer le Stress Test (200 req)
+                        Générer un Pic de Charge (200 req)
                     </div>
                 </div>
 
-                <!-- 3. Déploiement Continu -->
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#9881;</span>
-                        <span class="cmd-title">Pipeline CI/CD (GHA)</span>
+                <!-- SCÉNARIO 3: CANARY -->
+                <div class="cmd-card" style="border-left-color: var(--accent);">
+                    <div class="cmd-header">
+                        <span style="font-size: 2rem;">&#128037;</span>
+                        <span class="cmd-title">3. Canary (Zero Downtime)</span>
                     </div>
-                    <div class="test-scenario">
-                        <b>Scénario de Test :</b>
-                        1. Faire un commit vide pour simuler un changement de code.<br>
-                        2. Montrer sur GitHub Actions le Build Docker et le Scan Trivy.<br>
-                        3. Observer la synchronisation automatique dans ArgoCD.
+                    <div class="guide-box">
+                        <b>GUIDE DE TEST :</b>
+                        Mise à jour via <b>Argo Rollouts</b>. Montrez la répartition du trafic : 20%, puis 50%, puis
+                        100% sur la nouvelle version.
                     </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
-                            onclick="copy('git commit --allow-empty -m &quot;PRO-DEMO: Web Triggered Sync&quot; && git push origin main')">Copier</button>
-                        Déclencher le Pipeline GitHub
+                            onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&apos;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Soutenance: Canary Rollout\&quot;; git push origin main')">Copier</button>
+                        Déclencher le Canary (Git Push)
                     </div>
+                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Vue Temps-Réel
+                        (Rollouts)</a>
                 </div>
 
-                <!-- 4. Canary Step 1 -->
-                <div class="command-card" style="border-left: 5px solid var(--accent);">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128037;</span>
-                        <span class="cmd-title">Canary : Déclenchement (GitOps)</span>
+                <!-- SCÉNARIO 4: DEVSECOPS (DÉTAILLÉ) -->
+                <div class="cmd-card" style="border-left-color: var(--danger);">
+                    <div class="cmd-header">
+                        <span style="font-size: 2rem;">&#128737;</span>
+                        <span class="cmd-title">4. DevSecOps (Sécurité SAST/SCA)</span>
                     </div>
-                    <div class="test-scenario">
-                        <b>Scénario de Test :</b>
-                        Mettre à jour la version du déploiement via Gita. Cela déclenche le Rollout progressif pour
-                        éviter une interruption de service totale.
+                    <div class="guide-box">
+                        <b>COMMENT MONTRER LES RAPPORTS :</b><br>
+                        1. Cliquez sur le bouton ci-dessous.<br>
+                        2. Ouvrez le job <b>'Security SAST/SCA'</b> pour voir l'analyse <b>SNYK</b>.<br>
+                        3. Ouvrez le job <b>'Backend CI'</b> -> Étape <b>'Trivy Scan'</b> pour voir le tableau des
+                        failles Docker.
                     </div>
-                    <div class="cmd-box">
-                        <button class="copy-btn"
-                            onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&apos;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Demo: Canary Rollout Deployment\&quot;; git push origin main')">Copier</button>
-                        Lancer Mise à Jour Canary (Push Git)
-                    </div>
+                    <p style="margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-low);">Nous utilisons
+                        <b>Snyk</b> pour le code source et <b>Trivy</b> pour les images Docker.
+                    </p>
+                    <a href="https://github.com/medkhalilbensmida/devops-gitops-project/actions/runs/20443555033/job/58741906347#step:4:1"
+                        target="_blank" class="btn danger">Voir les Rapports Sécurité (GHA)</a>
                 </div>
-
-                <!-- 5. Canary Step 2 -->
-                <div class="command-card" style="border-left: 5px solid var(--accent);">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128225;</span>
-                        <span class="cmd-title">Canary : Analyse du Trafic</span>
-                    </div>
-                    <div class="test-scenario">
-                        <b>Guide de Soutenance :</b>
-                        1. Ouvrez le dashboard de visualisation.<br>
-                        2. Montrez le shift progressif : 20% → 50% → 100%.<br>
-                        3. Expliquez comment cela sécurise la mise en production.
-                    </div>
-                    <div class="cmd-box" style="margin-bottom: 10px;">
-                        <button class="copy-btn"
-                            onclick="copy('.\kubectl-argo-rollouts.exe dashboard -n devops-prod')">Copier</button>
-                        .\kubectl-argo-rollouts.exe dashboard -n devops-prod
-                    </div>
-                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Ouvrir Vue Graphique
-                        Canary</a>
-                </div>
-
-                <!-- 6. Observabilité System -->
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="cmd-icon">&#128680;</span>
-                        <span class="cmd-title">Observabilité & Santé</span>
-                    </div>
-                    <p>Contrôle final des targets et des seuils d'alertes Kubernetes.</p>
-                    <div class="links-grid">
-                        <a href="http://127.0.0.1:53187/alerts" target="_blank" class="btn danger">Alertes</a>
-                        <a href="http://127.0.0.1:53187/targets" target="_blank" class="btn secondary">Cibles
-                            (Targets)</a>
-                    </div>
-                </div>
-
             </div>
         </section>
 
+        <!-- FOOTER -->
         <footer>
-            DASHBOARD DEVOPS MASTER V3.3 - <b>Mohamed Khalil Ben Smida & Yasmine Ben Slimane</b>
+            DASHBOARD ULTIMATE V6.1 - Khalil & Yasmine - DevOps Projet 2025<br>
+            <span style="font-size: 0.8rem; margin-top: 10px; display: block; opacity: 0.6;">
+                Outils: Docker, Kubernetes, Helm, ArgoCD, Argo Rollouts, Prometheus, Grafana, Snyk, Trivy.
+            </span>
         </footer>
     </div>
 
-    <div id="toast">Commande copiée dans le presse-papier !</div>
+    <!-- TOAST -->
+    <div id="toast">CYBER-COPIE RÉUSSIE ! 🚀</div>
 
     <script>
         function copy(text) {
@@ -601,10 +561,9 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-
-            const toast = document.getElementById('toast');
-            toast.className = 'visible';
-            setTimeout(() => toast.className = '', 3000);
+            const t = document.getElementById('toast');
+            t.className = 'visible';
+            setTimeout(() => t.className = '', 2000);
         }
     </script>
 </body>
