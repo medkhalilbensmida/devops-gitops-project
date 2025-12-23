@@ -25,22 +25,20 @@ Ce projet est une implémentation complète d'un pipeline CI/CD GitOps moderne p
 └── docker-compose.yml      # Test local rapide
 ```
 
+## 🛡️ Mode Soutenance (Vérifié & Stable)
+
+Pour démarrer l'environnement complet après un redémarrage (Reboot) :
+
+1.  **Pré-requis** : Docker Desktop doit être lancé.
+2.  **Démarrage Automatique** : Lancez `powershell -ExecutionPolicy Bypass -File .\RECOVERY_MASTER.ps1` dans le dossier du projet.
+3.  **Tableau de Bord** : Ouvrez **`DEV_DASHBOARD.html`** pour accéder à tous les services.
+4.  **Grafana** : En cas de réinitialisation, importez l'ID **11378** via `localhost:3000`.
+
+Pour plus de détails, consultez le [Guide de Récupération Complet](./POST_REBOOT_RECOVERY.md).
+
+---
+
 ## 🚀 Comment Démarrer
-
-### 1. Développement Local (Docker Compose)
-Pour tester l'application rapidement sans Kubernetes :
-```bash
-docker-compose up --build
-```
-L'application sera accessible sur `http://localhost`.
-
-### 2. Configuration GitOps (ArgoCD)
-1. Poussez ce code sur votre propre dépôt GitHub.
-2. Modifiez `argocd/application.yaml` pour pointer vers votre URL de dépôt.
-3. Appliquez le manifest à votre cluster K8s :
-   ```bash
-   kubectl apply -f argocd/application.yaml
-   ```
 
 ### 3. Pipeline CI/CD
 Le pipeline est défini dans `.github/workflows/main.yml`. Vous devez configurer les secrets suivants dans votre dépôt GitHub :
