@@ -35,7 +35,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: {{ include "devops-platform.fullname" . }}-postgres
+              value: {{ include "devops-platform.fullname" . }}-postgresql
             - name: DB_PORT
               value: "{{ .Values.database.port }}"
             - name: DB_NAME
@@ -46,13 +46,13 @@ spec:
               value: {{ .Values.database.password }}
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /actuator/health
               port: 8080
-            initialDelaySeconds: 180
+            initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
-              path: /api/health
+              path: /actuator/health
               port: 8080
-            initialDelaySeconds: 180
+            initialDelaySeconds: 30
             periodSeconds: 15
