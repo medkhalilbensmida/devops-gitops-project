@@ -35,7 +35,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: {{ include "devops-platform.fullname" . }}-postgresql
+              value: {{ include "devops-platform.fullname" . }}-postgres
             - name: DB_PORT
               value: "{{ .Values.database.port }}"
             - name: DB_NAME
