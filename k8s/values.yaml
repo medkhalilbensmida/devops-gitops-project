@@ -1,6 +1,6 @@
 # Default values for devops-platform.
 backend:
-  replicaCount: 4
+  replicaCount: 2
   image:
     repository: khalilsmida/devops-backend
     pullPolicy: Always
