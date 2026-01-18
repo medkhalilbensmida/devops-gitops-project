@@ -49,9 +49,20 @@ Write-Host "✅ Cluster 100% prêt pour les tunnels !" -ForegroundColor Green
 Write-Host "🔍 Etape 4 : Lancement des Tunnels de Soutenance..." -ForegroundColor Cyan
 $BatchFile = Join-Path $PSScriptRoot "FINAL_LAUNCH.bat"
 if (Test-Path $BatchFile) {
-    # Nettoyage préventif
-    taskkill /F /IM kubectl.exe >$null 2>&1
-    taskkill /F /IM kubectl-argo-rollouts.exe >$null 2>&1
+    # Nettoyage préventif des processus ET des ports
+    Write-Host "🧹 Nettoyage des ports (4200, 8080, 8081, 3000, 9090, 3100)..." -ForegroundColor Yellow
+    $ports = @(4200, 8080, 8081, 3000, 9090, 3100)
+    foreach ($port in $ports) {
+        $proc = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
+        if ($proc) {
+            $proc | ForEach-Object { 
+                Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue 
+            }
+        }
+    }
+    taskkill /F /IM kubectl.exe -ErrorAction SilentlyContinue
+    taskkill /F /IM kubectl-argo-rollouts.exe -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 2
     
     Start-Process cmd -ArgumentList "/c `"$BatchFile`""
     Write-Host "✅ Tunnels lancés dans des fenetres separees." -ForegroundColor Green

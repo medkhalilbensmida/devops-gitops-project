@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -408,7 +408,7 @@
                 <div class="badge active">PRODUCTION UI</div>
                 <h2>Frontend Angular 17</h2>
                 <p>Interface client haute performance, déployée sur <b>NGINX</b> au sein du cluster Kubernetes.</p>
-                <a href="http://localhost:4200" target="_blank" class="btn">Accéder à l'App Boutique</a>
+                <a href="http://127.0.0.1:4200" target="_blank" class="btn">Accéder à l'App Boutique</a>
             </div>
 
             <!-- Backend API -->
@@ -416,7 +416,7 @@
                 <div class="badge active">REST ENGINE</div>
                 <h2>Backend Spring 3</h2>
                 <p>API métier connectée à <b>PostgreSQL</b>. Explorez les endpoints via la console interactive.</p>
-                <a href="http://localhost:8080/api/swagger-ui/index.html" target="_blank" class="btn accent">Console
+                <a href="http://127.0.0.1:8080/api/swagger-ui/index.html" target="_blank" class="btn accent">Console
                     Swagger
                     UI</a>
             </div>
@@ -440,7 +440,7 @@
                     🔒 <b>Login:</b> admin <br>
                     🔑 <b>Pass:</b> szRq6bbfNJEomJZu
                 </div>
-                <a href="http://localhost:8081" target="_blank" class="btn secondary">Interface ArgoCD</a>
+                <a href="http://127.0.0.1:8081" target="_blank" class="btn secondary">Interface ArgoCD</a>
             </div>
 
             <!-- Grafana -->
@@ -448,7 +448,7 @@
                 <div class="badge active">VISUALISATION</div>
                 <h2>Grafana Analysis</h2>
                 <p>Surveillez en direct l'état de santé du cluster et les performances JVM du Backend.</p>
-                <a href="http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
+                <a href="http://127.0.0.1:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
                     target="_blank" class="btn secondary">Tableau de Bord Live</a>
             </div>
 
@@ -458,8 +458,8 @@
                 <h2>Prometheus Engine</h2>
                 <p>Cerveau du monitoring. Collecte les métriques Ingress, K8s et Applicatives.</p>
                 <div class="links-grid">
-                    <a href="http://localhost:9090/targets" target="_blank" class="btn secondary">Cibles (UP)</a>
-                    <a href="http://localhost:9090/alerts" target="_blank" class="btn danger">Alertes</a>
+                    <a href="http://127.0.0.1:9090/targets" target="_blank" class="btn secondary">Cibles (UP)</a>
+                    <a href="http://127.0.0.1:9090/alerts" target="_blank" class="btn danger">Alertes</a>
                 </div>
             </div>
         </div>
@@ -521,7 +521,7 @@
                             onclick="copy('powershell -Command &quot;$val = Get-Content k8s/values.yaml; $v = (Get-Date -UFormat %s); $val -replace \&apos;revision: \&quot;.*\&quot;\&apos;, \&apos;revision: \&quot;v2-demo-\&apos; + $v + \&apos;\&apos;\&apos; | Set-Content k8s/values.yaml\&quot;; git add k8s/values.yaml; git commit -m \&quot;Soutenance: Canary Rollout\&quot;; git push origin main')">Copier</button>
                         Déclencher le Canary (Git Push)
                     </div>
-                    <a href="http://localhost:3100/rollouts" target="_blank" class="btn accent">Vue Temps-Réel
+                    <a href="http://127.0.0.1:3100/rollouts" target="_blank" class="btn accent">Vue Temps-Réel
                         (Rollouts)</a>
                 </div>
 
