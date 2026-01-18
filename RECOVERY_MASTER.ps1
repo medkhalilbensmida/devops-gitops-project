@@ -29,8 +29,8 @@ $ready = $false
 
 while (-not $ready -and $retryCount -lt $maxRetries) {
     # On check devops-prod (Frontend/Backend) et monitoring (Grafana/Prom)
-    $prodPods = kubectl get pods -n devops-prod --no-headers 2>$null
-    $monPods = kubectl get pods -n monitoring --no-headers 2>$null
+    $prodPods = minikube kubectl -- get pods -n devops-prod --no-headers 2>$null
+    $monPods = minikube kubectl -- get pods -n monitoring --no-headers 2>$null
     
     $notReady = ($prodPods + $monPods) | Select-String "0/" , "Pending", "ContainerCreating"
     
