@@ -9,11 +9,10 @@ spec:
   strategy:
     canary:
       steps:
-        - setWeight: 20
+        - setWeight: 40
         - pause: { duration: 30s }
-        - setWeight: 50
+        - setWeight: 80
         - pause: { duration: 30s }
-        - setWeight: 100
   selector:
     matchLabels:
       app: backend
