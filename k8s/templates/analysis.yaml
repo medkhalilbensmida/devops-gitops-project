@@ -3,14 +3,10 @@ kind: AnalysisTemplate
 metadata:
   name: success-rate
 spec:
-  args:
-  - name: service-name
   metrics:
   - name: success-rate
-    interval: 1m
     # Fail if more than 5% of requests are 5xx errors
-    successCondition: result[0] < 0.05
-    failureLimit: 1
+    successCondition: result[0] <= 0.05
     provider:
       prometheus:
         address: http://prometheus.monitoring.svc.cluster.local:9090
