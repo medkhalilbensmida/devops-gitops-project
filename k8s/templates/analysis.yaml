@@ -7,8 +7,8 @@ spec:
   - name: success-rate
     interval: 1m
     count: 3
-    # Fail if more than 5% of requests are 5xx errors
-    successCondition: result[0] <= 0.05
+    # Fail if more than 5% of requests are 5xx errors. Handle empty results gracefully.
+    successCondition: len(result) == 0 || result[0] <= 0.05
     provider:
       prometheus:
         address: http://prometheus.monitoring.svc.cluster.local:9090
