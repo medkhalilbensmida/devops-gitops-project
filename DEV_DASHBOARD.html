@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -448,7 +448,8 @@
             <div class="card">
                 <div class="badge active">VISUALISATION</div>
                 <h2>Grafana Analysis</h2>
-                <p>Surveillez en direct l'état de santé du cluster et les performances JVM du Backend.</p>
+                <p>Surveillez en direct l'état de santé du cluster, les performances JVM et les <b>Logs Centralisés
+                        (Loki)</b>.</p>
                 <a href="http://127.0.0.1:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&from=now-1h&to=now&timezone=browser&var-application=&var-instance=10.244.2.20:8080&var-hikaricp=HikariPool-1&var-memory_pool_heap=$__all&var-memory_pool_nonheap=$__all&refresh=5s"
                     target="_blank" class="btn secondary">Tableau de Bord Live</a>
             </div>
@@ -457,11 +458,33 @@
             <div class="card">
                 <div class="badge active">METRICS CORE</div>
                 <h2>Prometheus Engine</h2>
-                <p>Cerveau du monitoring. Collecte les métriques Ingress, K8s et Applicatives.</p>
+                <p>Cerveau du monitoring. Collecte les métriques K8s et valide les <b>Analyses Canary</b> en temps-réel.
+                </p>
                 <div class="links-grid">
                     <a href="http://127.0.0.1:9090/targets" target="_blank" class="btn secondary">Cibles (UP)</a>
                     <a href="http://127.0.0.1:9090/alerts" target="_blank" class="btn danger">Alertes</a>
                 </div>
+            </div>
+
+            <!-- HPA (NEW) -->
+            <div class="card" style="border-left: 5px solid var(--secondary);">
+                <div class="badge active">AUTO-SCALING</div>
+                <h2>Horizontal Pod Autoscaler</h2>
+                <p>Infrastructure résiliente : Kubernetes ajuste dynamiquement le nombre de Pods selon l'usage CPU
+                    (>70%).</p>
+                <div class="cmd-box" style="font-size: 0.75rem; margin-bottom: 0;">
+                    kubectl get hpa -n devops-prod --watch
+                </div>
+            </div>
+
+            <!-- Sealed Secrets (NEW) -->
+            <div class="card" style="border-left: 5px solid var(--accent);">
+                <div class="badge active">SECURITY</div>
+                <h2>Sealed Secrets</h2>
+                <p>Gestion sécurisée des secrets GitOps. Chiffrement asymétrique pour protéger les credentials sur
+                    GitHub.</p>
+                <a href="https://github.com/medkhalilbensmida/devops-gitops-project/blob/main/k8s/templates/sealed-secrets-demo.yaml"
+                    target="_blank" class="btn accent">Voir la Démo</a>
             </div>
         </div>
 
@@ -510,12 +533,12 @@
                 <div class="cmd-card" style="border-left-color: var(--accent);">
                     <div class="cmd-header">
                         <span style="font-size: 2rem;">&#128037;</span>
-                        <span class="cmd-title">3. Canary (Zero Downtime)</span>
+                        <span class="cmd-title">3. Canary (Intelligence Prometheus)</span>
                     </div>
                     <div class="guide-box">
                         <b>GUIDE DE TEST :</b>
-                        Mise à jour via <b>Argo Rollouts</b>. Montrez la répartition du trafic : 40%, puis 80%, puis
-                        100% sur la nouvelle version.
+                        Mise à jour via <b>Argo Rollouts</b>. Le déploiement est validé par des métriques réelles via
+                        <b>AnalysisTemplate</b>.
                     </div>
                     <div class="cmd-box">
                         <button class="copy-btn"
