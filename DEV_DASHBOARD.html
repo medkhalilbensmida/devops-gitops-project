@@ -448,8 +448,7 @@
             <div class="card">
                 <div class="badge active">VISUALISATION</div>
                 <h2>Grafana Analysis</h2>
-                <p>Surveillez en direct l'état de santé du cluster, les performances JVM et les <b>Logs Centralisés
-                        (Loki)</b>.</p>
+                <p>Surveillez en direct l'état de santé du cluster et les performances JVM du Backend.</p>
                 <a href="http://127.0.0.1:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&from=now-1h&to=now&timezone=browser&var-application=&var-instance=10.244.2.20:8080&var-hikaricp=HikariPool-1&var-memory_pool_heap=$__all&var-memory_pool_nonheap=$__all&refresh=5s"
                     target="_blank" class="btn secondary">Tableau de Bord Live</a>
             </div>
@@ -466,7 +465,7 @@
                 </div>
             </div>
 
-            <!-- HPA (NEW) -->
+            <!-- HPA -->
             <div class="card" style="border-left: 5px solid var(--secondary);">
                 <div class="badge active">AUTO-SCALING</div>
                 <h2>Horizontal Pod Autoscaler</h2>
@@ -475,16 +474,6 @@
                 <div class="cmd-box" style="font-size: 0.75rem; margin-bottom: 0;">
                     kubectl get hpa -n devops-prod --watch
                 </div>
-            </div>
-
-            <!-- Sealed Secrets (NEW) -->
-            <div class="card" style="border-left: 5px solid var(--accent);">
-                <div class="badge active">SECURITY</div>
-                <h2>Sealed Secrets</h2>
-                <p>Gestion sécurisée des secrets GitOps. Chiffrement asymétrique pour protéger les credentials sur
-                    GitHub.</p>
-                <a href="https://github.com/medkhalilbensmida/devops-gitops-project/blob/main/k8s/templates/sealed-secrets-demo.yaml"
-                    target="_blank" class="btn accent">Voir la Démo</a>
             </div>
         </div>
 
