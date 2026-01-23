@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: success-rate
+    interval: 1m
+    # Fail if more than 5% of requests are 5xx errors
+    successCondition: result[0] < 0.05
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://prometheus.monitoring.svc.cluster.local:9090
+        query: |
+          sum(irate(http_server_requests_seconds_count{status=~"5.*", uri!~"/actuator.*"}[2m])) 
+          / 
+          (sum(irate(http_server_requests_seconds_count{uri!~"/actuator.*"}[2m])) + 0.001)

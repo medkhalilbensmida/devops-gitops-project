@@ -12,6 +12,37 @@ Ce projet est une implémentation complète d'un pipeline CI/CD GitOps moderne p
 - **Observabilité** : Stack Prometheus + Grafana intégrée.
 - **Progressive Delivery** : Support pour Argo Rollouts (Canary Release).
 
+## 📊 Flux de Production (Architecture GitOps)
+
+```mermaid
+graph TD
+    subgraph "💻 Développeur"
+        A[Git Push] --> B(GitHub Repo)
+    end
+
+    subgraph "⚙️ Intégration Continue (GHA)"
+        B --> C{Pipeline CI}
+        C --> D[SAST/SCA Scan]
+        C --> E[Docker Build]
+        E --> F[Push Docker Hub]
+        F --> G[Update Helm Revision]
+        G --> B
+    end
+
+    subgraph "☸️ Cluster Kubernetes"
+        H[ArgoCD] -- "Watch Git" --> B
+        H -- "Sync State" --> I[Argo Rollouts]
+        I -- "Canary Deployment" --> J[Backend Pods]
+        K[Ingress NGINX] --> J
+        L[Prometheus] -- "Metric Analytics" --> I
+    end
+
+    subgraph "📊 Observabilité"
+        L --> M[Grafana]
+        J --> L
+    end
+```
+
 ## 📂 Structure des Répertoires
 
 ```
@@ -35,6 +66,15 @@ Pour démarrer l'environnement complet après un redémarrage (Reboot) :
 4.  **Grafana** : En cas de réinitialisation, importez l'ID **11378** via `localhost:3000`.
 
 Pour plus de détails, consultez le [Guide de Récupération Complet](./POST_REBOOT_RECOVERY.md).
+
+## 🌟 Pack Excellence (DevOps Engineer Level)
+
+Ce projet inclut des fonctionnalités avancées pour une robustesse maximale :
+
+1.  **Auto-Scaling (HPA)** : Les Pods se multiplient automatiquement sous la charge (CPU > 70%).
+2.  **Canary Analysis** : Utilisation d'**Argo Rollouts** avec validation Prometheus. Si le taux d'erreur augmente, le déploiement est stoppé.
+3.  **Logs Centralisés** : Log management via **Grafana Loki** & **Promtail**.
+4.  **Secrets as Code** : Support pour **Sealed Secrets** (chiffrement des secrets dans Git).
 
 ---
 
