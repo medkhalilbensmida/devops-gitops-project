@@ -53,17 +53,17 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 120
+            initialDelaySeconds: 180
             periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 5
+            timeoutSeconds: 30
+            failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 90
+            initialDelaySeconds: 120
             periodSeconds: 20
-            timeoutSeconds: 10
-            failureThreshold: 5
+            timeoutSeconds: 30
+            failureThreshold: 10
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
