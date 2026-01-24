@@ -13,7 +13,7 @@ backend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 20m
+      cpu: 200m
       memory: 256Mi
   hpa:
     enabled: true
@@ -60,7 +60,7 @@ ingress:
           serviceName: frontend
 
 # Tag for forcing redeployments
-revision: "229f7f4408f43a699e175561e6ce6aa23d71ce22"
+revision: "06062f79cfcf14153f12f342627036c0068fbe24"
 
 database:
   enabled: true
