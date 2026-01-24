@@ -17,6 +17,13 @@ spec:
       target:
         type: Utilization
         averageUtilization: {{ .Values.backend.hpa.targetCPUUtilizationPercentage }}
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
