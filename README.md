@@ -73,8 +73,6 @@ Ce projet inclut des fonctionnalités avancées pour une robustesse maximale :
 
 1.  **Auto-Scaling (HPA)** : Les Pods se multiplient automatiquement sous la charge (CPU > 70%).
 2.  **Canary Analysis** : Utilisation d'**Argo Rollouts** avec validation Prometheus. Si le taux d'erreur augmente, le déploiement est stoppé.
-3.  **Logs Centralisés** : Log management via **Grafana Loki** & **Promtail**.
-4.  **Secrets as Code** : Support pour **Sealed Secrets** (chiffrement des secrets dans Git).
 
 ---
 
