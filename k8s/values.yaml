@@ -18,8 +18,8 @@ backend:
   hpa:
     enabled: true
     minReplicas: 3
-    maxReplicas: 4
-    targetCPUUtilizationPercentage: 50
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
 
 frontend:
   replicaCount: 2
