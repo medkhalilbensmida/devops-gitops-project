@@ -13,7 +13,7 @@ backend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 10m
+      cpu: 250m
       memory: 256Mi
   hpa:
     enabled: true

@@ -12,6 +12,15 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+  - group: argoproj.io
+    kind: Rollout
+    jsonPointers:
+    - /spec/replicas
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-prod
