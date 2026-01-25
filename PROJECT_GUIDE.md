@@ -31,7 +31,7 @@ C'est ici que l'expertise DevOps brille vraiment :
 
 ---
 
-## 🎯 2. Fonctionnalités d'Excellence (Les "Wow" du projet)
+## 🎯 2. Fonctionnalités d'Excellence
 
 ### 📈 Auto-Scaling (HPA)
 Le système est capable de "respirer". J'ai configuré un **Horizontal Pod Autoscaler** :

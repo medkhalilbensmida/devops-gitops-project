@@ -518,7 +518,39 @@
                     </div>
                 </div>
 
-                <!-- SCÉNARIO 3: CANARY -->
+                <!-- SCÉNARIO 3: AUTO-SCALING (HPA) -->
+                <div class="cmd-card" style="border-left-color: var(--secondary);">
+                    <div class="cmd-header">
+                        <span style="font-size: 2rem;">&#128640;</span>
+                        <span class="cmd-title">3. Auto-Scaling (HPA)</span>
+                    </div>
+                    <div class="guide-box">
+                        <b>GUIDE DE TEST :</b><br>
+                        1. Lancez les 20 robots virtuels.<br>
+                        2. Voir le passage de <b>3 à 5 Pods</b> dans ArgoCD.<br>
+                        3. Arrêtez les robots (Redescente auto +2min).
+                    </div>
+
+                    <div style="margin-bottom: 5px; font-weight: bold; color: var(--accent);">
+                        &#9654; DÉMARRER :
+                    </div>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('kubectl create deployment load-generator --image=busybox --replicas=20 -- /bin/sh -c &quot;while true; do wget -q -O- http://devops-platform-backend.devops-prod.svc.cluster.local:8080/api/products; done&quot;')">Copier</button>
+                        kubectl create deployment load-generator ...
+                    </div>
+
+                    <div style="margin-bottom: 5px; font-weight: bold; color: var(--danger);">
+                        &#9724; ARRÊTER :
+                    </div>
+                    <div class="cmd-box">
+                        <button class="copy-btn"
+                            onclick="copy('kubectl delete deployment load-generator')">Copier</button>
+                        kubectl delete deployment load-generator
+                    </div>
+                </div>
+
+                <!-- SCÉNARIO 4: CANARY -->
                 <div class="cmd-card" style="border-left-color: var(--accent);">
                     <div class="cmd-header">
                         <span style="font-size: 2rem;">&#128037;</span>
